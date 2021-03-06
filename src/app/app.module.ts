@@ -7,6 +7,8 @@ import { AngularComponent } from './angular.component';
 import { PageComponent } from './page/page.component';
 import { HeaderComponent } from './page/header/header.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CalendarComponent } from './page/calendar/calendar.component';
+import { SideMenuComponent } from './page/side-menu/side-menu.component';
 
 @NgModule({
   declarations: [
@@ -14,6 +16,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AngularComponent,
     PageComponent,
     HeaderComponent,
+    SideMenuComponent,
+    CalendarComponent,
   ],
   imports: [
     BrowserModule,

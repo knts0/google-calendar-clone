@@ -1,0 +1,24 @@
+<table class="side-menu-calendar-table">
+  <!--  week days-->
+  <thead class="side-menu-calendar-table-header">
+    <tr>
+      <th *ngFor="let day of weekdays">{{ day }}</th>
+    </tr>
+  </thead>
+
+  <!-- days -->
+  <tbody>
+    <tr *ngFor="let row of rows; let rowIndex = index">
+      <td *ngIf="rowIndex === 0 && 0 < _firstWeekOffset"
+        class="side-menu-calendar-body-label"
+        [attr.colspan]="_firstWeekOffset">
+        {{''}}
+      </td>
+      <td *ngFor="let item of row; let colIndx = index"
+        class   = "side-menu-calendar-body-cell"
+        (click) = "onClickCell(item)">
+        {{ item }}
+      </td>
+    </tr>
+  </tbody>
+</table>
