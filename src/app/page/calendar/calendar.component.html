@@ -1,3 +1,16 @@
+<div class="side-menu-calendar-header">
+  <div class="side-menu-calendar-header-label">{{ _headerLabel }}</div>
+
+  <div class="side-menu-calendar-header-navigation">
+    <div class="prev">
+      <i class="fas fa-chevron-left" (click)="onClickPrevButton()"></i>
+    </div>
+
+    <div class="next">
+      <i class="fas fa-chevron-right" (click)="onClickNextButton()"></i>
+    </div>
+  </div>
+</div>
 <table class="side-menu-calendar-table">
   <!--  week days-->
   <thead class="side-menu-calendar-table-header">

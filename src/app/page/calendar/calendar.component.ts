@@ -21,6 +21,8 @@ export class CalendarComponent implements OnInit {
 
     this._activeDate = date
 
+    this._headerLabel = this._activeDate.format('YYYY年M月')
+
     const firstOfMonth = this._activeDate.date(1)
     this._firstWeekOffset = (firstOfMonth.day() - FIRST_DAY_OF_WEEK + DAYS_PER_WEEK) % DAYS_PER_WEEK
 
@@ -29,9 +31,20 @@ export class CalendarComponent implements OnInit {
 
   _activeDate: moment.Moment
 
+  @Input()
+  get selected(): moment.Moment | null {
+    return this._selected
+  }
+  set selected(date: moment.Moment | null) {
+    this._selected = date
+  }
+  private _selected: moment.Moment
+
   _today: moment.Moment
 
   _firstWeekOffset: number
+
+  _headerLabel: string
 
   weekdays = [ '月', '火', '水', '木', '金', '土', '日' ]
 
@@ -65,6 +78,14 @@ export class CalendarComponent implements OnInit {
       }
       this.rows.push(dates_per_week)
     }
+  }
+
+  onClickPrevButton(): void {
+
+  }
+
+  onClickNextButton(): void {
+
   }
 
   onClickCell(item: number) {
