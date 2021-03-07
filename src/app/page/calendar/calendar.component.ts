@@ -50,7 +50,9 @@ export class CalendarComponent implements OnInit {
 
   rows: number[][] = [[]]
 
-  constructor() { }
+  constructor() {
+    this._activeDate = moment()
+  }
 
   ngOnInit(): void {
     // create rows
