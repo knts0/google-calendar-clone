@@ -3,7 +3,8 @@
 
   <div class="calendar">
     <app-calendar
-      [activeDate]="activeDate"
+      [activeDate]         = "activeDate"
+      (onChangeActiveDate) = "onChangeActiveDate($event)"
     ></app-calendar>
   </div>
 </div>

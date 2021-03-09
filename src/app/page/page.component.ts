@@ -15,4 +15,7 @@ export class PageComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  onChangeActiveDate(date: moment.Moment) {
+    this.activeDate = date.clone()
+  }
 }

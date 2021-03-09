@@ -2,5 +2,6 @@
   [activeDate]="activeDate"
 ></app-header>
 <app-side-menu
-  [activeDate]="activeDate"
+  [activeDate]              = "activeDate"
+  (onChangeActiveDateEvent) = "onChangeActiveDate($event)"
 ></app-side-menu>

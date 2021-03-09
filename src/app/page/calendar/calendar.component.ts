@@ -1,5 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
-import * as moment from 'moment';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import * as moment                                        from 'moment';
 
 const DAYS_PER_WEEK = 7
 const FIRST_DAY_OF_WEEK = 1
@@ -28,6 +28,8 @@ export class CalendarComponent implements OnInit {
 
     this._initRows()
   }
+
+  @Output() onChangeActiveDate: EventEmitter<moment.Moment> = new EventEmitter()
 
   _activeDate: moment.Moment
 
@@ -82,7 +84,7 @@ export class CalendarComponent implements OnInit {
   }
 
   onClickCell(item: number) {
-    console.log(item)
+    this.onChangeActiveDate.emit(this._activeDate.date(item))
   }
 
 }
