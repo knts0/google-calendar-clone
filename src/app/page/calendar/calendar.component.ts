@@ -63,6 +63,8 @@ export class CalendarComponent implements OnInit {
 
     let dayOfMonth = 1
 
+    this.rows = [[]]
+
     for (let rowIndex = 0; rowIndex < numOfRows; rowIndex++) {
       const dates_per_week: number[] = []
       for (let cellIndex = 0; cellIndex < DAYS_PER_WEEK; cellIndex++) {
