@@ -31,15 +31,6 @@ export class CalendarComponent implements OnInit {
 
   _activeDate: moment.Moment
 
-  @Input()
-  get selected(): moment.Moment | null {
-    return this._selected
-  }
-  set selected(date: moment.Moment | null) {
-    this._selected = date
-  }
-  private _selected: moment.Moment
-
   _today: moment.Moment
 
   _firstWeekOffset: number
@@ -91,7 +82,7 @@ export class CalendarComponent implements OnInit {
   }
 
   onClickCell(item: number) {
-
+    console.log(item)
   }
 
 }
