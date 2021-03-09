@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import * as moment from 'moment';
+import { Component, Input, OnInit } from '@angular/core';
+import * as moment                  from 'moment';
 
 @Component({
   selector: 'app-side-menu',
@@ -8,7 +8,7 @@ import * as moment from 'moment';
 })
 export class SideMenuComponent implements OnInit {
 
-  activeDate = moment()
+  @Input() activeDate: moment.Moment
 
   constructor() { }
 

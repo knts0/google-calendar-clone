@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import * as moment           from 'moment';
 
 @Component({
   selector: 'app-page',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./page.component.scss']
 })
 export class PageComponent implements OnInit {
+
+  activeDate: moment.Moment = moment()
 
   constructor() { }
 
