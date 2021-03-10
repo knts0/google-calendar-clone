@@ -1,0 +1,18 @@
+:host {
+  .weekly-calendar-table-header__row {
+    display: flex;
+  }
+
+  .weekly-calendar-table-header__cell {
+    width:      100px;
+    text-align: center;
+  }
+
+  .weekly-calendar-week {
+    display: flex;
+  }
+
+  .weekly-calendar-hour {
+    height: 30px;
+  }
+}
