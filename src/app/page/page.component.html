@@ -1,7 +1,13 @@
 <app-header
   [activeDate]="activeDate"
 ></app-header>
-<app-side-menu
-  [activeDate]              = "activeDate"
-  (onChangeActiveDateEvent) = "onChangeActiveDate($event)"
-></app-side-menu>
+<div class="body">
+  <app-side-menu
+    [activeDate]              = "activeDate"
+    (onChangeActiveDateEvent) = "onChangeActiveDate($event)"
+  ></app-side-menu>
+  <app-weekly-calendar
+    [activeDate] = "activeDate"
+  >
+  </app-weekly-calendar>
+</div>
