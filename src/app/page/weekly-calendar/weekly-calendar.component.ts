@@ -26,7 +26,7 @@ export class WeeklyCalendarComponent implements OnInit {
 
   hours = Array.from({ length: 24 }, (v, i) => i )
   weekdays = [ '月', '火', '水', '木', '金', '土', '日' ]
-  days = []
+  days: { day: moment.Moment, weekday: string }[] = []
 
   constructor() { }
 
@@ -38,7 +38,10 @@ export class WeeklyCalendarComponent implements OnInit {
 
     for (let dayOfWeek = 0; dayOfWeek < DAYS_PER_WEEK; dayOfWeek++) {
       const activeDateClone = this._activeDate.clone()
-      this.days.push(activeDateClone.weekday(dayOfWeek + FIRST_DAY_OF_WEEK))
+      this.days.push({
+        day:     activeDateClone.weekday(dayOfWeek + FIRST_DAY_OF_WEEK),
+        weekday: this.weekdays[dayOfWeek]
+      })
     }
   }
 }

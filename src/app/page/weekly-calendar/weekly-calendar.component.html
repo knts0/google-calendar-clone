@@ -1,13 +1,11 @@
 <div class="weekly-calendar-table">
   <!--  week days-->
   <div class="weekly-calendar-table-header">
-    <div class="weekly-calendar-table-header__row">
-      <div class="weekly-calendar-table-header__cell" *ngFor="let day of weekdays">{{ day }}</div>
+    <div class="weekly-calendar-table-header__blank">
     </div>
-    <div class="weekly-calendar-table-header__row">
-      <div class="weekly-calendar-table-header__cell" *ngFor="let day of days">
-        {{ day | date: 'dd' }}
-      </div>
+    <div class="weekly-calendar-table-header__days" *ngFor="let item of days">
+      <div class="weekday">{{ item.weekday }}</div>
+      <div class="day">{{ item.day | date: 'd' }}</div>
     </div>
   </div>
 
@@ -15,11 +13,14 @@
   <div class="weekly-calendar-week">
     <div class="weekly-calendar-hours">
       <div class="weekly-calendar-hour" *ngFor="let hour of hours" class="weekly-calendar-hour">
-        {{ hour | number: '2.0-0' }}:00
+        <div class="weekly-calendar-hour__text">{{ hour | number: '2.0-0' }}:00</div>
       </div>
     </div>
-    <!-- <div class="weekly-calendar-timeline" *ngFor="let day of days">
-      {{ day }}
-    </div> -->
+    <div class="weekly-calendar-timeline">
+      <div class="weekly-calendar-timeline__day" *ngFor="let item of days">
+        <div class="weekly-calendar-timeline__time-range" *ngFor="let hour of hours">
+        </div>
+      </div>
+    </div>
   </div>
 </div>

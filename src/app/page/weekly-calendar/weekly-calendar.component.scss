@@ -1,9 +1,13 @@
 :host {
-  .weekly-calendar-table-header__row {
+  .weekly-calendar-table-header {
     display: flex;
   }
 
-  .weekly-calendar-table-header__cell {
+  .weekly-calendar-table-header__blank {
+    width: 50px;
+  }
+
+  .weekly-calendar-table-header__days {
     width:      100px;
     text-align: center;
   }
@@ -13,6 +17,31 @@
   }
 
   .weekly-calendar-hour {
-    height: 30px;
+    width:       50px;
+    height:      50px;
+    text-align:  center;
+    position:    relative;
+  }
+
+  .weekly-calendar-hour__text {
+    position:   absolute;
+    top:        -5px;
+    text-align: center;
+  }
+
+  .weekly-calendar-timeline {
+    display: flex;
+  }
+
+  .weekly-calendar-timeline__day {
+    width: 100px;
+  }
+
+  .weekly-calendar-timeline__time-range {
+    border-top:  solid 1px lightgray;
+    border-left: solid 1px lightgray;
+    box-sizing:  border-box;
+    width:       100px;
+    height:      50px;
   }
 }
