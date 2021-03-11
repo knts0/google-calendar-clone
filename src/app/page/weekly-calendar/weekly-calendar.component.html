@@ -20,6 +20,13 @@
       <div class="weekly-calendar-timeline__day" *ngFor="let item of days">
         <div class="weekly-calendar-timeline__time-range" *ngFor="let hour of hours">
         </div>
+        <div
+          *ngFor  = "let event of item.events"
+          class   = "weekly-calendar-timeline__event"
+          [style] = "getStyleOfEvent(event)"
+        >
+          {{ event.title }}
+        </div>
       </div>
     </div>
   </div>

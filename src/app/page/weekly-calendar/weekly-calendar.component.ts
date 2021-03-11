@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import * as moment                                        from 'moment';
 
+import { Event }                                          from '../../models/event';
+
 const DAYS_PER_WEEK = 7
 const FIRST_DAY_OF_WEEK = 1
 
@@ -20,17 +22,23 @@ export class WeeklyCalendarComponent implements OnInit {
 
     this._activeDate = date
 
-    this._initDays()
   }
   _activeDate: moment.Moment
 
+  @Input() events: Event[]
+
   hours = Array.from({ length: 24 }, (v, i) => i )
   weekdays = [ '月', '火', '水', '木', '金', '土', '日' ]
-  days: { day: moment.Moment, weekday: string }[] = []
+  days: {
+    day:     moment.Moment,
+    weekday: string,
+    events:  Event[]
+  }[] = []
 
   constructor() { }
 
   ngOnInit(): void {
+    this._initDays()
   }
 
   _initDays(): void {
@@ -38,10 +46,24 @@ export class WeeklyCalendarComponent implements OnInit {
 
     for (let dayOfWeek = 0; dayOfWeek < DAYS_PER_WEEK; dayOfWeek++) {
       const activeDateClone = this._activeDate.clone()
+      const day = activeDateClone.weekday(dayOfWeek + FIRST_DAY_OF_WEEK)
       this.days.push({
-        day:     activeDateClone.weekday(dayOfWeek + FIRST_DAY_OF_WEEK),
-        weekday: this.weekdays[dayOfWeek]
+        day:     day,
+        weekday: this.weekdays[dayOfWeek],
+        events:  this.events.filter(v => {
+          return v.startTime.isSame(day, 'day') || v.endTime.isSame(day, 'day')
+        })
       })
+    }
+  }
+
+  getStyleOfEvent(event: Event) {
+    const top    = 60 * event.startTime.hour() + 15 * event.startTime.minute() / 15
+    const bottom = 60 * event.endTime.hour() + 15 * event.endTime.minute() / 15
+
+    return {
+      top:    `${top}px`,
+      height: `${bottom - top}px`,
     }
   }
 }

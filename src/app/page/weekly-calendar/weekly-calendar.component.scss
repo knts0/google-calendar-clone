@@ -18,7 +18,7 @@
 
   .weekly-calendar-hour {
     width:       50px;
-    height:      50px;
+    height:      60px;
     text-align:  center;
     position:    relative;
   }
@@ -26,6 +26,7 @@
   .weekly-calendar-hour__text {
     position:   absolute;
     top:        -5px;
+    width:      100%;
     text-align: center;
   }
 
@@ -34,7 +35,8 @@
   }
 
   .weekly-calendar-timeline__day {
-    width: 100px;
+    width:    100px;
+    position: relative;
   }
 
   .weekly-calendar-timeline__time-range {
@@ -42,6 +44,12 @@
     border-left: solid 1px lightgray;
     box-sizing:  border-box;
     width:       100px;
-    height:      50px;
+    height:      60px;
+  }
+
+  .weekly-calendar-timeline__event {
+    position: absolute;
+    width: 100%;
+    background-color: lightblue;
   }
 }
