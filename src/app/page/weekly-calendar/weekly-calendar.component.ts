@@ -1,10 +1,18 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { MatDialog }                                      from '@angular/material/dialog';
 import * as moment                                        from 'moment';
 
 import { Event }                                          from '../../models/event';
+import { EventEditComponent }                             from '../modal/event-edit/event-edit.component';
 
 const DAYS_PER_WEEK = 7
 const FIRST_DAY_OF_WEEK = 1
+
+type DayItem = {
+  day:     moment.Moment,
+  weekday: string,
+  events:  Event[]
+}
 
 @Component({
   selector: 'app-weekly-calendar',
@@ -29,13 +37,11 @@ export class WeeklyCalendarComponent implements OnInit {
 
   hours = Array.from({ length: 24 }, (v, i) => i )
   weekdays = [ '月', '火', '水', '木', '金', '土', '日' ]
-  days: {
-    day:     moment.Moment,
-    weekday: string,
-    events:  Event[]
-  }[] = []
+  days: DayItem[] = []
 
-  constructor() { }
+  constructor(
+    private dialog: MatDialog
+  ) { }
 
   ngOnInit(): void {
     this._initDays()
@@ -65,5 +71,9 @@ export class WeeklyCalendarComponent implements OnInit {
       top:    `${top}px`,
       height: `${bottom - top}px`,
     }
+  }
+
+  onClickTimeFrame(dayItem: DayItem, hour: number) {
+    this.dialog.open(EventEditComponent)
   }
 }

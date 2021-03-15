@@ -18,7 +18,11 @@
     </div>
     <div class="weekly-calendar-timeline">
       <div class="weekly-calendar-timeline__day" *ngFor="let item of days">
-        <div class="weekly-calendar-timeline__time-range" *ngFor="let hour of hours">
+        <div
+          class   = "weekly-calendar-timeline__time-frame"
+          *ngFor  = "let hour of hours"
+          (click) = "onClickTimeFrame(item, hour)"
+        >
         </div>
         <div
           *ngFor  = "let event of item.events"
