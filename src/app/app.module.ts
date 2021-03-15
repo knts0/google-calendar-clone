@@ -10,6 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CalendarComponent } from './page/calendar/calendar.component';
 import { SideMenuComponent } from './page/side-menu/side-menu.component';
 import { WeeklyCalendarComponent } from './page/weekly-calendar/weekly-calendar.component';
+import { EventEditComponent } from './page/modal/event-edit/event-edit.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { WeeklyCalendarComponent } from './page/weekly-calendar/weekly-calendar.
     SideMenuComponent,
     CalendarComponent,
     WeeklyCalendarComponent,
+    EventEditComponent,
   ],
   imports: [
     BrowserModule,
