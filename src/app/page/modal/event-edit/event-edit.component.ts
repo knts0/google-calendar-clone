@@ -1,4 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA }           from '@angular/material/dialog';
+import { FormControl, FormGroup }    from '@angular/forms';
+import * as moment                   from 'moment';
+
+export type EventEditDialogData = {
+  date: moment.Moment,
+  hour: number,
+}
 
 @Component({
   selector: 'app-event-edit',
@@ -7,7 +15,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EventEditComponent implements OnInit {
 
-  constructor() { }
+  form: FormGroup
+
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: EventEditDialogData
+  ) {
+    this.form = new FormGroup({
+      title: new FormControl(''),
+    })
+  }
 
   ngOnInit(): void {
   }
