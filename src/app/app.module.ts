@@ -1,4 +1,5 @@
 import { BrowserModule }                    from '@angular/platform-browser';
+import { CommonModule }                     from '@angular/common';
 import { NgModule }                         from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule }                  from '@angular/material/button';
@@ -19,6 +20,7 @@ import { CalendarComponent } from './page/calendar/calendar.component';
 import { SideMenuComponent } from './page/side-menu/side-menu.component';
 import { WeeklyCalendarComponent } from './page/weekly-calendar/weekly-calendar.component';
 import { EventEditComponent } from './page/modal/event-edit/event-edit.component';
+import { TimePickerComponent } from './components/time-picker/time-picker.component';
 
 @NgModule({
   declarations: [
@@ -30,9 +32,11 @@ import { EventEditComponent } from './page/modal/event-edit/event-edit.component
     CalendarComponent,
     WeeklyCalendarComponent,
     EventEditComponent,
+    TimePickerComponent,
   ],
   imports: [
     BrowserModule,
+    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     MatButtonModule,
