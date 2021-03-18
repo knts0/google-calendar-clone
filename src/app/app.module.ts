@@ -9,6 +9,7 @@ import { MatDialogModule }                  from '@angular/material/dialog';
 import { MatFormFieldModule }               from '@angular/material/form-field';
 import { MatIconModule }                    from '@angular/material/icon';
 import { MatInputModule }                   from '@angular/material/input';
+import { OverlayModule }                    from '@angular/cdk/overlay';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent }     from './app.component';
@@ -46,6 +47,7 @@ import { TimePickerComponent } from './components/time-picker/time-picker.compon
     MatIconModule,
     MatInputModule,
     MatMomentDateModule,
+    OverlayModule,
     AppRoutingModule,
     BrowserAnimationsModule,
   ],
