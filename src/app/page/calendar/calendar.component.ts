@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import * as moment                                        from 'moment';
+import * as dayjs                                         from 'dayjs';
 
 const DAYS_PER_WEEK = 7
 const FIRST_DAY_OF_WEEK = 1
@@ -13,11 +13,11 @@ const FIRST_DAY_OF_WEEK = 1
 export class CalendarComponent implements OnInit {
 
   @Input()
-  get activeDate(): moment.Moment {
+  get activeDate(): dayjs.Dayjs {
     return this._activeDate
   }
-  set activeDate(date: moment.Moment) {
-    this._today = moment()
+  set activeDate(date: dayjs.Dayjs) {
+    this._today = dayjs()
 
     this._activeDate = date
 
@@ -29,11 +29,11 @@ export class CalendarComponent implements OnInit {
     this._initRows()
   }
 
-  @Output() onChangeActiveDate: EventEmitter<moment.Moment> = new EventEmitter()
+  @Output() onChangeActiveDate: EventEmitter<dayjs.Dayjs> = new EventEmitter()
 
-  _activeDate: moment.Moment
+  _activeDate: dayjs.Dayjs
 
-  _today: moment.Moment
+  _today: dayjs.Dayjs
 
   _firstWeekOffset: number
 
@@ -44,7 +44,7 @@ export class CalendarComponent implements OnInit {
   rows: number[][] = [[]]
 
   constructor() {
-    this._activeDate = moment()
+    this._activeDate = dayjs()
   }
 
   ngOnInit(): void {

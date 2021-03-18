@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog }                                      from '@angular/material/dialog';
-import * as moment                                        from 'moment';
+import * as dayjs                                         from 'dayjs';
 
 import { Event }                                          from '../../models/event';
 import { EventEditComponent }                             from '../modal/event-edit/event-edit.component';
@@ -9,7 +9,7 @@ const DAYS_PER_WEEK = 7
 const FIRST_DAY_OF_WEEK = 1
 
 type DayItem = {
-  day:     moment.Moment,
+  day:     dayjs.Dayjs,
   weekday: string,
   events:  Event[]
 }
@@ -22,16 +22,16 @@ type DayItem = {
 export class WeeklyCalendarComponent implements OnInit {
 
   @Input()
-  get activeDate(): moment.Moment {
+  get activeDate(): dayjs.Dayjs {
     return this._activeDate
   }
-  set activeDate(date: moment.Moment) {
-    // this._today = moment()
+  set activeDate(date: dayjs.Dayjs) {
+    // this._today = dayjs()
 
     this._activeDate = date
 
   }
-  _activeDate: moment.Moment
+  _activeDate: dayjs.Dayjs
 
   @Input() events: Event[]
 
@@ -51,8 +51,7 @@ export class WeeklyCalendarComponent implements OnInit {
     this.days = []
 
     for (let dayOfWeek = 0; dayOfWeek < DAYS_PER_WEEK; dayOfWeek++) {
-      const activeDateClone = this._activeDate.clone()
-      const day = activeDateClone.weekday(dayOfWeek + FIRST_DAY_OF_WEEK)
+      const day = this._activeDate.day(dayOfWeek + FIRST_DAY_OF_WEEK)
       this.days.push({
         day:     day,
         weekday: this.weekdays[dayOfWeek],

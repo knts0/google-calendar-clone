@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import * as moment from 'moment';
+import * as dayjs                   from 'dayjs';
 
 @Component({
   selector: 'app-time-picker',
@@ -9,11 +9,11 @@ import * as moment from 'moment';
 export class TimePickerComponent implements OnInit {
 
   @Input()
-  set placeholder(date: moment.Moment) {
+  set placeholder(date: dayjs.Dayjs) {
     this._placeholder = date
   }
 
-  _placeholder: moment.Moment
+  _placeholder: dayjs.Dayjs
 
   constructor() { }
 

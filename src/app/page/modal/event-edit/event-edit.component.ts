@@ -1,10 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA }           from '@angular/material/dialog';
 import { FormControl, FormGroup }    from '@angular/forms';
-import * as moment                   from 'moment';
+import * as dayjs                    from 'dayjs';
 
 export type EventEditDialogData = {
-  date: moment.Moment,
+  date: dayjs.Dayjs,
   hour: number,
 }
 

@@ -1,7 +1,7 @@
-import * as moment from 'moment'
+import * as dayjs from 'dayjs'
 
 export type Event = {
   title: string,
-  startTime: moment.Moment,
-  endTime: moment.Moment,
+  startTime: dayjs.Dayjs,
+  endTime: dayjs.Dayjs,
 }

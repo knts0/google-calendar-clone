@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import * as moment                                        from 'moment';
+import * as dayjs                                         from 'dayjs';
 
 @Component({
   selector: 'app-side-menu',
@@ -8,16 +8,16 @@ import * as moment                                        from 'moment';
 })
 export class SideMenuComponent implements OnInit {
 
-  @Input() activeDate: moment.Moment
+  @Input() activeDate: dayjs.Dayjs
 
-  @Output() onChangeActiveDateEvent: EventEmitter<moment.Moment> = new EventEmitter()
+  @Output() onChangeActiveDateEvent: EventEmitter<dayjs.Dayjs> = new EventEmitter()
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
-  onChangeActiveDate(date: moment.Moment) {
+  onChangeActiveDate(date: dayjs.Dayjs) {
     this.onChangeActiveDateEvent.emit(date)
   }
 }

@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import * as dayjs                   from 'dayjs'
 
 @Component({
   selector: 'app-header',
@@ -7,7 +8,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  @Input() activeDate: moment.Moment
+  @Input() activeDate: dayjs.Dayjs
 
   constructor() { }
 

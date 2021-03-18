@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import * as moment           from 'moment';
+import * as dayjs            from 'dayjs';
 
 import { Event }             from '../models/event';
 
@@ -10,18 +10,18 @@ import { Event }             from '../models/event';
 })
 export class PageComponent implements OnInit {
 
-  activeDate: moment.Moment = moment().startOf('day')
+  activeDate: dayjs.Dayjs = dayjs().startOf('day')
 
   events: Event[] = [
     {
       title: '歯医者',
-      startTime: moment('2021-03-12 09:30'),
-      endTime: moment('2021-03-12 10:30')
+      startTime: dayjs('2021-03-12 09:30'),
+      endTime: dayjs('2021-03-12 10:30')
     },
     {
       title: 'ライブ',
-      startTime: moment('2021-03-09 19:00'),
-      endTime: moment('2021-03-09 19:30')
+      startTime: dayjs('2021-03-09 19:00'),
+      endTime: dayjs('2021-03-09 19:30')
     },
   ]
 
@@ -30,7 +30,7 @@ export class PageComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onChangeActiveDate(date: moment.Moment) {
+  onChangeActiveDate(date: dayjs.Dayjs) {
     this.activeDate = date.clone()
   }
 }
