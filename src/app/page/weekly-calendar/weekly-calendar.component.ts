@@ -73,6 +73,10 @@ export class WeeklyCalendarComponent implements OnInit {
   }
 
   onClickTimeFrame(dayItem: DayItem, hour: number) {
-    this.dialog.open(EventEditComponent)
+    this.dialog.open(EventEditComponent, {
+      data: {
+        date: dayItem.day
+      }
+    })
   }
 }
