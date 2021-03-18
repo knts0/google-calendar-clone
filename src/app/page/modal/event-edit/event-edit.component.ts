@@ -17,15 +17,22 @@ export class EventEditComponent implements OnInit {
 
   form: FormGroup
 
+  isCalendarOpen = false
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: EventEditDialogData
   ) {
     this.form = new FormGroup({
       title: new FormControl(''),
+      date: new FormControl(this.data.date),
     })
   }
 
   ngOnInit(): void {
+  }
+
+  onChangeActiveDate($event: dayjs.Dayjs): void {
+    this.form.patchValue({ date: $event })
   }
 
 }
