@@ -9,6 +9,7 @@ import { MatDialogModule }                  from '@angular/material/dialog';
 import { MatFormFieldModule }               from '@angular/material/form-field';
 import { MatIconModule }                    from '@angular/material/icon';
 import { MatInputModule }                   from '@angular/material/input';
+import { MatSelectModule }                  from '@angular/material/select';
 import { OverlayModule }                    from '@angular/cdk/overlay';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -21,7 +22,6 @@ import { CalendarComponent } from './page/calendar/calendar.component';
 import { SideMenuComponent } from './page/side-menu/side-menu.component';
 import { WeeklyCalendarComponent } from './page/weekly-calendar/weekly-calendar.component';
 import { EventEditComponent } from './page/modal/event-edit/event-edit.component';
-import { TimePickerComponent } from './components/time-picker/time-picker.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +33,6 @@ import { TimePickerComponent } from './components/time-picker/time-picker.compon
     CalendarComponent,
     WeeklyCalendarComponent,
     EventEditComponent,
-    TimePickerComponent,
   ],
   imports: [
     BrowserModule,
@@ -47,6 +46,7 @@ import { TimePickerComponent } from './components/time-picker/time-picker.compon
     MatIconModule,
     MatInputModule,
     MatMomentDateModule,
+    MatSelectModule,
     OverlayModule,
     AppRoutingModule,
     BrowserAnimationsModule,
