@@ -7,16 +7,14 @@
   </div>
   <div class="event-date-time">
     <div class="event-date-time__date">
-      <mat-form-field
-        appearance       = "fill"
-        class            = "example-form-field"
+      <div
+        class            = "date-field"
         (click)          = "isCalendarOpen = !isCalendarOpen"
         cdkOverlayOrigin
         #calendarTrigger = cdkOverlayOrigin
       >
-        <mat-label>Choose a date</mat-label>
-        <input matInput>
-      </mat-form-field>
+        {{ date }}
+      </div>
       <ng-template
         cdkConnectedOverlay
         [cdkConnectedOverlayOrigin] = "calendarTrigger"
@@ -29,8 +27,16 @@
       </ng-template>
     </div>
     <div class="event-date-time__time">
-      <!-- <input type="time"> -->
-      <app-time-picker></app-time-picker>
+      <mat-form-field appearance="fill">
+        <mat-select>
+          <mat-option
+            *ngFor  = "let option of timeOptions"
+            [value] = "option"
+          >
+            {{ option.format('HH:mm') }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
     </div>
   </div>
 </div>
