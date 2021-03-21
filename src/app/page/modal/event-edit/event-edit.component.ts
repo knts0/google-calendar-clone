@@ -38,7 +38,7 @@ export class EventEditComponent implements OnInit {
       title: new FormControl(''),
       date: new FormControl(this.data.date),
       startTime: new FormControl(this.data.startTime.asMinutes()),
-      endTime: new FormControl(this.data.endTime),
+      endTime: new FormControl(this.data.endTime.asMinutes()),
     })
   }
 

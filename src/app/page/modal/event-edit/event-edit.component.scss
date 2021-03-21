@@ -1,4 +1,17 @@
 :host {
   .date-field {
   }
+
+  .event-date-time {
+    display: flex;
+    align-items: center;
+  }
+
+  .event-date-time__time {
+    margin-left: 5px;
+  }
+
+  .event-date-time__separator {
+    padding: 0 5px;
+  }
 }

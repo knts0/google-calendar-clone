@@ -27,8 +27,21 @@
       </ng-template>
     </div>
     <div class="event-date-time__time">
-      <mat-form-field appearance="fill">
+      <mat-form-field class="event-date-time__start-time">
         <mat-select formControlName="startTime">
+          <mat-option
+            *ngFor  = "let option of timeOptions"
+            [value] = "option.asMinutes()"
+          >
+            {{ option.format('HH:mm') }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <span class="event-date-time__separator">
+        -
+      </span>
+      <mat-form-field class="event-date-time__end-time">
+        <mat-select formControlName="endTime">
           <mat-option
             *ngFor  = "let option of timeOptions"
             [value] = "option.asMinutes()"
