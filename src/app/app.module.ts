@@ -3,6 +3,7 @@ import { CommonModule }                     from '@angular/common';
 import { NgModule }                         from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule }                  from '@angular/material/button';
+import { MatCheckboxModule }                from '@angular/material/checkbox';
 import { MatMomentDateModule }              from '@angular/material-moment-adapter';
 import { MatDatepickerModule }              from '@angular/material/datepicker';
 import { MatDialogModule }                  from '@angular/material/dialog';
@@ -40,6 +41,7 @@ import { EventEditComponent } from './page/modal/event-edit/event-edit.component
     FormsModule,
     ReactiveFormsModule,
     MatButtonModule,
+    MatCheckboxModule,
     MatDatepickerModule,
     MatDialogModule,
     MatFormFieldModule,
