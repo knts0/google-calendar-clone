@@ -8,6 +8,7 @@ export type EventEditDialogData = {
   date: dayjs.Dayjs,
   startTime: duration.Duration,
   endTime: duration.Duration,
+  isAllDay: boolean,
 }
 
 @Component({
@@ -39,6 +40,7 @@ export class EventEditComponent implements OnInit {
       date: new FormControl(this.data.date),
       startTime: new FormControl(this.data.startTime.asMinutes()),
       endTime: new FormControl(this.data.endTime.asMinutes()),
+      isAllDay: new FormControl(this.data.isAllDay),
     })
   }
 

@@ -80,6 +80,7 @@ export class WeeklyCalendarComponent implements OnInit {
         date: dayItem.day,
         startTime: dayjs.duration(hour, 'hours'),
         endTime: dayjs.duration(hour + 1, 'hours'),
+        isAllDay: false,
       }
     })
   }
