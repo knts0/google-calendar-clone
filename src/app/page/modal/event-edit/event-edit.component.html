@@ -1,4 +1,4 @@
-<div class="event-edit-dialog__form" [formGroup]="form">
+<mat-dialog-content class="event-edit-dialog__form" [formGroup]="form">
   <div class="event-title">
     <mat-form-field class="example-form-field">
       <mat-label>タイトル</mat-label>
@@ -57,4 +57,7 @@
       終日
     </mat-checkbox>
   </div>
-</div>
+</mat-dialog-content>
+<mat-dialog-actions class="action-buttons">
+  <button mat-flat-button color="primary">保存</button>
+</mat-dialog-actions>
