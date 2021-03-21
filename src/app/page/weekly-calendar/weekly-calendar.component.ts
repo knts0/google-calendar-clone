@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog }                                      from '@angular/material/dialog';
 import * as dayjs                                         from 'dayjs';
+import * as duration                                      from 'dayjs/plugin/duration';
 
 import { Event }                                          from '../../models/event';
 import { EventEditComponent }                             from '../modal/event-edit/event-edit.component';
@@ -73,9 +74,12 @@ export class WeeklyCalendarComponent implements OnInit {
   }
 
   onClickTimeFrame(dayItem: DayItem, hour: number) {
+    dayjs.extend(duration)
     this.dialog.open(EventEditComponent, {
       data: {
-        date: dayItem.day
+        date: dayItem.day,
+        startTime: dayjs.duration(hour, 'hours'),
+        endTime: dayjs.duration(hour + 1, 'hours'),
       }
     })
   }

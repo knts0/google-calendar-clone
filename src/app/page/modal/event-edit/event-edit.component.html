@@ -28,10 +28,10 @@
     </div>
     <div class="event-date-time__time">
       <mat-form-field appearance="fill">
-        <mat-select>
+        <mat-select formControlName="startTime">
           <mat-option
             *ngFor  = "let option of timeOptions"
-            [value] = "option"
+            [value] = "option.asMinutes()"
           >
             {{ option.format('HH:mm') }}
           </mat-option>

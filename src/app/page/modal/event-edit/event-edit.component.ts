@@ -6,7 +6,8 @@ import * as duration                 from 'dayjs/plugin/duration';
 
 export type EventEditDialogData = {
   date: dayjs.Dayjs,
-  hour: number,
+  startTime: duration.Duration,
+  endTime: duration.Duration,
 }
 
 @Component({
@@ -26,20 +27,18 @@ export class EventEditComponent implements OnInit {
     return this.form.value.date.format('M月D日')
   }
 
-  get time(): dayjs.Dayjs {
-    return this.form.value.time.format('mm:ss')
-  }
-
-  timeOptions: dayjs.Dayjs[]
+  timeOptions: duration.Duration[]
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: EventEditDialogData
   ) {
     dayjs.extend(duration)
+    console.log(this.data.startTime.asMinutes())
     this.form = new FormGroup({
       title: new FormControl(''),
       date: new FormControl(this.data.date),
-      time: new FormControl(dayjs.duration(0, 'minutes')),
+      startTime: new FormControl(this.data.startTime.asMinutes()),
+      endTime: new FormControl(this.data.endTime),
     })
   }
 
