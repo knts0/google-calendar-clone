@@ -1,4 +1,16 @@
 :host {
+
+  .title {
+    position: relative;
+  }
+
+  .close-button {
+    position: absolute;
+    top:      0;
+    right:    0;
+    cursor:   pointer;
+  }
+
   .date-field {
   }
 
@@ -16,6 +28,7 @@
   }
 
   .action-buttons {
-    text-align: right;
+    display:         flex;
+    justify-content: flex-end;
   }
 }
