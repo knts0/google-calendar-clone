@@ -11,7 +11,12 @@
     cursor:   pointer;
   }
 
-  .date-field {
+  .date-input-field {
+    cursor: pointer;
+
+    &__mat-input {
+      cursor: pointer;
+    }
   }
 
   .event-date-time {

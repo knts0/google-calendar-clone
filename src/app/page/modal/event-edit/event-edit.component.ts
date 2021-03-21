@@ -24,10 +24,6 @@ export class EventEditComponent implements OnInit {
 
   isTimePickerOpen = false
 
-  get date(): dayjs.Dayjs {
-    return this.form.value.date.format('M月D日')
-  }
-
   timeOptions: duration.Duration[]
 
   constructor(
@@ -53,6 +49,7 @@ export class EventEditComponent implements OnInit {
   }
 
   onChangeActiveDate($event: dayjs.Dayjs): void {
+    console.log($event)
     this.form.patchValue({ date: $event })
     this.isCalendarOpen = false
   }

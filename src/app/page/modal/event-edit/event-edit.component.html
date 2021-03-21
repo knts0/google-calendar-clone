@@ -13,14 +13,14 @@
   </div>
   <div class="event-date-time">
     <div class="event-date-time__date">
-      <div
-        class            = "date-field"
+      <mat-form-field
+        class            = "date-input-field"
         (click)          = "isCalendarOpen = !isCalendarOpen"
         cdkOverlayOrigin
         #calendarTrigger = cdkOverlayOrigin
       >
-        {{ date }}
-      </div>
+        <input class="date-input-field__mat-input" matInput [readonly]="true" [value]="form.value.date.format('M月D日')">
+      </mat-form-field>
       <ng-template
         cdkConnectedOverlay
         [cdkConnectedOverlayOrigin] = "calendarTrigger"
