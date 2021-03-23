@@ -40,6 +40,9 @@ export class WeeklyCalendarComponent implements OnInit {
   weekdays = [ '月', '火', '水', '木', '金', '土', '日' ]
   days: DayItem[] = []
 
+  isMovingMouse = false
+  startHour: number | null =  null
+
   constructor(
     private dialog: MatDialog
   ) { }
@@ -74,12 +77,29 @@ export class WeeklyCalendarComponent implements OnInit {
   }
 
   onClickTimeFrame(dayItem: DayItem, hour: number) {
+    this.openEventEditDialog(dayItem.day, hour, hour + 1)
+  }
+
+  // https://developer.mozilla.org/ja/docs/Web/API/Element/mouseup_event
+  onMouseDown(hour): void {
+    this.isMovingMouse = true
+    this.startHour = hour
+  }
+
+  onMouseUp(dayItem: DayItem, hour: number): void {
+    this.isMovingMouse = false
+    this.openEventEditDialog(dayItem.day, this.startHour, hour)
+
+    this.startHour = null
+  }
+
+  openEventEditDialog(date: dayjs.Dayjs, startHour: number, endHour: number): void {
     dayjs.extend(duration)
     this.dialog.open(EventEditComponent, {
       data: {
-        date: dayItem.day,
-        startTime: dayjs.duration(hour, 'hours'),
-        endTime: dayjs.duration(hour + 1, 'hours'),
+        date: date,
+        startTime: dayjs.duration(startHour, 'hours'),
+        endTime: dayjs.duration(endHour, 'hours'),
         isAllDay: false,
       }
     })

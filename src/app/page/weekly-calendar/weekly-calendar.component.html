@@ -19,9 +19,11 @@
     <div class="weekly-calendar-timeline">
       <div class="weekly-calendar-timeline__day" *ngFor="let item of days">
         <div
-          class   = "weekly-calendar-timeline__time-frame"
-          *ngFor  = "let hour of hours"
-          (click) = "onClickTimeFrame(item, hour)"
+          class       = "weekly-calendar-timeline__time-frame"
+          *ngFor      = "let hour of hours"
+          (mousedown) = "onMouseDown(hour)"
+          (mouseup)   = "onMouseUp(item, hour)"
+          (click)     = "onClickTimeFrame(item, hour)"
         >
         </div>
         <div
