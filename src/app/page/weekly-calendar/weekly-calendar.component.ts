@@ -91,44 +91,58 @@ export class WeeklyCalendarComponent implements OnInit {
   }
 
   // https://developer.mozilla.org/ja/docs/Web/API/Element/mouseup_event
-  onMouseDown(event, dayItem: DayItem, hour: number): void {
-    this.startHour = hour
+  onMouseDown(event, dayItem: DayItem): void {
+    console.log(event)
+    // this.startHour = hour
+
+    const top    = Math.floor(event.layerY / 60) * 60
+    const bottom = top + 60
+
+    this.newEventPreview= {
+      day: dayItem.day,
+      style: {
+        top:    top,
+        height: bottom - top,
+      }
+    }
+    console.log(bottom)
 
     event.stopImmediatePropagation()
     this.isMovingMouse = true
   }
 
-  onMouseUp(dayItem: DayItem, hour: number): void {
+  onMouseUp(dayItem: DayItem): void {
     console.log('mouseup')
     this.isMovingMouse = false
-    this.openEventEditDialog(dayItem.day, this.startHour, hour)
-
+    // this.openEventEditDialog(dayItem.day, this.startHour, hour)
     this.startHour = null
   }
 
-  onMouseEnter(dayItem: DayItem, hour: number): void {
+  onMouseEnter(event, dayItem: DayItem): void {
     if (this.isMovingMouse) {
+      console.log('mousemove')
       if (this.newEventPreview != null) {
+        console.log(event.layerY)
         const top    = this.newEventPreview.style.top
-        const bottom = 60 * (hour + 1)
+        const bottom = Math.floor(event.layerY / 60) * 60
 
         this.newEventPreview.style = {
           top:    top,
           height: bottom - top,
         }
-        console.log(bottom - top)
-      } else {
-        const top    = 60 * hour
-        const bottom = 60 * (hour + 1)
-
-        this.newEventPreview = {
-          day: dayItem.day,
-          style: {
-            top:    top,
-            height: bottom - top,
-          }
-        }
       }
+      // } else {
+      //   const top    = 60 * hour
+      //   const bottom = 60 * (hour + 1)
+
+      //   this.newEventPreview = {
+      //     day: dayItem.day,
+      //     style: {
+      //       top:    top,
+      //       height: bottom - top,
+      //     }
+      //   }
+      // }
     }
   }
 
