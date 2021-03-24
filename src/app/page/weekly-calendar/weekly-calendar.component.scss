@@ -46,6 +46,15 @@
     width:       100px;
     height:      60px;
     cursor:      pointer;
+    z-index: 2;
+  }
+
+  .weekly-calendar-timeline__preview-event {
+    position: absolute;
+    width: 100%;
+    height: 60px;
+    background-color: lightgreen;
+    z-index: 1;
   }
 
   .weekly-calendar-timeline__event {

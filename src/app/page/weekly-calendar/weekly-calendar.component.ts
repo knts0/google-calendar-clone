@@ -43,6 +43,15 @@ export class WeeklyCalendarComponent implements OnInit {
   isMovingMouse = false
   startHour: number | null =  null
 
+  newEventPreview:
+    {
+      day: dayjs.Dayjs,
+      style: {
+        top:    number,
+        height: number,
+      },
+    } | null = null
+
   constructor(
     private dialog: MatDialog
   ) { }
@@ -71,26 +80,60 @@ export class WeeklyCalendarComponent implements OnInit {
     const bottom = 60 * event.endTime.hour() + 15 * event.endTime.minute() / 15
 
     return {
-      top:    `${top}px`,
-      height: `${bottom - top}px`,
+      top:    top,
+      height: bottom - top,
     }
   }
 
   onClickTimeFrame(dayItem: DayItem, hour: number) {
+    console.log('click')
     this.openEventEditDialog(dayItem.day, hour, hour + 1)
   }
 
   // https://developer.mozilla.org/ja/docs/Web/API/Element/mouseup_event
-  onMouseDown(hour): void {
-    this.isMovingMouse = true
+  onMouseDown(event, dayItem: DayItem, hour: number): void {
     this.startHour = hour
+
+    event.stopImmediatePropagation()
+    this.isMovingMouse = true
   }
 
   onMouseUp(dayItem: DayItem, hour: number): void {
+    console.log('mouseup')
     this.isMovingMouse = false
     this.openEventEditDialog(dayItem.day, this.startHour, hour)
 
     this.startHour = null
+  }
+
+  onMouseEnter(dayItem: DayItem, hour: number): void {
+    if (this.isMovingMouse) {
+      if (this.newEventPreview != null) {
+        const top    = this.newEventPreview.style.top
+        const bottom = 60 * (hour + 1)
+
+        this.newEventPreview.style = {
+          top:    top,
+          height: bottom - top,
+        }
+        console.log(bottom - top)
+      } else {
+        const top    = 60 * hour
+        const bottom = 60 * (hour + 1)
+
+        this.newEventPreview = {
+          day: dayItem.day,
+          style: {
+            top:    top,
+            height: bottom - top,
+          }
+        }
+      }
+    }
+  }
+
+  onDragEnter(): void {
+    console.log('dragenter')
   }
 
   openEventEditDialog(date: dayjs.Dayjs, startHour: number, endHour: number): void {

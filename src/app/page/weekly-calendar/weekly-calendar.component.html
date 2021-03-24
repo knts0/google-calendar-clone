@@ -19,12 +19,21 @@
     <div class="weekly-calendar-timeline">
       <div class="weekly-calendar-timeline__day" *ngFor="let item of days">
         <div
-          class       = "weekly-calendar-timeline__time-frame"
-          *ngFor      = "let hour of hours"
-          (mousedown) = "onMouseDown(hour)"
-          (mouseup)   = "onMouseUp(item, hour)"
+          class        = "weekly-calendar-timeline__time-frame"
+          *ngFor       = "let hour of hours"
+          (mousedown)  = "onMouseDown($event, item, hour)"
+          (mouseup)    = "onMouseUp(item, hour)"
+          (mouseenter)  = "onMouseEnter(item, hour)"
           (click)     = "onClickTimeFrame(item, hour)"
         >
+        </div>
+        <div
+          class="weekly-calendar-timeline__preview-event"
+          *ngIf   = "newEventPreview != null && item.day === newEventPreview.day"
+          [style.top.px] = "newEventPreview.style.top"
+          [style.bottom.px]= "newEventPreview.style.bottom"
+        >
+          プレビュー
         </div>
         <div
           *ngFor  = "let event of item.events"
