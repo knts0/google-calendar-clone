@@ -39,6 +39,14 @@
     position: relative;
   }
 
+  .weekly-calendar-timeline__detecting-mouse-events {
+    position: absolute;
+    width:    100px;
+    height:   100%;
+    cursor:   pointer;
+    z-index:  3;
+  }
+
   .weekly-calendar-timeline__time-frame {
     border-top:  solid 1px lightgray;
     border-left: solid 1px lightgray;

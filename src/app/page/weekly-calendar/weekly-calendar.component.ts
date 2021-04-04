@@ -9,6 +9,8 @@ import { EventEditComponent }                             from '../modal/event-e
 const DAYS_PER_WEEK = 7
 const FIRST_DAY_OF_WEEK = 1
 
+const HEIGHT_PX_PER_HOUR = 60
+
 type DayItem = {
   day:     dayjs.Dayjs,
   weekday: string,
@@ -42,6 +44,7 @@ export class WeeklyCalendarComponent implements OnInit {
 
   isMovingMouse = false
   startHour: number | null =  null
+  endHour: number | null =  null
 
   newEventPreview:
     {
@@ -76,8 +79,8 @@ export class WeeklyCalendarComponent implements OnInit {
   }
 
   getStyleOfEvent(event: Event) {
-    const top    = 60 * event.startTime.hour() + 15 * event.startTime.minute() / 15
-    const bottom = 60 * event.endTime.hour() + 15 * event.endTime.minute() / 15
+    const top    = HEIGHT_PX_PER_HOUR * event.startTime.hour() + 15 * event.startTime.minute() / 15
+    const bottom = HEIGHT_PX_PER_HOUR * event.endTime.hour() + 15 * event.endTime.minute() / 15
 
     return {
       top:    top,
@@ -92,11 +95,13 @@ export class WeeklyCalendarComponent implements OnInit {
 
   // https://developer.mozilla.org/ja/docs/Web/API/Element/mouseup_event
   onMouseDown(event, dayItem: DayItem): void {
-    console.log(event)
-    // this.startHour = hour
+    // set start hour of event(round down mouse down position)
+    this.startHour = Math.floor(event.offsetY / HEIGHT_PX_PER_HOUR)
+    this.endHour   = this.startHour + 1
 
-    const top    = Math.floor(event.layerY / 60) * 60
-    const bottom = top + 60
+    // calc preview event position
+    const top    = this.startHour * HEIGHT_PX_PER_HOUR
+    const bottom = top + HEIGHT_PX_PER_HOUR
 
     this.newEventPreview= {
       day: dayItem.day,
@@ -105,49 +110,49 @@ export class WeeklyCalendarComponent implements OnInit {
         height: bottom - top,
       }
     }
-    console.log(bottom)
 
     event.stopImmediatePropagation()
     this.isMovingMouse = true
   }
 
-  onMouseUp(dayItem: DayItem): void {
-    console.log('mouseup')
+  onMouseUp(event, dayItem: DayItem): void {
+    this.openEventEditDialog(dayItem.day, this.startHour, this.endHour)
+
+    // reset
     this.isMovingMouse = false
-    // this.openEventEditDialog(dayItem.day, this.startHour, hour)
     this.startHour = null
   }
 
-  onMouseEnter(event, dayItem: DayItem): void {
-    if (this.isMovingMouse) {
-      console.log('mousemove')
-      if (this.newEventPreview != null) {
-        console.log(event.layerY)
-        const top    = this.newEventPreview.style.top
-        const bottom = Math.floor(event.layerY / 60) * 60
+  onMouseMove(event): void {
+    if (this.isMovingMouse && this.newEventPreview != null) {
+      if (this.newEventPreview.style.top < event.offsetY) {
+        console.log('down')
 
-        this.newEventPreview.style = {
-          top:    top,
-          height: bottom - top,
-        }
+        // end hour of event (round up mouse move position)
+        const endHour = Math.ceil(event.offsetY / HEIGHT_PX_PER_HOUR)
+
+        this.endHour = endHour
+      } else {
+        console.log('up')
+        const oldStartHour = this.startHour
+
+        // end hour of event (round down mouse move position)
+        const newStartHour = Math.floor(event.offsetY / HEIGHT_PX_PER_HOUR)
+        this.startHour = newStartHour
+
+        // this.endHour = oldStartHour
       }
-      // } else {
-      //   const top    = 60 * hour
-      //   const bottom = 60 * (hour + 1)
 
-      //   this.newEventPreview = {
-      //     day: dayItem.day,
-      //     style: {
-      //       top:    top,
-      //       height: bottom - top,
-      //     }
-      //   }
-      // }
+      // calc preview event position
+      const top = this.startHour * HEIGHT_PX_PER_HOUR
+      const bottom = this.endHour * HEIGHT_PX_PER_HOUR
+
+      // update event preview style
+      this.newEventPreview.style = {
+        top:    top,
+        height: bottom - top,
+      }
     }
-  }
-
-  onDragEnter(): void {
-    console.log('dragenter')
   }
 
   openEventEditDialog(date: dayjs.Dayjs, startHour: number, endHour: number): void {
