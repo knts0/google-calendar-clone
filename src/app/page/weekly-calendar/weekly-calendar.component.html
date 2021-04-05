@@ -12,7 +12,10 @@
   <!-- days -->
   <div class="weekly-calendar-week">
     <div class="weekly-calendar-hours">
-      <div class="weekly-calendar-hour" *ngFor="let hour of hours" class="weekly-calendar-hour">
+      <div
+        class  = "weekly-calendar-hour"
+        *ngFor = "let hour of hours"
+      >
         <div class="weekly-calendar-hour__text">{{ hour | number: '2.0-0' }}:00</div>
       </div>
     </div>
@@ -23,7 +26,6 @@
         class="weekly-calendar-timeline__day"
         *ngFor="let item of days"
       >
-        <!-- (mouseenter)  = "onMouseEnter(item)" -->
         <!-- for detecting mouse events -->
         <div class="weekly-calendar-timeline__detecting-mouse-events"
           (mousedown) = "onMouseDown($event, item)"
@@ -31,12 +33,13 @@
           (mousemove) = "onMouseMove($event)"
         ></div>
 
-        <!-- <div
-          class        = "weekly-calendar-timeline__time-frame"
-          *ngFor       = "let hour of hours"
-          (click)     = "onClickTimeFrame(item, hour)"
+        <!-- timeline frame -->
+        <div
+          class   = "weekly-calendar-timeline__time-frame"
+          *ngFor  = "let hour of hours"
+          (click) = "onClickTimeFrame(item, hour)"
         >
-        </div> -->
+        </div>
 
         <!-- Preview event -->
         <div
@@ -47,6 +50,8 @@
         >
           <!-- プレビュー -->
         </div>
+
+        <!-- registered events -->
         <div
           *ngFor  = "let event of item.events"
           class   = "weekly-calendar-timeline__event"
