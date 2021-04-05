@@ -44,6 +44,7 @@ export class WeeklyCalendarComponent implements OnInit {
 
   isMovingMouse = false
   startHour: number | null =  null
+  initialStartHour: number | null =  null
   endHour: number | null =  null
 
   newEventPreview:
@@ -89,7 +90,6 @@ export class WeeklyCalendarComponent implements OnInit {
   }
 
   onClickTimeFrame(dayItem: DayItem, hour: number) {
-    console.log('click')
     this.openEventEditDialog(dayItem.day, hour, hour + 1)
   }
 
@@ -98,6 +98,7 @@ export class WeeklyCalendarComponent implements OnInit {
     // set start hour of event(round down mouse down position)
     this.startHour = Math.floor(event.offsetY / HEIGHT_PX_PER_HOUR)
     this.endHour   = this.startHour + 1
+    this.initialStartHour = this.startHour
 
     // calc preview event position
     const top    = this.startHour * HEIGHT_PX_PER_HOUR
@@ -125,22 +126,17 @@ export class WeeklyCalendarComponent implements OnInit {
 
   onMouseMove(event): void {
     if (this.isMovingMouse && this.newEventPreview != null) {
-      if (this.newEventPreview.style.top < event.offsetY) {
-        console.log('down')
-
-        // end hour of event (round up mouse move position)
+      // mouse move (down)
+      if (this.initialStartHour * HEIGHT_PX_PER_HOUR < event.offsetY) {
+        // update end hour of event (round up mouse move position)
         const endHour = Math.ceil(event.offsetY / HEIGHT_PX_PER_HOUR)
-
         this.endHour = endHour
-      } else {
-        console.log('up')
-        const oldStartHour = this.startHour
 
-        // end hour of event (round down mouse move position)
+      // mouse move (up)
+      } else {
+        // update start hour of event (round down mouse move position)
         const newStartHour = Math.floor(event.offsetY / HEIGHT_PX_PER_HOUR)
         this.startHour = newStartHour
-
-        // this.endHour = oldStartHour
       }
 
       // calc preview event position
