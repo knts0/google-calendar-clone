@@ -1,5 +1,6 @@
 import { BrowserModule }                    from '@angular/platform-browser';
 import { CommonModule }                     from '@angular/common';
+import { HttpClientModule }                 from '@angular/common/http';
 import { NgModule }                         from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule }                  from '@angular/material/button';
@@ -39,6 +40,7 @@ import { EventEditComponent } from './page/modal/event-edit/event-edit.component
     BrowserModule,
     CommonModule,
     FormsModule,
+    HttpClientModule,
     ReactiveFormsModule,
     MatButtonModule,
     MatCheckboxModule,
