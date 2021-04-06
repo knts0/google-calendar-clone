@@ -47,6 +47,10 @@
     height:   100%;
     cursor:   pointer;
     z-index:  3;
+
+    &.cursor-move {
+      cursor: move;
+    }
   }
 
   .weekly-calendar-timeline__time-frame {
