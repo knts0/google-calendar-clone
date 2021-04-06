@@ -43,12 +43,14 @@
 
         <!-- Preview event -->
         <div
-          class="weekly-calendar-timeline__preview-event"
-          *ngIf   = "newEventPreview != null && item.day === newEventPreview.day"
-          [style.top.px] = "newEventPreview.style.top"
-          [style.height.px]= "newEventPreview.style.height"
+          *ngIf             = "newEventPreview != null && item.day === newEventPreview.day"
+          class             = "weekly-calendar-timeline__preview-event"
+          [style.top.px]    = "newEventPreview.style.top"
+          [style.height.px] = "newEventPreview.style.height"
         >
-          <!-- プレビュー -->
+          無題
+          <br>
+          {{ startHour }}:00〜{{ endHour }}:00
         </div>
 
         <!-- registered events -->
