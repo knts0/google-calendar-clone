@@ -1,3 +1,5 @@
+@import '~@angular/material/theming';
+
 :host {
   .weekly-calendar-table-header {
     display: flex;
@@ -57,12 +59,30 @@
     z-index: 2;
   }
 
-  .weekly-calendar-timeline__preview-event {
+  @mixin absolute($top:null, $right:null, $bottom:null, $left:null){
     position: absolute;
-    width: 100%;
-    height: 60px;
-    background-color: lightgreen;
-    z-index: 1;
+    @if $top != null{
+      top: $top;
+    }
+    @if $right != null{
+      right: $right;
+    }
+    @if $bottom != null{
+      bottom: $bottom;
+    }
+    @if $left != null{
+      left: $left;
+    }
+  }
+
+  .weekly-calendar-timeline__preview-event {
+    @include absolute(null, 5px, null, 5px);
+    height:           60px;
+    padding:          4px;
+    box-sizing:       border-box;
+    border-radius:    4px;
+    background-color: map-get($mat-purple, 500);
+    z-index:          1;
   }
 
   .weekly-calendar-timeline__event {
