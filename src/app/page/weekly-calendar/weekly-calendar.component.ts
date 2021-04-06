@@ -121,7 +121,6 @@ export class WeeklyCalendarComponent implements OnInit {
 
     // reset
     this.isMovingMouse = false
-    this.startHour = null
   }
 
   onMouseMove(event): void {
@@ -162,6 +161,9 @@ export class WeeklyCalendarComponent implements OnInit {
       }
     }).afterClosed().subscribe( _ => {
       this.newEventPreview = null
+      this.startHour = null
+      this.initialStartHour = null
+      this.endHour = null
     })
   }
 }
