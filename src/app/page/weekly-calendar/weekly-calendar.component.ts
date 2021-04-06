@@ -160,6 +160,8 @@ export class WeeklyCalendarComponent implements OnInit {
         endTime: dayjs.duration(endHour, 'hours'),
         isAllDay: false,
       }
+    }).afterClosed().subscribe( _ => {
+      this.newEventPreview = null
     })
   }
 }
