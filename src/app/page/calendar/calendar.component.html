@@ -27,10 +27,11 @@
     [class.first-week] = "rowIndex === 0"
   >
     <div
-      *ngFor        = "let item of row; let colIndx = index"
-      class         = "side-menu-calendar-table__cell"
-      [class.today] = "item === _today"
-      (click)       = "onClickCell(item)">
+      *ngFor         = "let item of row; let colIndx = index"
+      class          = "side-menu-calendar-table__cell"
+      [class.today]  = "item?.isSame(_today, 'day')"
+      [class.active] = "item?.isSame(_activeDate, 'day')"
+      (click)        = "onClickCell(item)">
       <span *ngIf="item">{{ item.date() }}</span>
     </div>
   </div>

@@ -1,3 +1,4 @@
+@import '~@angular/material/theming';
 :host {
   background-color: white;
 
@@ -30,8 +31,13 @@
       width:      20px;
       text-align: center;
 
-      &.today {
+      &.active {
+        background-color: map-get($mat-purple, 300);
+      }
 
+      &.today {
+        background-color: map-get($mat-purple, 500);
+        color:            white;
       }
     }
   }
