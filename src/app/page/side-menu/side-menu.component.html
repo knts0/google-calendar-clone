@@ -1,7 +1,9 @@
-<div>
-  <div>予定を作成</div>
+<div class="side-menu">
+  <div class="side-menu__create-event">
+    <button mat-raised-button color="primary">＋予定を作成</button>
+  </div>
 
-  <div class="calendar">
+  <div class="side-menu__calendar">
     <app-calendar
       [activeDate]         = "activeDate"
       (onChangeActiveDate) = "onChangeActiveDate($event)"
