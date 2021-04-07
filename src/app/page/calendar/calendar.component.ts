@@ -24,7 +24,6 @@ export class CalendarComponent implements OnInit {
     this._headerLabel = this._activeDate.format('YYYY年M月')
 
     const firstOfMonth = this._activeDate.date(1)
-    this._firstWeekOffset = (firstOfMonth.day() - FIRST_DAY_OF_WEEK + DAYS_PER_WEEK) % DAYS_PER_WEEK
 
     this._initRows()
   }
@@ -34,8 +33,6 @@ export class CalendarComponent implements OnInit {
   _activeDate: dayjs.Dayjs
 
   _today: dayjs.Dayjs
-
-  _firstWeekOffset: number
 
   _headerLabel: string
 
@@ -55,25 +52,27 @@ export class CalendarComponent implements OnInit {
   _initRows(): void {
     const totalDaysOfMonth = this.activeDate.daysInMonth()
 
-    const totalCalendarCells = totalDaysOfMonth + this._firstWeekOffset
-    const numOfRows =
-      (totalCalendarCells % DAYS_PER_WEEK === 0)
-        ? totalCalendarCells / DAYS_PER_WEEK
-        : (totalCalendarCells /DAYS_PER_WEEK + 1)
-
-    let dayOfMonth = 1
+    let curDateOfMonth = 1
 
     this.rows = [[]]
 
-    for (let rowIndex = 0; rowIndex < numOfRows; rowIndex++) {
-      const dates_per_week: number[] = []
+    while (curDateOfMonth <= totalDaysOfMonth) {
+      const week: Array<number | null> = []
+
       for (let cellIndex = 0; cellIndex < DAYS_PER_WEEK; cellIndex++) {
-        if (rowIndex === 0 && this._firstWeekOffset <= cellIndex || 0 < rowIndex && dayOfMonth < this.activeDate.daysInMonth()) {
-          dates_per_week.push(dayOfMonth)
-          dayOfMonth += 1
+        const cellDayOfWeek = (FIRST_DAY_OF_WEEK + cellIndex) % DAYS_PER_WEEK
+
+        const curDayOfWeek = this.activeDate.date(curDateOfMonth).day()
+
+        if (cellDayOfWeek == curDayOfWeek && curDateOfMonth <= totalDaysOfMonth) {
+          week.push(curDateOfMonth)
+          curDateOfMonth += 1
+        } else {
+          week.push(null)
         }
       }
-      this.rows.push(dates_per_week)
+
+      this.rows.push(week)
     }
   }
 
