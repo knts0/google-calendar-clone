@@ -38,7 +38,7 @@ export class CalendarComponent implements OnInit {
 
   weekdays = [ '月', '火', '水', '木', '金', '土', '日' ]
 
-  rows: number[][] = [[]]
+  rows: Array<Array<dayjs.Dayjs | null>> = [[]]
 
   constructor() {
     this._activeDate = dayjs()
@@ -57,15 +57,15 @@ export class CalendarComponent implements OnInit {
     this.rows = [[]]
 
     while (curDateOfMonth <= totalDaysOfMonth) {
-      const week: Array<number | null> = []
+      const week: Array<dayjs.Dayjs | null> = []
 
       for (let cellIndex = 0; cellIndex < DAYS_PER_WEEK; cellIndex++) {
         const cellDayOfWeek = (FIRST_DAY_OF_WEEK + cellIndex) % DAYS_PER_WEEK
 
-        const curDayOfWeek = this.activeDate.date(curDateOfMonth).day()
+        const curDayjsObj = this.activeDate.date(curDateOfMonth)
 
-        if (cellDayOfWeek == curDayOfWeek && curDateOfMonth <= totalDaysOfMonth) {
-          week.push(curDateOfMonth)
+        if (cellDayOfWeek == curDayjsObj.day() && curDateOfMonth <= totalDaysOfMonth) {
+          week.push(curDayjsObj)
           curDateOfMonth += 1
         } else {
           week.push(null)
@@ -84,8 +84,8 @@ export class CalendarComponent implements OnInit {
 
   }
 
-  onClickCell(item: number) {
-    this.onChangeActiveDate.emit(this._activeDate.date(item))
+  onClickCell(item: dayjs.Dayjs) {
+    this.onChangeActiveDate.emit(item)
   }
 
 }

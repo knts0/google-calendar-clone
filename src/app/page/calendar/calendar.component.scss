@@ -29,6 +29,10 @@
     &__cell {
       width:      20px;
       text-align: center;
+
+      &.today {
+
+      }
     }
   }
 }
