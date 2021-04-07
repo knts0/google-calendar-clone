@@ -1,37 +1,36 @@
 <div class="side-menu-calendar-header">
-  <div class="side-menu-calendar-header-label">{{ _headerLabel }}</div>
+  <div class="side-menu-calendar-header__nav">
+    <i class="fas fa-caret-left" (click)="onClickPrevButton()"></i>
+  </div>
 
-  <div class="side-menu-calendar-header-navigation">
-    <div class="prev">
-      <i class="fas fa-chevron-left" (click)="onClickPrevButton()"></i>
+  <div class="side-menu-calendar-header__label">{{ _headerLabel }}</div>
+
+  <div class="side-menu-calendar-header__nav">
+    <i class="fas fa-caret-right" (click)="onClickNextButton()"></i>
+  </div>
+</div>
+<div class="side-menu-calendar-table">
+  <!--  week days-->
+  <div class="side-menu-calendar-table__header">
+    <div
+      *ngFor = "let day of weekdays"
+      class  = "side-menu-calendar-table__cell"
+    >
+      {{ day }}
     </div>
+  </div>
 
-    <div class="next">
-      <i class="fas fa-chevron-right" (click)="onClickNextButton()"></i>
+  <!-- days -->
+  <div
+    *ngFor             = "let row of rows; let rowIndex = index"
+    class              = "side-menu-calendar-table__row"
+    [class.first-week] = "rowIndex === 0"
+  >
+    <div
+      *ngFor  = "let item of row; let colIndx = index"
+      class   = "side-menu-calendar-table__cell"
+      (click) = "onClickCell(item)">
+      <span *ngIf="item">{{ item }}</span>
     </div>
   </div>
 </div>
-<table class="side-menu-calendar-table">
-  <!--  week days-->
-  <thead class="side-menu-calendar-table-header">
-    <tr>
-      <th *ngFor="let day of weekdays">{{ day }}</th>
-    </tr>
-  </thead>
-
-  <!-- days -->
-  <tbody>
-    <tr *ngFor="let row of rows; let rowIndex = index">
-      <td *ngIf="rowIndex === 0 && 0 < _firstWeekOffset"
-        class="side-menu-calendar-body-label"
-        [attr.colspan]="_firstWeekOffset">
-        {{''}}
-      </td>
-      <td *ngFor="let item of row; let colIndx = index"
-        class   = "side-menu-calendar-body-cell"
-        (click) = "onClickCell(item)">
-        {{ item }}
-      </td>
-    </tr>
-  </tbody>
-</table>
