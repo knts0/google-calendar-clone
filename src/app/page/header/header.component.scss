@@ -1,10 +1,38 @@
 :host {
   .header {
-    display: flex;
+    display:     flex;
+    align-items: center;
+    padding:     10px;
+
+    &__title {
+      font-size:   24px;
+      font-weight: bold;
+    }
+
+    &__date-navigation {
+      margin-left: 10px;
+    }
+
+    &__active-date {
+      margin-left: 10px;
+      font-size:   18px;
+    }
   }
 
-  .move-navigation {
-    display: flex;
+  .date-navigation {
+    display:     flex;
+    align-items: center;
+
+    &__today {
+    }
+
+    &__button {
+      width:      10px;
+      height:     100%;
+      padding:    0 5px;
+      text-align: center;
+      cursor:     pointer;
+    }
   }
 
   .today-button {
@@ -12,4 +40,5 @@
     border: black 1px solid;
     padding: 5px;
   }
+
 }
