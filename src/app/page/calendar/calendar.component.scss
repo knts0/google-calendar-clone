@@ -33,6 +33,10 @@
       text-align: center;
       cursor:     pointer;
 
+      &:hover, &:focus {
+        background-color: map-get($mat-purple, 100);
+      }
+
       &.active {
         background-color: map-get($mat-purple, 300);
       }
