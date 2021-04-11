@@ -9,7 +9,8 @@
     justify-content: space-between;
 
     &__nav {
-      font-size:   24px;
+      font-size: 24px;
+      cursor:    pointer;
     }
   }
 
@@ -30,6 +31,7 @@
     &__cell {
       width:      20px;
       text-align: center;
+      cursor:     pointer;
 
       &.active {
         background-color: map-get($mat-purple, 300);
