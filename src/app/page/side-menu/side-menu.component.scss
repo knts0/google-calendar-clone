@@ -1,3 +1,5 @@
+@import '~@angular/material/theming';
+
 :host {
   .side-menu {
     &__create-event {
@@ -7,6 +9,46 @@
 
     &__calendar {
 
+    }
+  }
+
+  .button {
+    display:          inline-block;
+    width:            120px;
+    max-width:        100%;
+    padding:          5px;
+    background-color: map-get($mat-purple, 500);
+    color:          white;
+    font-size:        14px;
+    border:           2px solid transparent;
+    border-radius:    4px;
+    text-align:       center;
+    outline:          none;
+    cursor:           pointer;
+
+    &:focus,
+    &:hover {
+      background-color: white;
+      border: 2px solid currentColor;
+      color: map-get($mat-purple, 500);
+    }
+
+    &--plus-icon {
+      position:     relative;
+      padding-left: 10px;
+
+      &::after {
+        // font awesome 'plus' icon
+        content:     '\f067';
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+
+        position:  absolute;
+        top:       50%;
+        transform: translateY(-50%);
+        left:      5px;
+        color:   white;
+      }
     }
   }
 }
