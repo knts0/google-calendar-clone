@@ -21,20 +21,17 @@ export class CalendarComponent implements OnInit {
 
     this._activeDate = date
 
-    this._headerLabel = this._activeDate.format('YYYY年M月')
-
-    const firstOfMonth = this._activeDate.date(1)
-
-    this._initRows()
+    this._setActiveYearMonth(date.date(1))
   }
 
   @Output() onChangeActiveDate: EventEmitter<dayjs.Dayjs> = new EventEmitter()
 
   _activeDate: dayjs.Dayjs
 
-  _today: dayjs.Dayjs
-
+  _activeYearMonth1stDate: dayjs.Dayjs
   _headerLabel: string
+
+  _today: dayjs.Dayjs
 
   weekdays = [ '月', '火', '水', '木', '金', '土', '日' ]
 
@@ -49,8 +46,12 @@ export class CalendarComponent implements OnInit {
 
   }
 
-  _initRows(): void {
-    const totalDaysOfMonth = this.activeDate.daysInMonth()
+  _setActiveYearMonth(firstDayOfMonth: dayjs.Dayjs): void {
+    this._activeYearMonth1stDate = firstDayOfMonth
+
+    this._headerLabel = this._activeYearMonth1stDate.format('YYYY年M月')
+
+    const totalDaysOfMonth = this._activeYearMonth1stDate.daysInMonth()
 
     let curDateOfMonth = 1
 
@@ -62,7 +63,7 @@ export class CalendarComponent implements OnInit {
       for (let cellIndex = 0; cellIndex < DAYS_PER_WEEK; cellIndex++) {
         const cellDayOfWeek = (FIRST_DAY_OF_WEEK + cellIndex) % DAYS_PER_WEEK
 
-        const curDayjsObj = this.activeDate.date(curDateOfMonth)
+        const curDayjsObj = this._activeYearMonth1stDate.date(curDateOfMonth)
 
         if (cellDayOfWeek == curDayjsObj.day() && curDateOfMonth <= totalDaysOfMonth) {
           week.push(curDayjsObj)
@@ -77,11 +78,11 @@ export class CalendarComponent implements OnInit {
   }
 
   onClickPrevButton(): void {
-
+    this._setActiveYearMonth(this._activeYearMonth1stDate.subtract(1, 'month'))
   }
 
   onClickNextButton(): void {
-
+    this._setActiveYearMonth(this._activeYearMonth1stDate.add(1, 'month'))
   }
 
   onClickCell(item: dayjs.Dayjs) {
