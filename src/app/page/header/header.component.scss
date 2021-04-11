@@ -1,3 +1,5 @@
+@import '~@angular/material/theming';
+
 :host {
   .header {
     display:     flex;
@@ -35,9 +37,33 @@
     }
   }
 
+  .icon-button {
+    position:         relative;
+    display:          inline-block;
+    padding:          5px;
+    border:           currentColor 1px solid;
+    border-radius:    4px;
+    background-color: white;
+    color:            map-get($mat-purple, 500);
+
+    &:focus,
+    &:hover {
+      background-color: map-get($mat-purple, 500);
+      color:            white;
+    }
+
+    &::before {
+      display: inline-block;
+      margin-right: 5px;
+
+      // font awesome
+      content:     '\f0e2';
+      font-family: "Font Awesome 5 Free";
+      font-weight: 900;
+    }
+  }
+
   .today-button {
-    border-radius: 4px;
-    border:      black 1px solid;
     padding:       5px;
     cursor:        pointer;
   }
