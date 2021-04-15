@@ -24,6 +24,7 @@ import { CalendarComponent } from './page/calendar/calendar.component';
 import { SideMenuComponent } from './page/side-menu/side-menu.component';
 import { WeeklyCalendarComponent } from './page/weekly-calendar/weekly-calendar.component';
 import { EventEditComponent } from './page/modal/event-edit/event-edit.component';
+import { EventCreateComponent } from './page/modal/event-create/event-create.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { EventEditComponent } from './page/modal/event-edit/event-edit.component
     CalendarComponent,
     WeeklyCalendarComponent,
     EventEditComponent,
+    EventCreateComponent,
   ],
   imports: [
     BrowserModule,

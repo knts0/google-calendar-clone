@@ -1,0 +1,53 @@
+<div mat-dialog-title class="title">
+  予定を作成
+  <div mat-dialog-close class="close-button">
+    <i class="fas fa-times"></i>
+  </div>
+</div>
+<mat-dialog-content class="event-edit-dialog__form" [formGroup]="form">
+  <div class="event-title">
+    <mat-form-field class="example-form-field">
+      <mat-label>タイトル</mat-label>
+      <input matInput type="text" formControlName="title">
+    </mat-form-field>
+  </div>
+  <div class="event-date-time">
+    <div class="event-date-time__date">
+      <input
+        type            = "date"
+        formControlName = "startDate"
+        class           = "date-input-field__mat-input"
+        [readonly]      = "true"
+      >
+    </div>
+    <div class="event-date-time__time">
+      <input
+        type            = "time"
+        formControlName = "startTime"
+      >
+      <span class="event-date-time__separator">
+        -
+      </span>
+      <input
+        type            = "time"
+        formControlName = "endTime"
+      >
+    </div>
+    <div class="event-date-time__date">
+      <input
+        type            = "date"
+        formControlName = "endDate"
+        class           = "date-input-field__mat-input"
+        [readonly]      = "true"
+      >
+    </div>
+  </div>
+  <div class="is-all-day">
+    <mat-checkbox formControlName="isAllDay">
+      終日
+    </mat-checkbox>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions class="action-buttons">
+  <button mat-flat-button color="primary">保存</button>
+</mat-dialog-actions>
