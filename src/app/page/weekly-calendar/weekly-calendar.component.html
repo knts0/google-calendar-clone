@@ -56,11 +56,11 @@
 
         <!-- registered events -->
         <div
-          *ngFor  = "let event of item.events"
+          *ngFor  = "let eventItem of item.eventItems"
           class   = "weekly-calendar-timeline__event"
-          [style] = "getStyleOfEvent(event)"
+          [style] = "eventItem.style"
         >
-          {{ event.title }}
+          {{ eventItem.event.title }}
         </div>
       </div>
     </div>

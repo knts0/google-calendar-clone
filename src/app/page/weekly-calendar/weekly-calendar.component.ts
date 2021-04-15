@@ -12,9 +12,17 @@ const FIRST_DAY_OF_WEEK = 1
 const HEIGHT_PX_PER_HOUR = 60
 
 type DayItem = {
-  day:     dayjs.Dayjs,
-  weekday: string,
-  events:  Event[]
+  day:        dayjs.Dayjs,
+  weekday:    string,
+  eventItems: EventItem[]
+}
+
+type EventItem = {
+  event: Event,
+  style: {
+    top: string,
+    height: string,
+  }
 }
 
 @Component({
@@ -36,7 +44,25 @@ export class WeeklyCalendarComponent implements OnInit {
   }
   _activeDate: dayjs.Dayjs
 
-  @Input() events: Event[]
+  @Input()
+  set events(events: Event[]) {
+
+    this._eventItems = events.map(e => {
+      const top    = HEIGHT_PX_PER_HOUR * e.startTime.hour()
+      const bottom = HEIGHT_PX_PER_HOUR * e.endTime.hour()
+
+      return {
+        event: e,
+        style: {
+          top:    `${top}px`,
+          height: `${bottom - top}px`,
+        }
+      }
+    })
+
+  }
+
+  _eventItems: EventItem[]
 
   hours = Array.from({ length: 24 }, (v, i) => i )
   weekdays = [ '月', '火', '水', '木', '金', '土', '日' ]
@@ -70,22 +96,12 @@ export class WeeklyCalendarComponent implements OnInit {
     for (let dayOfWeek = 0; dayOfWeek < DAYS_PER_WEEK; dayOfWeek++) {
       const day = this._activeDate.day(dayOfWeek + FIRST_DAY_OF_WEEK)
       this.days.push({
-        day:     day,
-        weekday: this.weekdays[dayOfWeek],
-        events:  this.events.filter(v => {
-          return v.startTime.isSame(day, 'day') || v.endTime.isSame(day, 'day')
+        day:        day,
+        weekday:    this.weekdays[dayOfWeek],
+        eventItems: this._eventItems.filter(v => {
+          return v.event.startTime.isSame(day, 'day') || v.event.endTime.isSame(day, 'day')
         })
       })
-    }
-  }
-
-  getStyleOfEvent(event: Event) {
-    const top    = HEIGHT_PX_PER_HOUR * event.startTime.hour() + 15 * event.startTime.minute() / 15
-    const bottom = HEIGHT_PX_PER_HOUR * event.endTime.hour() + 15 * event.endTime.minute() / 15
-
-    return {
-      top:    top,
-      height: bottom - top,
     }
   }
 
