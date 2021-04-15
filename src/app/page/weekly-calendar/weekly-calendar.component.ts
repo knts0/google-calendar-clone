@@ -4,7 +4,7 @@ import * as dayjs                                         from 'dayjs';
 import * as duration                                      from 'dayjs/plugin/duration';
 
 import { Event }                                          from '../../models/event';
-import { EventEditComponent }                             from '../modal/event-edit/event-edit.component';
+import { EventCreateComponent }                           from '../modal/event-create/event-create.component';
 
 const DAYS_PER_WEEK = 7
 const FIRST_DAY_OF_WEEK = 1
@@ -152,11 +152,10 @@ export class WeeklyCalendarComponent implements OnInit {
 
   openEventEditDialog(date: dayjs.Dayjs, startHour: number, endHour: number): void {
     dayjs.extend(duration)
-    this.dialog.open(EventEditComponent, {
+    this.dialog.open(EventCreateComponent, {
       data: {
-        date: date,
-        startTime: dayjs.duration(startHour, 'hours'),
-        endTime: dayjs.duration(endHour, 'hours'),
+        start: date.hour(startHour),
+        end: date.hour(endHour),
         isAllDay: false,
       }
     }).afterClosed().subscribe( _ => {
