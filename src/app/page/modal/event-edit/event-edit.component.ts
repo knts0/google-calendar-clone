@@ -4,11 +4,10 @@ import { FormControl, FormGroup }    from '@angular/forms';
 import * as dayjs                    from 'dayjs';
 import * as duration                 from 'dayjs/plugin/duration';
 
+import { Event } from '../../../models/event'
+
 export type EventEditDialogData = {
-  date: dayjs.Dayjs,
-  startTime: duration.Duration,
-  endTime: duration.Duration,
-  isAllDay: boolean,
+  event: Event,
 }
 
 @Component({
@@ -20,38 +19,20 @@ export class EventEditComponent implements OnInit {
 
   form: FormGroup
 
-  isCalendarOpen = false
-
-  isTimePickerOpen = false
-
-  timeOptions: duration.Duration[]
-
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: EventEditDialogData
   ) {
-    dayjs.extend(duration)
-    console.log(this.data.startTime.asMinutes())
     this.form = new FormGroup({
-      title: new FormControl(''),
-      date: new FormControl(this.data.date),
-      startTime: new FormControl(this.data.startTime.asMinutes()),
-      endTime: new FormControl(this.data.endTime.asMinutes()),
-      isAllDay: new FormControl(this.data.isAllDay),
+      title: new FormControl(this.data.event.title),
+      startDate: new FormControl(this.data.event.startTime.format('YYYY-MM-DD')),
+      startTime: new FormControl(this.data.event.startTime.format('hh:mm')),
+      endDate: new FormControl(this.data.event.endTime.format('YYYY-MM-DD')),
+      endTime: new FormControl(this.data.event.endTime.format('hh:mm')),
+      isAllDay: new FormControl(false),
     })
   }
 
   ngOnInit(): void {
-    const result = []
-    for (let minutes = 0; minutes < 60 * 24 / 15; minutes++) {
-      result.push(dayjs.duration(0, 'minutes').add(minutes * 15, 'minutes'))
-    }
-    this.timeOptions = result
-  }
-
-  onChangeActiveDate($event: dayjs.Dayjs): void {
-    console.log($event)
-    this.form.patchValue({ date: $event })
-    this.isCalendarOpen = false
   }
 
 }

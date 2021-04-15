@@ -13,49 +13,29 @@
   </div>
   <div class="event-date-time">
     <div class="event-date-time__date">
-      <mat-form-field
-        class            = "date-input-field"
-        (click)          = "isCalendarOpen = !isCalendarOpen"
-        cdkOverlayOrigin
-        #calendarTrigger = cdkOverlayOrigin
+      <input
+        type            = "date"
+        formControlName = "startDate"
       >
-        <input class="date-input-field__mat-input" matInput [readonly]="true" [value]="form.value.date.format('M月D日')">
-      </mat-form-field>
-      <ng-template
-        cdkConnectedOverlay
-        [cdkConnectedOverlayOrigin] = "calendarTrigger"
-        [cdkConnectedOverlayOpen]   = "isCalendarOpen"
-      >
-        <app-calendar
-          [activeDate]         = "form.value.date"
-          (onChangeActiveDate) = "onChangeActiveDate($event)"
-        ></app-calendar>
-      </ng-template>
     </div>
     <div class="event-date-time__time">
-      <mat-form-field class="event-date-time__start-time">
-        <mat-select formControlName="startTime">
-          <mat-option
-            *ngFor  = "let option of timeOptions"
-            [value] = "option.asMinutes()"
-          >
-            {{ option.format('HH:mm') }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+      <input
+        type            = "time"
+        formControlName = "startTime"
+      >
       <span class="event-date-time__separator">
         -
       </span>
-      <mat-form-field class="event-date-time__end-time">
-        <mat-select formControlName="endTime">
-          <mat-option
-            *ngFor  = "let option of timeOptions"
-            [value] = "option.asMinutes()"
-          >
-            {{ option.format('HH:mm') }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+      <input
+        type            = "time"
+        formControlName = "endTime"
+      >
+    </div>
+    <div class="event-date-time__date">
+      <input
+        type            = "date"
+        formControlName = "endDate"
+      >
     </div>
   </div>
   <div class="is-all-day">
