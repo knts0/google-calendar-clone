@@ -91,8 +91,10 @@
   }
 
   .weekly-calendar-timeline__event {
-    position: absolute;
-    width: 100%;
+    position:         absolute;
+    width:            100%;
     background-color: lightblue;
+    z-index:          3;
+    cursor:           pointer;
   }
 }

@@ -59,6 +59,7 @@
           *ngFor  = "let eventItem of item.eventItems"
           class   = "weekly-calendar-timeline__event"
           [style] = "eventItem.style"
+          (click) = "onClickEvent(eventItem.event)"
         >
           {{ eventItem.event.title }}
         </div>
