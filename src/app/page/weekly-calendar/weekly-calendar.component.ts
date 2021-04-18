@@ -38,13 +38,13 @@ export class WeeklyCalendarComponent implements OnInit {
     return this._activeDate
   }
   set activeDate(date: dayjs.Dayjs) {
-    // this._today = dayjs()
-
     this._activeDate = date
 
     this._initDays()
   }
   _activeDate: dayjs.Dayjs
+
+  @Input() today: dayjs.Dayjs
 
   events: Event[] = [
     {

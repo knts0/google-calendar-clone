@@ -14,6 +14,8 @@ export class PageComponent implements OnInit {
 
   activeDate: dayjs.Dayjs = dayjs().startOf('day')
 
+  today: dayjs.Dayjs = dayjs().startOf('day')
+
   calendarViewMode: CalendarViewMode = 'week'
 
   constructor() { }

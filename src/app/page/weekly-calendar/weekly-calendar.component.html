@@ -3,9 +3,15 @@
   <div class="weekly-calendar-table-header">
     <div class="weekly-calendar-table-header__blank">
     </div>
-    <div class="weekly-calendar-table-header__days" *ngFor="let item of days">
-      <div class="weekday">{{ item.weekday }}</div>
-      <div class="day">{{ item.day | date: 'd' }}</div>
+    <div
+      class="weekly-calendar-table-header__day-cell"
+      *ngFor="let item of days"
+    >
+      <div class="weekly-calendar-table-header__weekday">{{ item.weekday }}</div>
+      <div
+        class         = "weekly-calendar-table-header__day"
+        [class.today] = "item.day.isSame(today, 'day')"
+      >{{ item.day | date: 'd' }}</div>
     </div>
   </div>
 

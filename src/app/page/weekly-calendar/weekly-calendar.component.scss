@@ -9,13 +9,29 @@
     width: 50px;
   }
 
-  .weekly-calendar-table-header__days {
-    width:      100px;
-    text-align: center;
+  .weekly-calendar-table-header__day-cell {
+    width:       100px;
+    display:     flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .weekly-calendar-week {
     display: flex;
+  }
+
+  .weekly-calendar-table-header__day {
+    $day-length: 30px;
+    width:         $day-length;
+    height:        $day-length;
+    border-radius: $day-length / 2;
+    line-height:   $day-length;
+    text-align:    center;
+
+    &.today {
+      background-color: map-get($mat-purple, 500);
+      color:            white;
+    }
   }
 
   .weekly-calendar-hour {
