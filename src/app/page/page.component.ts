@@ -3,6 +3,8 @@ import * as dayjs            from 'dayjs';
 
 import { Event }             from '../models/event';
 
+export type CalendarViewMode = 'month' | 'week'
+
 @Component({
   selector: 'app-page',
   templateUrl: './page.component.html',
@@ -11,6 +13,8 @@ import { Event }             from '../models/event';
 export class PageComponent implements OnInit {
 
   activeDate: dayjs.Dayjs = dayjs().startOf('day')
+
+  calendarViewMode: CalendarViewMode = 'week'
 
   constructor() { }
 
@@ -22,11 +26,15 @@ export class PageComponent implements OnInit {
   }
 
   changeActiveDatePrev(): void {
-    this.activeDate = this.activeDate.subtract(1, 'week')
+    switch (this.calendarViewMode) {
+      case 'week': this.activeDate = this.activeDate.subtract(1, 'week')
+    }
   }
 
   changeActiveDateNext(): void {
-    this.activeDate = this.activeDate.add(1, 'week')
+    switch (this.calendarViewMode) {
+      case 'week': this.activeDate = this.activeDate.add(1, 'week')
+    }
   }
 
   changeActiveDateToToday(): void {
