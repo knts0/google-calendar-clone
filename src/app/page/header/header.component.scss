@@ -29,11 +29,16 @@
     }
 
     &__button {
-      width:      10px;
-      height:     100%;
-      padding:    0 5px;
-      text-align: center;
-      cursor:     pointer;
+      width:         20px;
+      height:        20px;
+      border-radius: 10px;
+      margin-left:   5px;
+      text-align:    center;
+      cursor:        pointer;
+
+      &:hover, &:focus {
+        background-color: map-get($mat-purple, 100);
+      }
     }
   }
 
