@@ -20,4 +20,12 @@ export class PageComponent implements OnInit {
   onChangeActiveDate(date: dayjs.Dayjs) {
     this.activeDate = date
   }
+
+  changeActiveDatePrev(): void {
+    this.activeDate = this.activeDate.subtract(1, 'week')
+  }
+
+  changeActiveDateNext(): void {
+    this.activeDate = this.activeDate.add(1, 'week')
+  }
 }

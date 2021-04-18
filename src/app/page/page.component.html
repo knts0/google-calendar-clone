@@ -1,5 +1,7 @@
 <app-header
-  [activeDate]="activeDate"
+  [activeDate]    = "activeDate"
+  (onPrevClicked) = "changeActiveDatePrev()"
+  (onNextClicked) = "changeActiveDateNext()"
 ></app-header>
 <div class="body">
   <app-side-menu
