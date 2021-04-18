@@ -8,12 +8,18 @@
       <button class="icon-button today-button" (click)="onClickTodayButton()">今日</button>
     </div>
 
-    <div class="date-navigation__button">
-      <i class="fas fa-chevron-left" (click)="onClickPrevButton()"></i>
+    <div
+      class   = "date-navigation__button"
+      (click) = "onClickPrevButton()"
+    >
+      <i class="fas fa-chevron-left"></i>
     </div>
 
-    <div class="date-navigation__button">
-      <i class="fas fa-chevron-right" (click)="onClickNextButton()"></i>
+    <div
+      class   = "date-navigation__button"
+      (click) = "onClickNextButton()"
+    >
+      <i class="fas fa-chevron-right"></i>
     </div>
   </div>
 
