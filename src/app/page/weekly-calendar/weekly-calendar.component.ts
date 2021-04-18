@@ -42,26 +42,22 @@ export class WeeklyCalendarComponent implements OnInit {
 
     this._activeDate = date
 
+    this._initDays()
   }
   _activeDate: dayjs.Dayjs
 
-  @Input()
-  set events(events: Event[]) {
-
-    this._eventItems = events.map(e => {
-      const top    = HEIGHT_PX_PER_HOUR * e.startTime.hour()
-      const bottom = HEIGHT_PX_PER_HOUR * e.endTime.hour()
-
-      return {
-        event: e,
-        style: {
-          top:    `${top}px`,
-          height: `${bottom - top}px`,
-        }
-      }
-    })
-
-  }
+  events: Event[] = [
+    {
+      title: '歯医者',
+      startTime: dayjs('2021-04-19 09:30'),
+      endTime: dayjs('2021-04-19 10:30')
+    },
+    {
+      title: 'ライブ',
+      startTime: dayjs('2021-04-23 19:00'),
+      endTime: dayjs('2021-04-23 19:30')
+    },
+  ]
 
   _eventItems: EventItem[]
 
@@ -88,10 +84,22 @@ export class WeeklyCalendarComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this._initDays()
   }
 
   _initDays(): void {
+    this._eventItems = this.events.map(e => {
+      const top    = HEIGHT_PX_PER_HOUR * e.startTime.hour()
+      const bottom = HEIGHT_PX_PER_HOUR * e.endTime.hour()
+
+      return {
+        event: e,
+        style: {
+          top:    `${top}px`,
+          height: `${bottom - top}px`,
+        }
+      }
+    })
+
     this.days = []
 
     const firstDayOfWeek =
