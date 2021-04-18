@@ -94,8 +94,13 @@ export class WeeklyCalendarComponent implements OnInit {
   _initDays(): void {
     this.days = []
 
+    const firstDayOfWeek =
+      (this._activeDate.day() < FIRST_DAY_OF_WEEK)
+        ? this._activeDate.subtract(1, 'week').day(FIRST_DAY_OF_WEEK)
+        : this._activeDate.day(FIRST_DAY_OF_WEEK)
+
     for (let dayOfWeek = 0; dayOfWeek < DAYS_PER_WEEK; dayOfWeek++) {
-      const day = this._activeDate.day(dayOfWeek + FIRST_DAY_OF_WEEK)
+      const day = firstDayOfWeek.day(dayOfWeek + FIRST_DAY_OF_WEEK)
       this.days.push({
         day:        day,
         weekday:    this.weekdays[dayOfWeek],
