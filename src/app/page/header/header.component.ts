@@ -11,6 +11,7 @@ export class HeaderComponent implements OnInit {
 
   @Input() activeDate: dayjs.Dayjs
 
+  @Output() onTodayClicked: EventEmitter<void> = new EventEmitter()
   @Output() onPrevClicked: EventEmitter<void> = new EventEmitter()
   @Output() onNextClicked: EventEmitter<void> = new EventEmitter()
 
@@ -20,7 +21,7 @@ export class HeaderComponent implements OnInit {
   }
 
   onClickTodayButton(): void {
-
+    this.onTodayClicked.emit()
   }
 
   onClickPrevButton(): void {

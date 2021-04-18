@@ -4,19 +4,22 @@
   </div>
 
   <div class="header__date-navigation date-navigation">
-    <div class="date-navigation__today">
-      <button class="icon-button today-button" (click)="onClickTodayButton()">今日</button>
+    <div class="date-navigation__button-today">
+      <button
+        class   = "icon-button"
+        (click) = "onClickTodayButton()"
+      >今日</button>
     </div>
 
     <div
-      class   = "date-navigation__button"
+      class   = "date-navigation__button-chevron"
       (click) = "onClickPrevButton()"
     >
       <i class="fas fa-chevron-left"></i>
     </div>
 
     <div
-      class   = "date-navigation__button"
+      class   = "date-navigation__button-chevron"
       (click) = "onClickNextButton()"
     >
       <i class="fas fa-chevron-right"></i>

@@ -28,4 +28,8 @@ export class PageComponent implements OnInit {
   changeActiveDateNext(): void {
     this.activeDate = this.activeDate.add(1, 'week')
   }
+
+  changeActiveDateToToday(): void {
+    this.activeDate = dayjs().startOf('day')
+  }
 }
