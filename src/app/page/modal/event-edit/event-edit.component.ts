@@ -13,7 +13,10 @@ export type EventEditDialogData = {
 @Component({
   selector: 'app-event-edit',
   templateUrl: './event-edit.component.html',
-  styleUrls: ['./event-edit.component.scss']
+  styleUrls: [
+    '../common/event-modal-base.scss',
+    './event-edit.component.scss'
+  ]
 })
 export class EventEditComponent implements OnInit {
 
