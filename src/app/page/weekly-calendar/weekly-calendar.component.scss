@@ -79,7 +79,7 @@
       width:    100px;
       height:   100%;
       cursor:   pointer;
-      z-index:  100;
+      z-index:  3;
 
       &.cursor-move {
         cursor: move;
@@ -93,7 +93,8 @@
       width:       100px;
       height:      60px;
       cursor:      pointer;
-      z-index:     2;
+      z-index:     1;
+      position:    absolute;
     }
 
     &__preview-event {
@@ -104,15 +105,23 @@
       border-radius:    4px;
       background-color: map-get($mat-purple, 500);
       color:            white;
-      z-index:          4;
+      z-index:          2;
+      user-select:      none;
+    }
+
+    &__events {
+      position: relative;
+      width:    90px;
+      height:   100%;
     }
 
     &__event {
       position:         absolute;
       width:            100%;
       background-color: lightblue;
-      z-index:          3;
       cursor:           pointer;
+      z-index:          4;
+      user-select:      none;
     }
   }
 }

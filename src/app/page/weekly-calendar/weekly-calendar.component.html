@@ -47,9 +47,9 @@
 
         <!-- timeline frame -->
         <div
-          class   = "grid-view__time-frame"
-          *ngFor  = "let hour of hours"
-          (click) = "onClickTimeFrame(item, hour)"
+          class          = "grid-view__time-frame"
+          *ngFor         = "let hour of hours"
+          [style.top.px] = "getTopOfTimelineFrame(hour)"
         >
         </div>
 
@@ -66,13 +66,15 @@
         </div>
 
         <!-- registered events -->
-        <div
-          *ngFor  = "let eventItem of item.eventItems"
-          class   = "grid-view__event"
-          [style] = "eventItem.style"
-          (click) = "onClickEvent(eventItem.event)"
-        >
-          {{ eventItem.event.title }}
+        <div class="grid-view__events">
+          <div
+            *ngFor  = "let eventItem of item.eventItems"
+            class   = "grid-view__event"
+            [style] = "eventItem.style"
+            (click) = "onClickEvent(eventItem.event)"
+          >
+            {{ eventItem.event.title }}
+          </div>
         </div>
       </div>
     </div>

@@ -119,8 +119,8 @@ export class WeeklyCalendarComponent implements OnInit {
     }
   }
 
-  onClickTimeFrame(dayItem: DayItem, hour: number) {
-    this.openEventEditDialog(dayItem.day, hour, hour + 1)
+  getTopOfTimelineFrame(hour: number): number {
+    return hour * HEIGHT_PX_PER_HOUR
   }
 
   // https://developer.mozilla.org/ja/docs/Web/API/Element/mouseup_event
