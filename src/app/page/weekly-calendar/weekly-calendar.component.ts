@@ -49,13 +49,13 @@ export class WeeklyCalendarComponent implements OnInit {
   events: Event[] = [
     {
       title: '歯医者',
-      startTime: dayjs('2021-04-19 09:30'),
-      endTime: dayjs('2021-04-19 10:30')
+      startTime: dayjs().hour(9).minute(30),
+      endTime: dayjs().hour(10).minute(30)
     },
     {
       title: 'ライブ',
-      startTime: dayjs('2021-04-23 19:00'),
-      endTime: dayjs('2021-04-23 19:30')
+      startTime: dayjs().hour(18).minute(0),
+      endTime: dayjs().hour(21).minute(0)
     },
   ]
 
