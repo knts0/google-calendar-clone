@@ -12,7 +12,10 @@ export type EventCreateDialogData = {
 @Component({
   selector: 'app-event-create',
   templateUrl: './event-create.component.html',
-  styleUrls: ['./event-create.component.scss']
+  styleUrls: [
+    '../common/event-modal-base.scss',
+    './event-create.component.scss'
+  ]
 })
 export class EventCreateComponent implements OnInit {
 
@@ -32,6 +35,10 @@ export class EventCreateComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  onSave(): void {
+
   }
 
 }
