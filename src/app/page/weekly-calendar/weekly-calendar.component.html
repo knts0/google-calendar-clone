@@ -1,39 +1,44 @@
 <div class="weekly-calendar-table">
   <!--  week days-->
-  <div class="weekly-calendar-table-header">
-    <div class="weekly-calendar-table-header__blank">
+  <div class="header">
+    <div class="header__blank-cell">
     </div>
     <div
-      class="weekly-calendar-table-header__day-cell"
-      *ngFor="let item of days"
+      class  = "header__day-cell"
+      *ngFor = "let item of days"
     >
-      <div class="weekly-calendar-table-header__weekday">{{ item.weekday }}</div>
+      <div class="header__weekday">
+        {{ item.weekday }}
+      </div>
       <div
-        class         = "weekly-calendar-table-header__day"
+        class         = "header__day"
         [class.today] = "item.day.isSame(today, 'day')"
       >{{ item.day | date: 'd' }}</div>
     </div>
   </div>
 
   <!-- days -->
-  <div class="weekly-calendar-week">
-    <div class="weekly-calendar-hours">
+  <div class="body">
+    <div class="body__hours">
       <div
-        class  = "weekly-calendar-hour"
+        class  = "body__hour"
         *ngFor = "let hour of hours"
       >
-        <div class="weekly-calendar-hour__text">{{ hour | number: '2.0-0' }}:00</div>
+        <div class="body__hour-text">
+          {{ hour | number: '2.0-0' }}:00
+        </div>
       </div>
     </div>
+
     <div
-      class="weekly-calendar-timeline"
+      class="grid-view"
     >
       <div
-        class="weekly-calendar-timeline__day"
+        class="grid-view__day"
         *ngFor="let item of days"
       >
         <!-- for detecting mouse events -->
-        <div class="weekly-calendar-timeline__detecting-mouse-events"
+        <div class="grid-view__detecting-mouse-events"
           (mousedown) = "onMouseDown($event, item)"
           (mouseup)   = "onMouseUp($event, item)"
           (mousemove) = "onMouseMove($event)"
@@ -42,7 +47,7 @@
 
         <!-- timeline frame -->
         <div
-          class   = "weekly-calendar-timeline__time-frame"
+          class   = "grid-view__time-frame"
           *ngFor  = "let hour of hours"
           (click) = "onClickTimeFrame(item, hour)"
         >
@@ -51,7 +56,7 @@
         <!-- Preview event -->
         <div
           *ngIf             = "newEventPreview != null && item.day === newEventPreview.day"
-          class             = "weekly-calendar-timeline__preview-event"
+          class             = "grid-view__preview-event"
           [style.top.px]    = "newEventPreview.style.top"
           [style.height.px] = "newEventPreview.style.height"
         >
@@ -63,7 +68,7 @@
         <!-- registered events -->
         <div
           *ngFor  = "let eventItem of item.eventItems"
-          class   = "weekly-calendar-timeline__event"
+          class   = "grid-view__event"
           [style] = "eventItem.style"
           (click) = "onClickEvent(eventItem.event)"
         >

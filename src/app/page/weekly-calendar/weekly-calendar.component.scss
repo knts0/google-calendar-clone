@@ -1,83 +1,6 @@
 @import '~@angular/material/theming';
 
 :host {
-  .weekly-calendar-table-header {
-    display: flex;
-  }
-
-  .weekly-calendar-table-header__blank {
-    width: 50px;
-  }
-
-  .weekly-calendar-table-header__day-cell {
-    width:       100px;
-    display:     flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .weekly-calendar-week {
-    display: flex;
-  }
-
-  .weekly-calendar-table-header__day {
-    $day-length: 30px;
-    width:         $day-length;
-    height:        $day-length;
-    border-radius: $day-length / 2;
-    line-height:   $day-length;
-    text-align:    center;
-
-    &.today {
-      background-color: map-get($mat-purple, 500);
-      color:            white;
-    }
-  }
-
-  .weekly-calendar-hour {
-    width:       50px;
-    height:      60px;
-    text-align:  center;
-    position:    relative;
-  }
-
-  .weekly-calendar-hour__text {
-    position:   absolute;
-    top:        -5px;
-    width:      100%;
-    text-align: center;
-  }
-
-  .weekly-calendar-timeline {
-    display: flex;
-  }
-
-  .weekly-calendar-timeline__day {
-    width:    100px;
-    position: relative;
-  }
-
-  .weekly-calendar-timeline__detecting-mouse-events {
-    position: absolute;
-    width:    100px;
-    height:   100%;
-    cursor:   pointer;
-    z-index:  3;
-
-    &.cursor-move {
-      cursor: move;
-    }
-  }
-
-  .weekly-calendar-timeline__time-frame {
-    border-top:  solid 1px lightgray;
-    border-left: solid 1px lightgray;
-    box-sizing:  border-box;
-    width:       100px;
-    height:      60px;
-    cursor:      pointer;
-    z-index: 2;
-  }
 
   @mixin absolute($top:null, $right:null, $bottom:null, $left:null){
     position: absolute;
@@ -95,22 +18,101 @@
     }
   }
 
-  .weekly-calendar-timeline__preview-event {
-    @include absolute(null, 5px, null, 5px);
-    height:           60px;
-    padding:          4px;
-    box-sizing:       border-box;
-    border-radius:    4px;
-    background-color: map-get($mat-purple, 500);
-    color:            white;
-    z-index:          1;
+  .header {
+    display: flex;
+
+    &__blank-cell {
+      width: 50px;
+    }
+
+    &__day-cell {
+      width:       100px;
+      display:     flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    &__day {
+      $day-length: 30px;
+      width:         $day-length;
+      height:        $day-length;
+      border-radius: $day-length / 2;
+      line-height:   $day-length;
+      text-align:    center;
+
+      &.today {
+        background-color: map-get($mat-purple, 500);
+        color:            white;
+      }
+    }
   }
 
-  .weekly-calendar-timeline__event {
-    position:         absolute;
-    width:            100%;
-    background-color: lightblue;
-    z-index:          3;
-    cursor:           pointer;
+  .body {
+    display: flex;
+
+    &__hour {
+      width:       50px;
+      height:      60px;
+      text-align:  center;
+      position:    relative;
+    }
+
+    &__hour-text {
+      position:   absolute;
+      top:        -5px;
+      width:      100%;
+      text-align: center;
+    }
+
+  }
+
+  .grid-view {
+    display: flex;
+
+    &__day {
+      width:    100px;
+      position: relative;
+    }
+
+    &__detecting-mouse-events {
+      position: absolute;
+      width:    100px;
+      height:   100%;
+      cursor:   pointer;
+      z-index:  100;
+
+      &.cursor-move {
+        cursor: move;
+      }
+    }
+
+    &__time-frame {
+      border-top:  solid 1px lightgray;
+      border-left: solid 1px lightgray;
+      box-sizing:  border-box;
+      width:       100px;
+      height:      60px;
+      cursor:      pointer;
+      z-index:     2;
+    }
+
+    &__preview-event {
+      @include absolute(null, 5px, null, 5px);
+      height:           60px;
+      padding:          4px;
+      box-sizing:       border-box;
+      border-radius:    4px;
+      background-color: map-get($mat-purple, 500);
+      color:            white;
+      z-index:          4;
+    }
+
+    &__event {
+      position:         absolute;
+      width:            100%;
+      background-color: lightblue;
+      z-index:          3;
+      cursor:           pointer;
+    }
   }
 }
