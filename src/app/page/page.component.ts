@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import * as dayjs            from 'dayjs';
 
 import { Event }             from '../models/event';
+import { EventService } from '../services/event.service';
 
 export type CalendarViewMode = 'month' | 'week'
 
@@ -18,9 +19,10 @@ export class PageComponent implements OnInit {
 
   calendarViewMode: CalendarViewMode = 'week'
 
-  constructor() { }
+  constructor(private eventService: EventService) { }
 
   ngOnInit(): void {
+    this.eventService.test().subscribe(_ => console.log('test'))
   }
 
   onChangeActiveDate(date: dayjs.Dayjs) {
