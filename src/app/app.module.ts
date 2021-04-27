@@ -3,6 +3,7 @@ import { CommonModule }                     from '@angular/common';
 import { HttpClientModule }                 from '@angular/common/http';
 import { NgModule }                         from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatBottomSheetModule }             from '@angular/material/bottom-sheet';
 import { MatButtonModule }                  from '@angular/material/button';
 import { MatCheckboxModule }                from '@angular/material/checkbox';
 import { MatMomentDateModule }              from '@angular/material-moment-adapter';
@@ -25,6 +26,7 @@ import { SideMenuComponent } from './page/side-menu/side-menu.component';
 import { WeeklyCalendarComponent } from './page/weekly-calendar/weekly-calendar.component';
 import { EventEditComponent } from './page/modal/event-edit/event-edit.component';
 import { EventCreateComponent } from './page/modal/event-create/event-create.component';
+import { TestComponent } from './page/modal/test/test.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +39,7 @@ import { EventCreateComponent } from './page/modal/event-create/event-create.com
     WeeklyCalendarComponent,
     EventEditComponent,
     EventCreateComponent,
+    TestComponent,
   ],
   imports: [
     BrowserModule,
@@ -44,6 +47,7 @@ import { EventCreateComponent } from './page/modal/event-create/event-create.com
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
+    MatBottomSheetModule,
     MatButtonModule,
     MatCheckboxModule,
     MatDatepickerModule,
