@@ -1,4 +1,9 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Overlay, OverlayRef } from '@angular/cdk/overlay';
+import { ComponentPortal } from '@angular/cdk/portal';
+import { InjectionToken } from '@angular/core';
+import { ValueProvider } from '@angular/core';
+import { Component, EventEmitter, Injector, Input, OnInit, Output } from '@angular/core';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatDialog }                                      from '@angular/material/dialog';
 import * as dayjs                                         from 'dayjs';
 import * as duration                                      from 'dayjs/plugin/duration';
@@ -6,6 +11,9 @@ import * as duration                                      from 'dayjs/plugin/dur
 import { Event }                                          from '../../models/event';
 import { EventCreateComponent }                           from '../modal/event-create/event-create.component';
 import { EventEditComponent }                             from '../modal/event-edit/event-edit.component';
+import { TestComponent } from '../modal/test/test.component';
+
+export const APP_OVERLAY_DATA = new InjectionToken<any>('APP_OVERLAY_DATA')
 
 const DAYS_PER_WEEK = 7
 const FIRST_DAY_OF_WEEK = 1
@@ -80,7 +88,10 @@ export class WeeklyCalendarComponent implements OnInit {
     } | null = null
 
   constructor(
-    private dialog: MatDialog
+    private bottomSheet: MatBottomSheet,
+    private dialog: MatDialog,
+    private overlay: Overlay,
+    private injector: Injector,
   ) { }
 
   ngOnInit(): void {
@@ -181,26 +192,49 @@ export class WeeklyCalendarComponent implements OnInit {
   }
 
   onClickEvent(event: Event): void {
-    this.dialog.open(EventEditComponent, {
-      data: {
-        event: event,
-      }
-    })
+    // this.dialog.open(EventEditComponent, {
+    //   data: {
+    //     event: event,
+    //   }
+    // })
+    this.bottomSheet.open(TestComponent)
   }
 
   openEventEditDialog(date: dayjs.Dayjs, startHour: number, endHour: number): void {
     dayjs.extend(duration)
-    this.dialog.open(EventCreateComponent, {
-      data: {
-        start: date.hour(startHour),
-        end: date.hour(endHour),
-        isAllDay: false,
-      }
-    }).afterClosed().subscribe( _ => {
-      this.newEventPreview = null
-      this.startHour = null
-      this.initialStartHour = null
-      this.endHour = null
+
+    const data = {
+      start: date.hour(startHour),
+      end: date.hour(endHour),
+      isAllDay: false,
+    }
+
+    const overlayRef = this.overlay.create({
+      hasBackdrop: true,
+      positionStrategy: this.overlay.position().global().centerHorizontally().bottom('0px'),
     })
+
+    const injector = Injector.create({
+      parent: this.injector,
+      providers: [
+        { provide: OverlayRef, useValue: overlayRef } as ValueProvider,
+        { provide: APP_OVERLAY_DATA, useValue: data } as ValueProvider,
+      ]
+    })
+
+    const portal = new ComponentPortal(EventCreateComponent, null, injector)
+
+    overlayRef.attach(portal)
+    overlayRef.updatePosition()
+
+    // this.dialog.open(EventCreateComponent, {
+    //   panelClass: 'transition',
+    //   data: data,
+    // }).afterClosed().subscribe( _ => {
+    //   this.newEventPreview = null
+    //   this.startHour = null
+    //   this.initialStartHour = null
+    //   this.endHour = null
+    // })
   }
 }
