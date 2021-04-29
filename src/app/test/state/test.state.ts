@@ -9,7 +9,7 @@ export interface TestStateModel {
 @State<TestStateModel>({
   name: 'test',
   defaults: {
-    aaa: ''
+    aaa: 'aa'
   }
 })
 @Injectable()
