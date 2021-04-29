@@ -1,5 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import * as dayjs                                         from 'dayjs';
+import { Emitter, Emittable }                             from '@ngxs-labs/emitter';
+
+import { CalendarState } from '../state/calendar.state';
 
 @Component({
   selector: 'app-side-menu',
@@ -10,7 +13,8 @@ export class SideMenuComponent implements OnInit {
 
   @Input() activeDate: dayjs.Dayjs
 
-  @Output() onChangeActiveDateEvent: EventEmitter<dayjs.Dayjs> = new EventEmitter()
+  @Emitter(CalendarState.setActiveDate)
+  private setActiveDateEmitter: Emittable<dayjs.Dayjs>
 
   constructor() { }
 
@@ -18,6 +22,6 @@ export class SideMenuComponent implements OnInit {
   }
 
   onChangeActiveDate(date: dayjs.Dayjs) {
-    this.onChangeActiveDateEvent.emit(date)
+    this.setActiveDateEmitter.emit(date)
   }
 }

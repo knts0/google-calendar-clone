@@ -1,6 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { EventEmitter, Output }     from '@angular/core';
 import * as dayjs                   from 'dayjs'
+import { Emitter, Emittable }       from '@ngxs-labs/emitter';
+
+import { CalendarState } from '../state/calendar.state';
 
 @Component({
   selector: 'app-header',
@@ -11,7 +14,9 @@ export class HeaderComponent implements OnInit {
 
   @Input() activeDate: dayjs.Dayjs
 
-  @Output() onTodayClicked: EventEmitter<void> = new EventEmitter()
+  @Emitter(CalendarState.setActiveDateToToday)
+  private setActiveDateToTodayEmitter: Emittable<void>
+
   @Output() onPrevClicked: EventEmitter<void> = new EventEmitter()
   @Output() onNextClicked: EventEmitter<void> = new EventEmitter()
 
@@ -21,7 +26,7 @@ export class HeaderComponent implements OnInit {
   }
 
   onClickTodayButton(): void {
-    this.onTodayClicked.emit()
+    this.setActiveDateToTodayEmitter.emit()
   }
 
   onClickPrevButton(): void {
