@@ -32,4 +32,13 @@ export class CalendarState {
     })
   }
 
+  @Receiver()
+  public static setActiveDateToToday(
+    state: StateContext<CalendarStateModel>,
+  ) {
+    state.patchState({
+      activeDate: dayjs().startOf('day')
+    })
+  }
+
 }
