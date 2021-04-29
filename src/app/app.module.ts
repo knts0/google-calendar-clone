@@ -1,65 +1,31 @@
-import { BrowserModule }                    from '@angular/platform-browser';
-import { CommonModule }                     from '@angular/common';
-import { HttpClientModule }                 from '@angular/common/http';
-import { NgModule }                         from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatBottomSheetModule }             from '@angular/material/bottom-sheet';
-import { MatButtonModule }                  from '@angular/material/button';
-import { MatCheckboxModule }                from '@angular/material/checkbox';
-import { MatMomentDateModule }              from '@angular/material-moment-adapter';
-import { MatDatepickerModule }              from '@angular/material/datepicker';
-import { MatDialogModule }                  from '@angular/material/dialog';
-import { MatFormFieldModule }               from '@angular/material/form-field';
-import { MatIconModule }                    from '@angular/material/icon';
-import { MatInputModule }                   from '@angular/material/input';
-import { MatSelectModule }                  from '@angular/material/select';
-import { OverlayModule }                    from '@angular/cdk/overlay';
+import { BrowserModule }           from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule }        from '@angular/common/http';
+import { NgModule }                from '@angular/core';
+import { NgxsModule }              from '@ngxs/store';
 
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent }     from './app.component';
 import { AngularComponent } from './angular.component';
-import { PageComponent } from './page/page.component';
-import { HeaderComponent } from './page/header/header.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { CalendarComponent } from './page/calendar/calendar.component';
-import { SideMenuComponent } from './page/side-menu/side-menu.component';
-import { WeeklyCalendarComponent } from './page/weekly-calendar/weekly-calendar.component';
-import { EventEditComponent } from './page/modal/event-edit/event-edit.component';
-import { EventCreateComponent } from './page/modal/event-create/event-create.component';
-import { TestComponent } from './page/modal/test/test.component';
+
+import { PageModule }       from './page/page.module';
+import { TestModule }       from './test/test.module';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     AngularComponent,
-    PageComponent,
-    HeaderComponent,
-    SideMenuComponent,
-    CalendarComponent,
-    WeeklyCalendarComponent,
-    EventEditComponent,
-    EventCreateComponent,
-    TestComponent,
   ],
   imports: [
     BrowserModule,
-    CommonModule,
-    FormsModule,
-    HttpClientModule,
-    ReactiveFormsModule,
-    MatBottomSheetModule,
-    MatButtonModule,
-    MatCheckboxModule,
-    MatDatepickerModule,
-    MatDialogModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
-    MatMomentDateModule,
-    MatSelectModule,
-    OverlayModule,
-    AppRoutingModule,
     BrowserAnimationsModule,
+    HttpClientModule,
+    NgxsModule.forRoot([]),
+
+    AppRoutingModule,
+
+    PageModule,
+    TestModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
