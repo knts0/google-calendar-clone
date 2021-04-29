@@ -1,12 +1,12 @@
 <app-header
-  [activeDate]     = "activeDate"
+  [activeDate]     = "activeDate$ | async"
   (onPrevClicked)  = "changeActiveDatePrev()"
   (onNextClicked)  = "changeActiveDateNext()"
   (onTodayClicked) = "changeActiveDateToToday()"
 ></app-header>
 <div class="body">
   <app-side-menu
-    [activeDate]              = "activeDate"
+    [activeDate]              = "activeDate$ | async"
     (onChangeActiveDateEvent) = "onChangeActiveDate($event)"
   ></app-side-menu>
 
@@ -14,7 +14,7 @@
   <ng-container [ngSwitch]="calendarViewMode">
     <app-weekly-calendar
       *ngSwitchCase = "'week'"
-      [activeDate]  = "activeDate"
+      [activeDate]  = "activeDate$ | async"
       [today]       = "today"
     >
     </app-weekly-calendar>
