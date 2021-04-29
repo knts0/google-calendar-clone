@@ -3,6 +3,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule }        from '@angular/common/http';
 import { NgModule }                from '@angular/core';
 import { NgxsModule }              from '@ngxs/store';
+import { NgxsLoggerPluginModule }  from '@ngxs/logger-plugin';
 
 import { AppComponent }     from './app.component';
 import { AngularComponent } from './angular.component';
@@ -21,11 +22,10 @@ import { AppRoutingModule } from './app-routing.module';
     BrowserAnimationsModule,
     HttpClientModule,
     NgxsModule.forRoot([]),
+    NgxsLoggerPluginModule.forRoot(),
 
     AppRoutingModule,
 
-    PageModule,
-    TestModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
