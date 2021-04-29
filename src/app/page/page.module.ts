@@ -2,6 +2,7 @@ import { CommonModule }                     from '@angular/common';
 import { HttpClientModule }                 from '@angular/common/http';
 import { NgModule }                         from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgxsModule }                       from '@ngxs/store';
 
 // material
 import { MatBottomSheetModule }             from '@angular/material/bottom-sheet';
@@ -26,6 +27,8 @@ import { WeeklyCalendarComponent } from './weekly-calendar/weekly-calendar.compo
 import { EventEditComponent } from './modal/event-edit/event-edit.component';
 import { EventCreateComponent } from './modal/event-create/event-create.component';
 
+import { CalendarState } from './state/calendar.state';
+
 @NgModule({
   declarations: [
     PageComponent,
@@ -41,6 +44,9 @@ import { EventCreateComponent } from './modal/event-create/event-create.componen
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
+    NgxsModule.forFeature([
+      CalendarState,
+    ]),
 
     // material
     MatBottomSheetModule,
