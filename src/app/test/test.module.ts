@@ -4,6 +4,7 @@ import { NgxsModule }    from '@ngxs/store';
 
 import { TestComponent } from './test/test.component';
 import { TestState     } from './state/test.state';
+import { TestRoutingModule } from './test-routing.module';
 
 @NgModule({
   declarations: [
@@ -11,6 +12,8 @@ import { TestState     } from './state/test.state';
   ],
   imports: [
     CommonModule,
+
+    TestRoutingModule,
 
     NgxsModule.forFeature([
       TestState
