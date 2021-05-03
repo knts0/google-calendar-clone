@@ -3,6 +3,9 @@ import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormControl, FormGroup }     from '@angular/forms';
 import * as dayjs                     from 'dayjs';
 
+import { EventService } from 'src/app/services/event.service';
+import { NewEvent } from 'src/app/models/new-event';
+
 export type EventCreateDialogData = {
   start: dayjs.Dayjs,
   end: dayjs.Dayjs,
@@ -23,6 +26,7 @@ export class EventCreateComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
+    private eventService: EventService,
     @Inject(MAT_DIALOG_DATA) public data: EventCreateDialogData
   ) {
     this.form = new FormGroup({
@@ -39,7 +43,13 @@ export class EventCreateComponent implements OnInit {
   }
 
   onSave(): void {
+    const data: NewEvent = {
+      title: this.form.value.title,
+      startTime: this.form.value.startDate + 'T' + this.form.value.startTime,
+      endTime: this.form.value.endDate + 'T' + this.form.value.endTime,
+    }
 
+    this.eventService.createEvent(data)
   }
 
 }
