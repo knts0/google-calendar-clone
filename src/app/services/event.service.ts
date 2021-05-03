@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 import { map }        from 'rxjs/operators';
+import { NewEvent } from '../models/new-event';
 
 const TEST_URL = 'api/test'
 
@@ -23,7 +24,7 @@ export class EventService {
     )
   }
 
-  createEvent(event: Event): Observable<void> {
+  createEvent(event: NewEvent): Observable<void> {
     return this.http.post<void>(CREATE_EVENT_URL, event)
   }
 }
