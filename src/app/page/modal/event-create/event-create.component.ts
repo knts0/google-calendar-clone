@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit }  from '@angular/core';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormControl, FormGroup }     from '@angular/forms';
 import * as dayjs                     from 'dayjs';
 
@@ -25,7 +25,7 @@ export class EventCreateComponent implements OnInit {
   form: FormGroup
 
   constructor(
-    private dialog: MatDialog,
+    private dialogRef: MatDialogRef<EventCreateComponent>,
     private eventService: EventService,
     @Inject(MAT_DIALOG_DATA) public data: EventCreateDialogData
   ) {
@@ -49,7 +49,9 @@ export class EventCreateComponent implements OnInit {
       endTime: this.form.value.endDate + 'T' + this.form.value.endTime,
     }
 
-    this.eventService.createEvent(data)
+    this.eventService.createEvent(data).subscribe(() => {
+      this.dialogRef.close()
+    })
   }
 
 }
