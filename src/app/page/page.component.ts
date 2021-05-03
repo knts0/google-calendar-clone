@@ -1,10 +1,9 @@
 import { Component, OnInit }  from '@angular/core';
 import * as dayjs             from 'dayjs';
 import { Select, Store }      from '@ngxs/store';
-import { Emitter, Emittable } from '@ngxs-labs/emitter';
 
-import { Event }             from '../models/event';
 import { EventService } from '../services/event.service';
+import { CalendarActions } from './state/calendar.actions';
 import { CalendarState } from './state/calendar.state';
 import { Observable } from 'rxjs';
 
@@ -18,9 +17,6 @@ export type CalendarViewMode = 'month' | 'week'
 export class PageComponent implements OnInit {
 
   @Select(CalendarState.activeDate) activeDate$: Observable<dayjs.Dayjs>;
-
-  @Emitter(CalendarState.setActiveDate)
-  private setActiveDateEmitter: Emittable<dayjs.Dayjs>
 
   today: dayjs.Dayjs = dayjs().startOf('day')
 
@@ -36,30 +32,26 @@ export class PageComponent implements OnInit {
   }
 
   onChangeActiveDate(date: dayjs.Dayjs) {
-    this.setActiveDateEmitter.emit(date)
+    this.store.dispatch(new CalendarActions.SetActiveDateAction(date))
   }
 
   changeActiveDatePrev(): void {
     switch (this.calendarViewMode) {
       case 'week':
-        this.setActiveDateEmitter.emit(
-          this.store.selectSnapshot(CalendarState.activeDate).subtract(1, 'week')
-        )
+        const newDate = this.store.selectSnapshot(CalendarState.activeDate).subtract(1, 'week')
+        this.store.dispatch(new CalendarActions.SetActiveDateAction(newDate))
     }
   }
 
   changeActiveDateNext(): void {
     switch (this.calendarViewMode) {
       case 'week':
-        this.setActiveDateEmitter.emit(
-          this.store.selectSnapshot(CalendarState.activeDate).add(1, 'week')
-        )
+        const newDate = this.store.selectSnapshot(CalendarState.activeDate).add(1, 'week')
+        this.store.dispatch(new CalendarActions.SetActiveDateAction(newDate))
     }
   }
 
   changeActiveDateToToday(): void {
-    this.setActiveDateEmitter.emit(
-      dayjs().startOf('day')
-    )
+    this.store.dispatch(new CalendarActions.SetActiveDateAction(dayjs().startOf('day')))
   }
 }

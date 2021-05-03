@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Selector, State, StateContext } from '@ngxs/store';
-import { EmitterAction, Receiver } from '@ngxs-labs/emitter';
+import { Action, Selector, State, StateContext } from '@ngxs/store';
 import * as dayjs from 'dayjs';
+import { CalendarActions } from './calendar.actions';
 
 export interface CalendarStateModel {
   activeDate: dayjs.Dayjs,
@@ -22,23 +22,24 @@ export class CalendarState {
     return state.activeDate
   }
 
-  @Receiver()
-  public static setActiveDate(
-    { patchState }: StateContext<CalendarStateModel>,
-    { payload }: EmitterAction<dayjs.Dayjs>
+  @Action(CalendarActions.SetActiveDateAction)
+  setActiveDate(
+    ctx: StateContext<CalendarStateModel>,
+    action: CalendarActions.SetActiveDateAction
   ) {
-    patchState({
-      activeDate: payload
-    })
+    const state = ctx.getState();
+    ctx.patchState({
+      activeDate: action.payload
+    });
   }
 
-  @Receiver()
-  public static setActiveDateToToday(
-    state: StateContext<CalendarStateModel>,
+  @Action(CalendarActions.SetActiveDateToTodayAction)
+  setActiveDateToToday(
+    ctx: StateContext<CalendarStateModel>,
   ) {
-    state.patchState({
+    ctx.patchState({
       activeDate: dayjs().startOf('day')
-    })
+    });
   }
 
 }
