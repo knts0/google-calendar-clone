@@ -32,9 +32,9 @@ export class EventCreateComponent implements OnInit {
     this.form = new FormGroup({
       title: new FormControl(''),
       startDate: new FormControl(this.data.start.format('YYYY-MM-DD')),
-      startTime: new FormControl(this.data.start.format('hh:mm')),
+      startTime: new FormControl(this.data.start.format('HH:mm')),
       endDate: new FormControl(this.data.end.format('YYYY-MM-DD')),
-      endTime: new FormControl(this.data.end.format('hh:mm')),
+      endTime: new FormControl(this.data.end.format('HH:mm')),
       isAllDay: new FormControl(this.data.isAllDay),
     })
   }
