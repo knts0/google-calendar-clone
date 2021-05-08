@@ -2,6 +2,7 @@ import { Component, OnInit }  from '@angular/core';
 import * as dayjs             from 'dayjs';
 import { Select, Store }      from '@ngxs/store';
 
+import { Event } from '../models/event';
 import { EventService } from '../services/event.service';
 import { CalendarActions } from './state/calendar.actions';
 import { CalendarState, CalendarViewMode } from './state/calendar.state';
@@ -17,6 +18,7 @@ export class PageComponent implements OnInit {
 
   @Select(CalendarState.activeDate) activeDate$: Observable<dayjs.Dayjs>;
   @Select(CalendarState.calendarViewMode) calendarViewMode$: Observable<CalendarViewMode>;
+  @Select(CalendarState.events) events$: Observable<Event[]>;
 
   today: dayjs.Dayjs = dayjs().startOf('day')
 

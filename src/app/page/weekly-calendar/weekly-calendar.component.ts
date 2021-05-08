@@ -45,19 +45,7 @@ export class WeeklyCalendarComponent implements OnInit {
   _activeDate: dayjs.Dayjs
 
   @Input() today: dayjs.Dayjs
-
-  events: Event[] = [
-    {
-      title: '歯医者',
-      startTime: dayjs().hour(9).minute(30),
-      endTime: dayjs().hour(10).minute(30)
-    },
-    {
-      title: 'ライブ',
-      startTime: dayjs().hour(18).minute(0),
-      endTime: dayjs().hour(21).minute(0)
-    },
-  ]
+  @Input() events: Event[]
 
   _eventItems: EventItem[]
 
