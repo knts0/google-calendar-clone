@@ -4,10 +4,9 @@ import { Select, Store }      from '@ngxs/store';
 
 import { EventService } from '../services/event.service';
 import { CalendarActions } from './state/calendar.actions';
-import { CalendarState } from './state/calendar.state';
+import { CalendarState, CalendarViewMode } from './state/calendar.state';
 import { Observable } from 'rxjs';
 
-export type CalendarViewMode = 'month' | 'week'
 
 @Component({
   selector: 'app-page',
@@ -17,10 +16,9 @@ export type CalendarViewMode = 'month' | 'week'
 export class PageComponent implements OnInit {
 
   @Select(CalendarState.activeDate) activeDate$: Observable<dayjs.Dayjs>;
+  @Select(CalendarState.calendarViewMode) calendarViewMode$: Observable<CalendarViewMode>;
 
   today: dayjs.Dayjs = dayjs().startOf('day')
-
-  calendarViewMode: CalendarViewMode = 'week'
 
   constructor(
     private eventService: EventService,
@@ -36,19 +34,11 @@ export class PageComponent implements OnInit {
   }
 
   changeActiveDatePrev(): void {
-    switch (this.calendarViewMode) {
-      case 'week':
-        const newDate = this.store.selectSnapshot(CalendarState.activeDate).subtract(1, 'week')
-        this.store.dispatch(new CalendarActions.SetActiveDateAction(newDate))
-    }
+    this.store.dispatch(new CalendarActions.SetActiveDateToPrev())
   }
 
   changeActiveDateNext(): void {
-    switch (this.calendarViewMode) {
-      case 'week':
-        const newDate = this.store.selectSnapshot(CalendarState.activeDate).add(1, 'week')
-        this.store.dispatch(new CalendarActions.SetActiveDateAction(newDate))
-    }
+    this.store.dispatch(new CalendarActions.SetActiveDateToNext())
   }
 
   changeActiveDateToToday(): void {
