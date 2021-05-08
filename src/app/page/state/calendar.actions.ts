@@ -6,6 +6,14 @@ export module CalendarActions {
     constructor(public readonly payload: dayjs.Dayjs) {}
   }
 
+  export class SetActiveDateToPrev {
+    static readonly type = '[CalendarState] SetActiveToPrev';
+  }
+
+  export class SetActiveDateToNext {
+    static readonly type = '[CalendarState] SetActiveToNext';
+  }
+
   export class SetActiveDateToTodayAction {
     static readonly type = '[CalendarState] SetActiveDateToToday';
   }
