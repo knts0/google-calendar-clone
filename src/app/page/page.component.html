@@ -1,11 +1,14 @@
 <app-header
-  [activeDate]    = "activeDate$ | async"
-  (onPrevClicked) = "changeActiveDatePrev()"
-  (onNextClicked) = "changeActiveDateNext()"
+  [activeDate]     = "activeDate$ | async"
+  (onPrevClicked)  = "changeActiveDatePrev()"
+  (onNextClicked)  = "changeActiveDateNext()"
+  (onTodayClicked) = "changeActiveDateToToday()"
 ></app-header>
+
 <div class="body">
   <app-side-menu
-    [activeDate] = "activeDate$ | async"
+    [activeDate]          = "activeDate$ | async"
+    (onActiveDateChanged) = "onChangeActiveDate($event)"
   ></app-side-menu>
 
   <!-- calendar view -->
