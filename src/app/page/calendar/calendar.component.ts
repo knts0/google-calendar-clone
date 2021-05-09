@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import * as dayjs                                         from 'dayjs';
 
-const DAYS_PER_WEEK = 7
-const FIRST_DAY_OF_WEEK = 1
+import { DAYS_PER_WEEK, FIRST_DAY_OF_WEEK } from 'src/app/util/date';
+
 
 @Component({
   selector: 'app-calendar',

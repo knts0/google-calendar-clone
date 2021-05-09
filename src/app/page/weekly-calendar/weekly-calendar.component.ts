@@ -2,13 +2,12 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog }                from '@angular/material/dialog';
 import * as dayjs                   from 'dayjs';
 import * as duration                from 'dayjs/plugin/duration';
+import { DAYS_PER_WEEK, FIRST_DAY_OF_WEEK, getFirstDayOfWeek } from 'src/app/util/date';
 
 import { Event }                from '../../models/event';
 import { EventCreateComponent } from '../modal/event-create/event-create.component';
 import { EventEditComponent }   from '../modal/event-edit/event-edit.component';
 
-const DAYS_PER_WEEK = 7
-const FIRST_DAY_OF_WEEK = 1
 
 const HEIGHT_PX_PER_HOUR = 60
 
@@ -92,10 +91,7 @@ export class WeeklyCalendarComponent implements OnInit {
 
     this.days = []
 
-    const firstDayOfWeek =
-      (this._activeDate.day() < FIRST_DAY_OF_WEEK)
-        ? this._activeDate.subtract(1, 'week').day(FIRST_DAY_OF_WEEK)
-        : this._activeDate.day(FIRST_DAY_OF_WEEK)
+    const firstDayOfWeek = getFirstDayOfWeek(this._activeDate)
 
     for (let dayOfWeek = 0; dayOfWeek < DAYS_PER_WEEK; dayOfWeek++) {
       const day = firstDayOfWeek.day(dayOfWeek + FIRST_DAY_OF_WEEK)

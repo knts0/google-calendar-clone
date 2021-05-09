@@ -5,10 +5,9 @@ import { tap } from 'rxjs/operators';
 import { Event } from '../../models/event';
 import { EventService } from 'src/app/services/event.service';
 import { CalendarActions } from './calendar.actions';
+import { getFirstDayOfWeek } from 'src/app/util/date';
 
 export type CalendarViewMode = 'month' | 'week'
-
-const FIRST_DAY_OF_WEEK = 1
 
 export interface CalendarStateModel {
   activeDate: dayjs.Dayjs,
@@ -55,7 +54,7 @@ export class CalendarState {
 
     switch (state.calendarViewMode) {
       case 'week': {
-        const weekStartDate = this.getFirstDayOfWeek(state.activeDate)
+        const weekStartDate = getFirstDayOfWeek(state.activeDate)
         return this.eventService.getEventsInAWeek(weekStartDate)
           .pipe(
             tap((events: Event[]) =>
@@ -109,11 +108,6 @@ export class CalendarState {
     }
   }
 
-  private getFirstDayOfWeek(date: dayjs.Dayjs): dayjs.Dayjs {
-    return (date.day() < FIRST_DAY_OF_WEEK)
-      ? date.subtract(1, 'week').day(FIRST_DAY_OF_WEEK)
-      : date.day(FIRST_DAY_OF_WEEK)
-  }
 
   @Action(CalendarActions.SetActiveDateToTodayAction)
   setActiveDateToToday(
