@@ -47,6 +47,27 @@ export class CalendarState {
     return state.events
   }
 
+  @Action(CalendarActions.LoadEvents)
+  loadEvents(
+    ctx: StateContext<CalendarStateModel>,
+  ) {
+    const state = ctx.getState()
+
+    switch (state.calendarViewMode) {
+      case 'week': {
+        const weekStartDate = this.getFirstDayOfWeek(state.activeDate)
+        return this.eventService.getEventsInAWeek(weekStartDate)
+          .pipe(
+            tap((events: Event[]) =>
+              ctx.patchState({
+                events: events,
+              })
+            )
+          )
+      }
+    }
+  }
+
   @Action(CalendarActions.SetActiveDateAction)
   setActiveDate(
     ctx: StateContext<CalendarStateModel>,
@@ -66,16 +87,9 @@ export class CalendarState {
     switch (state.calendarViewMode) {
       case 'week': {
         const newDate = state.activeDate.subtract(1, 'week')
-        const weekStartDate = this.getFirstDayOfWeek(newDate)
-        return this.eventService.getEventsInAWeek(weekStartDate)
-          .pipe(
-            tap((events: Event[]) =>
-              ctx.patchState({
-                activeDate: newDate,
-                events: events,
-              })
-            )
-          )
+        ctx.patchState({
+          activeDate: newDate,
+        })
       }
     }
   }
@@ -88,16 +102,9 @@ export class CalendarState {
     switch (state.calendarViewMode) {
       case 'week': {
         const newDate = state.activeDate.add(1, 'week')
-        const weekStartDate = this.getFirstDayOfWeek(newDate)
-        return this.eventService.getEventsInAWeek(weekStartDate)
-          .pipe(
-            tap((events: Event[]) =>
-              ctx.patchState({
-                activeDate: newDate,
-                events: events,
-              })
-            )
-          )
+        ctx.patchState({
+          activeDate: newDate,
+        })
       }
     }
   }
