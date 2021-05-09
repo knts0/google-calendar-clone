@@ -3,7 +3,6 @@ import * as dayjs             from 'dayjs';
 import { Select, Store }      from '@ngxs/store';
 
 import { Event } from '../models/event';
-import { EventService } from '../services/event.service';
 import { CalendarActions } from './state/calendar.actions';
 import { CalendarState, CalendarViewMode } from './state/calendar.state';
 import { Observable, Subject } from 'rxjs';
@@ -26,7 +25,6 @@ export class PageComponent implements OnInit, OnDestroy {
   unsubscribe$: Subject<any> = new Subject()
 
   constructor(
-    private eventService: EventService,
     private store: Store,
   ) { }
 
