@@ -1,8 +1,6 @@
 import { CommonModule }                     from '@angular/common';
-import { HttpClientModule }                 from '@angular/common/http';
 import { NgModule }                         from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgxsModule }                       from '@ngxs/store';
 
 // material
 import { MatBottomSheetModule }             from '@angular/material/bottom-sheet';
@@ -17,30 +15,38 @@ import { MatInputModule }                   from '@angular/material/input';
 import { MatSelectModule }                  from '@angular/material/select';
 import { OverlayModule }                    from '@angular/cdk/overlay';
 
-import { PageRoutingModule } from './page-routing.module';
+import { TopRoutingModule } from './top-routing.module';
 
-import { PageComponent } from './page.component';
-import { HeaderComponent } from './header/header.component';
-import { CalendarComponent } from './side-menu/calendar/calendar.component';
-import { SideMenuComponent } from './side-menu/side-menu.component';
-import { WeeklyCalendarComponent } from './weekly-calendar/weekly-calendar.component';
-import { EventEditComponent } from './modal/event-edit/event-edit.component';
-import { EventCreateComponent } from './modal/event-create/event-create.component';
+import { TopPageComponent } from './top.page'
+
+import { TopContainerComponent } from './containers/top/top.container';
+
+import { HeaderComponent } from './views/header/header.component';
+import { EventEditComponent } from './views/modal/event-edit/event-edit.component';
+import { EventCreateComponent } from './views/modal/event-create/event-create.component';
+import { SideMenuComponent } from './views/side-menu/side-menu.component';
+import { CalendarComponent } from './views/side-menu/calendar/calendar.component';
+import { WeeklyCalendarComponent } from './views/weekly-calendar/weekly-calendar.component';
 
 @NgModule({
   declarations: [
-    PageComponent,
+    // page
+    TopPageComponent,
+
+    // containers
+    TopContainerComponent,
+
+    // views
     HeaderComponent,
+    EventEditComponent,
+    EventCreateComponent,
     SideMenuComponent,
     CalendarComponent,
     WeeklyCalendarComponent,
-    EventEditComponent,
-    EventCreateComponent,
   ],
   imports: [
     CommonModule,
     FormsModule,
-    HttpClientModule,
     ReactiveFormsModule,
 
     // material
@@ -56,8 +62,8 @@ import { EventCreateComponent } from './modal/event-create/event-create.componen
     MatSelectModule,
     OverlayModule,
 
-    PageRoutingModule,
+    TopRoutingModule,
   ],
   providers: [],
 })
-export class PageModule { }
+export class TopModule { }

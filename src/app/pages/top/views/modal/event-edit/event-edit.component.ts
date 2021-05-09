@@ -1,10 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA }           from '@angular/material/dialog';
 import { FormControl, FormGroup }    from '@angular/forms';
-import * as dayjs                    from 'dayjs';
-import * as duration                 from 'dayjs/plugin/duration';
 
-import { Event } from '../../../models/event'
+import { Event } from '../../../../../models/event'
 
 export type EventEditDialogData = {
   event: Event,

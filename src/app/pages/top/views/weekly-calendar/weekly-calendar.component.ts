@@ -4,7 +4,7 @@ import * as dayjs                   from 'dayjs';
 import * as duration                from 'dayjs/plugin/duration';
 import { DAYS_PER_WEEK, FIRST_DAY_OF_WEEK, getFirstDayOfWeek } from 'src/app/util/date';
 
-import { Event }                from '../../models/event';
+import { Event }                from '../../../../models/event';
 import { EventCreateComponent } from '../modal/event-create/event-create.component';
 import { EventEditComponent }   from '../modal/event-edit/event-edit.component';
 
