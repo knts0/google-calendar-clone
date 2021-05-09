@@ -6,8 +6,8 @@ import { Event } from '../../models/event';
 import { EventService } from 'src/app/services/event.service';
 import { CalendarActions } from './calendar.actions';
 import { getFirstDayOfWeek } from 'src/app/util/date';
+import { CalendarViewMode } from '../../models/calendar-view-mode';
 
-export type CalendarViewMode = 'month' | 'week'
 
 export interface CalendarStateModel {
   activeDate: dayjs.Dayjs,

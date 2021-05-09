@@ -27,8 +27,6 @@ import { WeeklyCalendarComponent } from './weekly-calendar/weekly-calendar.compo
 import { EventEditComponent } from './modal/event-edit/event-edit.component';
 import { EventCreateComponent } from './modal/event-create/event-create.component';
 
-import { CalendarState } from './state/calendar.state';
-
 @NgModule({
   declarations: [
     PageComponent,
@@ -44,9 +42,6 @@ import { CalendarState } from './state/calendar.state';
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
-    NgxsModule.forFeature([
-      CalendarState,
-    ]),
 
     // material
     MatBottomSheetModule,

@@ -12,6 +12,7 @@ import { AngularComponent } from './angular.component';
 import { PageModule }       from './page/page.module';
 import { TestModule }       from './test/test.module';
 import { AppRoutingModule } from './app-routing.module';
+import { CalendarState } from './store/calendar/calendar.state';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,9 @@ import { AppRoutingModule } from './app-routing.module';
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    NgxsModule.forRoot([]),
+    NgxsModule.forRoot([
+      CalendarState,
+    ]),
     NgxsEmitPluginModule.forRoot(),
     NgxsLoggerPluginModule.forRoot(),
 
