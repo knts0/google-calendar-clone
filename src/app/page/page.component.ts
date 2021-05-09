@@ -1,12 +1,11 @@
 import { Component, OnDestroy, OnInit }  from '@angular/core';
 import * as dayjs             from 'dayjs';
-import { Select, Store }      from '@ngxs/store';
 
 import { Event } from '../models/event';
-import { CalendarActions } from './state/calendar.actions';
-import { CalendarState, CalendarViewMode } from './state/calendar.state';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { CalendarFacade } from '../store/calendar/calendar.facade';
+import { CalendarViewMode } from '../models/calendar-view-mode';
 
 
 @Component({
@@ -16,23 +15,23 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class PageComponent implements OnInit, OnDestroy {
 
-  @Select(CalendarState.activeDate) activeDate$: Observable<dayjs.Dayjs>;
-  @Select(CalendarState.calendarViewMode) calendarViewMode$: Observable<CalendarViewMode>;
-  @Select(CalendarState.events) events$: Observable<Event[]>;
+  activeDate$: Observable<dayjs.Dayjs> = this.calendarFacade.activeDate$
+  calendarViewMode$: Observable<CalendarViewMode> = this.calendarFacade.calendarViewMode$
+  events$: Observable<Event[]> = this.calendarFacade.events$
 
   today: dayjs.Dayjs = dayjs().startOf('day')
 
   unsubscribe$: Subject<any> = new Subject()
 
   constructor(
-    private store: Store,
+    private calendarFacade: CalendarFacade,
   ) { }
 
   ngOnInit(): void {
     this.activeDate$.pipe(
       takeUntil(this.unsubscribe$)
     ).subscribe(_ => {
-      this.store.dispatch(new CalendarActions.LoadEvents())
+      this.calendarFacade.loadEvents()
     })
   }
 
@@ -42,18 +41,18 @@ export class PageComponent implements OnInit, OnDestroy {
   }
 
   onChangeActiveDate(date: dayjs.Dayjs) {
-    this.store.dispatch(new CalendarActions.SetActiveDateAction(date))
+    this.calendarFacade.setActiveDate(date)
   }
 
   changeActiveDatePrev(): void {
-    this.store.dispatch(new CalendarActions.SetActiveDateToPrev())
+    this.calendarFacade.setActiveDateToPrev()
   }
 
   changeActiveDateNext(): void {
-    this.store.dispatch(new CalendarActions.SetActiveDateToNext())
+    this.calendarFacade.setActiveDateToNext()
   }
 
   changeActiveDateToToday(): void {
-    this.store.dispatch(new CalendarActions.SetActiveDateAction(dayjs().startOf('day')))
+    this.calendarFacade.setActiveDateToToday()
   }
 }
