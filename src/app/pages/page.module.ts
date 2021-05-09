@@ -21,7 +21,7 @@ import { PageRoutingModule } from './page-routing.module';
 
 import { PageComponent } from './page.component';
 import { HeaderComponent } from './header/header.component';
-import { CalendarComponent } from './calendar/calendar.component';
+import { CalendarComponent } from './side-menu/calendar/calendar.component';
 import { SideMenuComponent } from './side-menu/side-menu.component';
 import { WeeklyCalendarComponent } from './weekly-calendar/weekly-calendar.component';
 import { EventEditComponent } from './modal/event-edit/event-edit.component';
