@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit }  from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnInit }  from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormControl, FormGroup }     from '@angular/forms';
 import * as dayjs                     from 'dayjs';
@@ -18,7 +18,8 @@ export type EventCreateDialogData = {
   styleUrls: [
     '../common/event-modal-base.scss',
     './event-create.component.scss'
-  ]
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EventCreateComponent implements OnInit {
 

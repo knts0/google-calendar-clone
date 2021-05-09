@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit }  from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit }  from '@angular/core';
 import * as dayjs                        from 'dayjs';
 import { Observable, Subject }           from 'rxjs';
 import { takeUntil }                     from 'rxjs/operators';
@@ -11,7 +11,8 @@ import { CalendarFacade } from '../../../../store/calendar/calendar.facade';
 @Component({
   selector: 'app-top-container',
   templateUrl: './top.container.html',
-  styleUrls: ['./top.container.scss']
+  styleUrls: ['./top.container.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TopContainerComponent implements OnInit, OnDestroy {
 

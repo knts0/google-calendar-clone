@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import * as dayjs                                         from 'dayjs';
 
 import { DAYS_PER_WEEK, FIRST_DAY_OF_WEEK } from 'src/app/util/date';
@@ -7,7 +7,8 @@ import { DAYS_PER_WEEK, FIRST_DAY_OF_WEEK } from 'src/app/util/date';
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
-  styleUrls: ['./calendar.component.scss']
+  styleUrls: ['./calendar.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
 export class CalendarComponent implements OnInit {

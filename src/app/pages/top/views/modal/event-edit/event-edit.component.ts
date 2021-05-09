@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA }           from '@angular/material/dialog';
 import { FormControl, FormGroup }    from '@angular/forms';
 
@@ -14,7 +14,8 @@ export type EventEditDialogData = {
   styleUrls: [
     '../common/event-modal-base.scss',
     './event-edit.component.scss'
-  ]
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EventEditComponent implements OnInit {
 

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { MatDialog }                from '@angular/material/dialog';
 import * as dayjs                   from 'dayjs';
 import * as duration                from 'dayjs/plugin/duration';
@@ -28,7 +28,8 @@ type EventItem = {
 @Component({
   selector: 'app-weekly-calendar',
   templateUrl: './weekly-calendar.component.html',
-  styleUrls: ['./weekly-calendar.component.scss']
+  styleUrls: ['./weekly-calendar.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WeeklyCalendarComponent implements OnInit {
 
