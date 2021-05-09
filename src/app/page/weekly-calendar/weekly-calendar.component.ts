@@ -39,13 +39,15 @@ export class WeeklyCalendarComponent implements OnInit {
   }
   set activeDate(date: dayjs.Dayjs) {
     this._activeDate = date
-
-    this._initDays()
   }
   _activeDate: dayjs.Dayjs
 
   @Input() today: dayjs.Dayjs
-  @Input() events: Event[]
+
+  @Input()
+  set events(events: Event[]) {
+    this._initDays(events)
+  }
 
   _eventItems: EventItem[]
 
@@ -74,8 +76,8 @@ export class WeeklyCalendarComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  _initDays(): void {
-    this._eventItems = this.events.map(e => {
+  _initDays(events: Event[]): void {
+    this._eventItems = events.map(e => {
       const top    = HEIGHT_PX_PER_HOUR * e.startTime.hour()
       const bottom = HEIGHT_PX_PER_HOUR * e.endTime.hour()
 
