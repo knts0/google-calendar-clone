@@ -9,8 +9,6 @@ import { NgxsLoggerPluginModule }  from '@ngxs/logger-plugin';
 import { AppComponent }     from './app.component';
 import { AngularComponent } from './angular.component';
 
-import { PageModule }       from './page/page.module';
-import { TestModule }       from './test/test.module';
 import { AppRoutingModule } from './app-routing.module';
 import { CalendarState } from './store/calendar/calendar.state';
 
