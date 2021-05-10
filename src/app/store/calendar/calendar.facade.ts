@@ -20,20 +20,16 @@ export class CalendarFacade {
     private store: Store
   ) {}
 
+  getActiveDate(): dayjs.Dayjs {
+    return this.store.selectSnapshot(CalendarState.activeDate)
+  }
+
   loadEvents(): void {
     this.store.dispatch(new CalendarActions.LoadEvents())
   }
 
   setActiveDate(date: dayjs.Dayjs): void {
     this.store.dispatch(new CalendarActions.SetActiveDate(date))
-  }
-
-  setActiveDateToPrev(): void {
-    this.store.dispatch(new CalendarActions.SetActiveDateToPrev())
-  }
-
-  setActiveDateToNext(): void {
-    this.store.dispatch(new CalendarActions.SetActiveDateToNext())
   }
 
   setActiveDateToToday(): void {
