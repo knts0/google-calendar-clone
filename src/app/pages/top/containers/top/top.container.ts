@@ -6,6 +6,7 @@ import { takeUntil }                     from 'rxjs/operators';
 import { Event } from '../../../../models/event';
 import { CalendarViewMode } from '../../../../models/calendar-view-mode';
 import { CalendarFacade } from '../../../../store/calendar/calendar.facade';
+import { getFirstDayOfWeek } from 'src/app/util/date';
 
 
 @Component({
@@ -33,7 +34,13 @@ export class TopContainerComponent implements OnInit, OnDestroy {
     this.activeDate$.pipe(
       takeUntil(this.unsubscribe$)
     ).subscribe(_ => {
-      this.calendarFacade.loadEvents()
+      switch (this.calendarViewMode) {
+        case 'week': {
+          const startDate = getFirstDayOfWeek(this.calendarFacade.getActiveDate())
+          this.calendarFacade.loadEvents(startDate, startDate.add(1, 'week'))
+          break
+        }
+      }
     })
   }
 

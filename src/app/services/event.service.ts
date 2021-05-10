@@ -12,7 +12,7 @@ const TEST_URL = 'api/test'
 
 const CREATE_EVENT_URL = 'api/event'
 
-const GET_EVENT_IN_A_WEEK = 'api/event/week'
+const GET_EVENTS = 'api/event'
 
 @Injectable({
   providedIn: 'root'
@@ -34,11 +34,13 @@ export class EventService {
   }
 
 
-  getEventsInAWeek(weekStartDate: dayjs.Dayjs): Observable<Event[]> {
+  getEvents(startDate: dayjs.Dayjs, endDate: dayjs.Dayjs): Observable<Event[]> {
     return this.http.get<EventResponse>(
-      GET_EVENT_IN_A_WEEK
-      + '?weekStartDate='
-      + weekStartDate.format('YYYY-MM-DD')
+      GET_EVENTS
+      + '?startDate='
+      + startDate.format('YYYY-MM-DD')
+      + '&endDate='
+      + endDate.format('YYYY-MM-DD')
     ).pipe(
       map((res: EventResponse) => EventResponseModule.toModel(res))
     )

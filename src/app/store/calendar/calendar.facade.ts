@@ -24,8 +24,11 @@ export class CalendarFacade {
     return this.store.selectSnapshot(CalendarState.activeDate)
   }
 
-  loadEvents(): void {
-    this.store.dispatch(new CalendarActions.LoadEvents())
+  loadEvents(startDate: dayjs.Dayjs, endDate: dayjs.Dayjs): void {
+    this.store.dispatch(new CalendarActions.LoadEvents({
+      startDate: startDate,
+      endDate: endDate,
+    }))
   }
 
   setActiveDate(date: dayjs.Dayjs): void {
