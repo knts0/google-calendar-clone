@@ -67,10 +67,10 @@ export class CalendarState {
     }
   }
 
-  @Action(CalendarActions.SetActiveDateAction)
+  @Action(CalendarActions.SetActiveDate)
   setActiveDate(
     ctx: StateContext<CalendarStateModel>,
-    action: CalendarActions.SetActiveDateAction
+    action: CalendarActions.SetActiveDate
   ) {
     const state = ctx.getState();
     ctx.patchState({
@@ -109,7 +109,7 @@ export class CalendarState {
   }
 
 
-  @Action(CalendarActions.SetActiveDateToTodayAction)
+  @Action(CalendarActions.SetActiveDateToToday)
   setActiveDateToToday(
     ctx: StateContext<CalendarStateModel>,
   ) {

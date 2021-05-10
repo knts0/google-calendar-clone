@@ -5,7 +5,7 @@ export module CalendarActions {
     static readonly type = '[CalendarState] LoadEvents';
   }
 
-  export class SetActiveDateAction {
+  export class SetActiveDate {
     static readonly type = '[CalendarState] SetActiveDate';
     constructor(public readonly payload: dayjs.Dayjs) {}
   }
@@ -18,7 +18,7 @@ export module CalendarActions {
     static readonly type = '[CalendarState] SetActiveToNext';
   }
 
-  export class SetActiveDateToTodayAction {
+  export class SetActiveDateToToday {
     static readonly type = '[CalendarState] SetActiveDateToToday';
   }
 }

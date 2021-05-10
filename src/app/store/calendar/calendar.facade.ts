@@ -25,7 +25,7 @@ export class CalendarFacade {
   }
 
   setActiveDate(date: dayjs.Dayjs): void {
-    this.store.dispatch(new CalendarActions.SetActiveDateAction(date))
+    this.store.dispatch(new CalendarActions.SetActiveDate(date))
   }
 
   setActiveDateToPrev(): void {
@@ -37,6 +37,6 @@ export class CalendarFacade {
   }
 
   setActiveDateToToday(): void {
-    this.store.dispatch(new CalendarActions.SetActiveDateToTodayAction())
+    this.store.dispatch(new CalendarActions.SetActiveDateToToday())
   }
 }
