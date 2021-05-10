@@ -33,7 +33,7 @@ export class CalendarFacade {
   }
 
   setActiveDateToNext(): void {
-    this.store.dispatch(new CalendarActions.SetActiveDateToPrev())
+    this.store.dispatch(new CalendarActions.SetActiveDateToNext())
   }
 
   setActiveDateToToday(): void {
