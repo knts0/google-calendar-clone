@@ -1,4 +1,5 @@
 import * as dayjs from 'dayjs';
+import { NewEvent } from 'src/app/models/new-event';
 
 export module CalendarActions {
   export class LoadEvents {
@@ -7,6 +8,11 @@ export module CalendarActions {
       startDate: dayjs.Dayjs,
       endDate: dayjs.Dayjs,
     }) {}
+  }
+
+  export class CreateEvent {
+    static readonly type = '[CalendarState] CreateEvent';
+    constructor(public readonly payload: NewEvent) {}
   }
 
   export class SetActiveDate {
