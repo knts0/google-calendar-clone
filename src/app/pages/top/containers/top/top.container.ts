@@ -34,14 +34,14 @@ export class TopContainerComponent implements OnInit, OnDestroy {
     this.activeDate$.pipe(
       takeUntil(this.unsubscribe$)
     ).subscribe(_ => {
-      switch (this.calendarViewMode) {
-        case 'week': {
-          const startDate = getFirstDayOfWeek(this.calendarFacade.getActiveDate())
-          this.calendarFacade.loadEvents(startDate, startDate.add(1, 'week'))
-          break
-        }
-      }
+      this.loadEvent()
     })
+
+    this.calendarFacade.createEventSuccess$.pipe(
+      takeUntil(this.unsubscribe$)
+    ).subscribe(_ =>
+      this.loadEvent()
+    )
   }
 
   ngOnDestroy(): void {
@@ -77,5 +77,15 @@ export class TopContainerComponent implements OnInit, OnDestroy {
 
   changeActiveDateToToday(): void {
     this.calendarFacade.setActiveDateToToday()
+  }
+
+  private loadEvent(): void {
+    switch (this.calendarViewMode) {
+      case 'week': {
+        const startDate = getFirstDayOfWeek(this.calendarFacade.getActiveDate())
+        this.calendarFacade.loadEvents(startDate, startDate.add(1, 'week'))
+        break
+      }
+    }
   }
 }

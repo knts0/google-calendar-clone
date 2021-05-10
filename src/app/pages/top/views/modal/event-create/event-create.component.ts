@@ -3,8 +3,10 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormControl, FormGroup }     from '@angular/forms';
 import * as dayjs                     from 'dayjs';
 
-import { EventService } from 'src/app/services/event.service';
 import { NewEvent } from 'src/app/models/new-event';
+import { CalendarFacade } from 'src/app/store/calendar/calendar.facade';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 export type EventCreateDialogData = {
   start: dayjs.Dayjs,
@@ -25,9 +27,11 @@ export class EventCreateComponent implements OnInit {
 
   form: FormGroup
 
+  unsubscribe$: Subject<any> = new Subject()
+
   constructor(
     private dialogRef: MatDialogRef<EventCreateComponent>,
-    private eventService: EventService,
+    private calendarFacade: CalendarFacade,
     @Inject(MAT_DIALOG_DATA) public data: EventCreateDialogData
   ) {
     this.form = new FormGroup({
@@ -41,6 +45,16 @@ export class EventCreateComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.calendarFacade.createEventSuccess$.pipe(
+      takeUntil(this.unsubscribe$)
+    ).subscribe(_ =>
+      this.dialogRef.close()
+    )
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next()
+    this.unsubscribe$.complete()
   }
 
   onSave(): void {
@@ -50,9 +64,7 @@ export class EventCreateComponent implements OnInit {
       endTime: this.form.value.endDate + 'T' + this.form.value.endTime,
     }
 
-    this.eventService.createEvent(data).subscribe(() => {
-      this.dialogRef.close()
-    })
+    this.calendarFacade.createEvent(data)
   }
 
 }
