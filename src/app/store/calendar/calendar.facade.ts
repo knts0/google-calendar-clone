@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Select, Store } from '@ngxs/store';
+import { Actions, ofActionSuccessful, Select, Store } from '@ngxs/store';
 import * as dayjs from 'dayjs';
 import { Observable } from 'rxjs';
+import { NewEvent } from 'src/app/models/new-event';
 
 import { CalendarViewMode } from '../../models/calendar-view-mode';
 import { Event } from '../../models/event';
@@ -16,7 +17,12 @@ export class CalendarFacade {
   @Select(CalendarState.calendarViewMode) calendarViewMode$: Observable<CalendarViewMode>;
   @Select(CalendarState.events) events$: Observable<Event[]>;
 
+  createEventSuccess$ = this.actions$.pipe(
+    ofActionSuccessful(CalendarActions.CreateEvent)
+  )
+
   constructor(
+    private actions$: Actions,
     private store: Store
   ) {}
 
@@ -29,6 +35,10 @@ export class CalendarFacade {
       startDate: startDate,
       endDate: endDate,
     }))
+  }
+
+  createEvent(newEvent: NewEvent): void {
+    this.store.dispatch(new CalendarActions.CreateEvent(newEvent))
   }
 
   setActiveDate(date: dayjs.Dayjs): void {
