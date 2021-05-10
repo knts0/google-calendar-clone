@@ -17,10 +17,11 @@ import { CalendarFacade } from '../../../../store/calendar/calendar.facade';
 export class TopContainerComponent implements OnInit, OnDestroy {
 
   activeDate$: Observable<dayjs.Dayjs> = this.calendarFacade.activeDate$
-  calendarViewMode$: Observable<CalendarViewMode> = this.calendarFacade.calendarViewMode$
   events$: Observable<Event[]> = this.calendarFacade.events$
 
   today: dayjs.Dayjs = dayjs().startOf('day')
+
+  calendarViewMode: CalendarViewMode = 'week'
 
   unsubscribe$: Subject<any> = new Subject()
 
@@ -46,11 +47,25 @@ export class TopContainerComponent implements OnInit, OnDestroy {
   }
 
   changeActiveDatePrev(): void {
-    this.calendarFacade.setActiveDateToPrev()
+    let newDate
+    switch (this.calendarViewMode) {
+      case 'week': {
+        newDate = this.calendarFacade.getActiveDate().subtract(1, 'week')
+        break
+      }
+    }
+    this.calendarFacade.setActiveDate(newDate)
   }
 
   changeActiveDateNext(): void {
-    this.calendarFacade.setActiveDateToNext()
+    let newDate
+    switch (this.calendarViewMode) {
+      case 'week': {
+        newDate = this.calendarFacade.getActiveDate().add(1, 'week')
+        break
+      }
+    }
+    this.calendarFacade.setActiveDate(newDate)
   }
 
   changeActiveDateToToday(): void {
