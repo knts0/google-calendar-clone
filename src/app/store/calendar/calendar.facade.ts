@@ -37,6 +37,6 @@ export class CalendarFacade {
   }
 
   setActiveDateToToday(): void {
-    this.store.dispatch(new CalendarActions.SetActiveDateAction(dayjs().startOf('day')))
+    this.store.dispatch(new CalendarActions.SetActiveDateToTodayAction())
   }
 }
