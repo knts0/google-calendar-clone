@@ -78,37 +78,6 @@ export class CalendarState {
     });
   }
 
-  @Action(CalendarActions.SetActiveDateToPrev)
-  setActiveDateToPrev(
-    ctx: StateContext<CalendarStateModel>,
-  ) {
-    const state = ctx.getState()
-    switch (state.calendarViewMode) {
-      case 'week': {
-        const newDate = state.activeDate.subtract(1, 'week')
-        ctx.patchState({
-          activeDate: newDate,
-        })
-      }
-    }
-  }
-
-  @Action(CalendarActions.SetActiveDateToNext)
-  setActiveDateToNext(
-    ctx: StateContext<CalendarStateModel>,
-  ) {
-    const state = ctx.getState()
-    switch (state.calendarViewMode) {
-      case 'week': {
-        const newDate = state.activeDate.add(1, 'week')
-        ctx.patchState({
-          activeDate: newDate,
-        })
-      }
-    }
-  }
-
-
   @Action(CalendarActions.SetActiveDateToToday)
   setActiveDateToToday(
     ctx: StateContext<CalendarStateModel>,
