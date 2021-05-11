@@ -5,6 +5,7 @@ import { FormControl, FormGroup }                             from '@angular/for
 import { Event }                   from 'src/app/models/event'
 import { EventModalBaseDirective } from '../common/event-modal-base.directive';
 import { CalendarFacade } from 'src/app/store/calendar/calendar.facade';
+import { UpdatedEvent } from 'src/app/models/updated-event';
 
 export type EventEditDialogData = {
   event: Event,
@@ -39,4 +40,14 @@ export class EventEditComponent extends EventModalBaseDirective implements OnIni
     super.ngOnInit()
   }
 
+  onSave(): void {
+    const data: UpdatedEvent = {
+      id: this.data.event.id,
+      title: this.form.value.title,
+      startTime: this.form.value.startDate + 'T' + this.form.value.startTime,
+      endTime: this.form.value.endDate + 'T' + this.form.value.endTime,
+    }
+
+    this.calendarFacade.updateEvent(data)
+  }
 }

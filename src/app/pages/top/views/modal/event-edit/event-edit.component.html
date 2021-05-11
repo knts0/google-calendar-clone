@@ -49,5 +49,9 @@
 </mat-dialog-content>
 
 <mat-dialog-actions class="action-buttons">
-  <button mat-flat-button color="primary">保存</button>
+  <button
+    mat-flat-button
+    color="primary"
+    (click) = "onSave()"
+  >保存</button>
 </mat-dialog-actions>
