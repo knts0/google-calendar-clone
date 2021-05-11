@@ -7,10 +7,13 @@ import { Event } from '../models/event';
 import { NewEvent } from '../models/new-event';
 import * as dayjs from 'dayjs';
 import { EventResponse, EventResponseModule } from './event-response';
+import { UpdatedEvent } from '../models/updated-event';
 
 const TEST_URL = 'api/test'
 
 const CREATE_EVENT_URL = 'api/event'
+
+const UPDATE_EVENT_URL = 'api/event'
 
 const GET_EVENTS = 'api/event'
 
@@ -33,6 +36,12 @@ export class EventService {
     return this.http.post<void>(CREATE_EVENT_URL, event)
   }
 
+  updateEvent(event: UpdatedEvent): Observable<void> {
+    return this.http.put<void>(
+      UPDATE_EVENT_URL + '/' + event.id,
+      event
+    )
+  }
 
   getEvents(startDate: dayjs.Dayjs, endDate: dayjs.Dayjs): Observable<Event[]> {
     return this.http.get<EventResponse>(
