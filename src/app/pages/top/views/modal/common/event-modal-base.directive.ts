@@ -19,7 +19,7 @@ export class EventModalBaseDirective {
     this.submitSuccess$.pipe(
       takeUntil(this.unsubscribe$)
     ).subscribe(_ =>
-      close()
+      this.close()
     )
   }
 
