@@ -1,12 +1,11 @@
-import { ChangeDetectionStrategy, Component, Inject, OnInit }  from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormControl, FormGroup }     from '@angular/forms';
-import * as dayjs                     from 'dayjs';
+import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA }                      from '@angular/material/dialog';
+import { FormControl, FormGroup }                             from '@angular/forms';
+import * as dayjs                                             from 'dayjs';
 
-import { NewEvent } from 'src/app/models/new-event';
-import { CalendarFacade } from 'src/app/store/calendar/calendar.facade';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { NewEvent }                from 'src/app/models/new-event';
+import { CalendarFacade }          from 'src/app/store/calendar/calendar.facade';
+import { EventModalBaseDirective } from '../common/event-modal-base.directive';
 
 export type EventCreateDialogData = {
   start: dayjs.Dayjs,
@@ -15,22 +14,20 @@ export type EventCreateDialogData = {
 }
 
 @Component({
-  selector: 'app-event-create',
   templateUrl: './event-create.component.html',
   styleUrls: ['../common/event-modal-base.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EventCreateComponent implements OnInit {
+export class EventCreateComponent extends EventModalBaseDirective implements OnInit {
 
   form: FormGroup
 
-  unsubscribe$: Subject<any> = new Subject()
-
   constructor(
-    private dialogRef: MatDialogRef<EventCreateComponent>,
     private calendarFacade: CalendarFacade,
+    private dialogRef: MatDialogRef<EventCreateComponent>,
     @Inject(MAT_DIALOG_DATA) public data: EventCreateDialogData
   ) {
+    super(dialogRef, calendarFacade.createEventSuccess$)
     this.form = new FormGroup({
       title: new FormControl(''),
       startDate: new FormControl(this.data.start.format('YYYY-MM-DD')),
@@ -42,17 +39,9 @@ export class EventCreateComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.calendarFacade.createEventSuccess$.pipe(
-      takeUntil(this.unsubscribe$)
-    ).subscribe(_ =>
-      this.dialogRef.close()
-    )
+    super.ngOnInit()
   }
 
-  ngOnDestroy(): void {
-    this.unsubscribe$.next()
-    this.unsubscribe$.complete()
-  }
 
   onSave(): void {
     const data: NewEvent = {

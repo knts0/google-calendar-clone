@@ -1,26 +1,30 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA }           from '@angular/material/dialog';
-import { FormControl, FormGroup }    from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA }                      from '@angular/material/dialog';
+import { FormControl, FormGroup }                             from '@angular/forms';
 
-import { Event } from '../../../../../models/event'
+import { Event }                   from 'src/app/models/event'
+import { EventModalBaseDirective } from '../common/event-modal-base.directive';
+import { CalendarFacade } from 'src/app/store/calendar/calendar.facade';
 
 export type EventEditDialogData = {
   event: Event,
 }
 
 @Component({
-  selector: 'app-event-edit',
   templateUrl: './event-edit.component.html',
   styleUrls: ['../common/event-modal-base.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EventEditComponent implements OnInit {
+export class EventEditComponent extends EventModalBaseDirective implements OnInit {
 
   form: FormGroup
 
   constructor(
+    private calendarFacade: CalendarFacade,
+    private dialogRef: MatDialogRef<EventEditComponent>,
     @Inject(MAT_DIALOG_DATA) public data: EventEditDialogData
   ) {
+    super(dialogRef, calendarFacade.createEventSuccess$)
     this.form = new FormGroup({
       title: new FormControl(this.data.event.title),
       startDate: new FormControl(this.data.event.startTime.format('YYYY-MM-DD')),
@@ -32,6 +36,7 @@ export class EventEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    super.ngOnInit()
   }
 
 }
