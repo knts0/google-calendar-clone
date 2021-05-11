@@ -68,6 +68,14 @@ export class CalendarState {
     return this.eventService.createEvent(action.payload)
   }
 
+  @Action(CalendarActions.UpdateEvent)
+  updateEvent(
+    ctx: StateContext<CalendarStateModel>,
+    action: CalendarActions.UpdateEvent,
+  ) {
+    return this.eventService.updateEvent(action.payload)
+  }
+
   @Action(CalendarActions.SetActiveDate)
   setActiveDate(
     ctx: StateContext<CalendarStateModel>,

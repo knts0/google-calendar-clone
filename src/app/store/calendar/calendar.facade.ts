@@ -3,6 +3,7 @@ import { Actions, ofActionSuccessful, Select, Store } from '@ngxs/store';
 import * as dayjs from 'dayjs';
 import { Observable } from 'rxjs';
 import { NewEvent } from 'src/app/models/new-event';
+import { UpdatedEvent } from 'src/app/models/updated-event';
 
 import { CalendarViewMode } from '../../models/calendar-view-mode';
 import { Event } from '../../models/event';
@@ -39,6 +40,10 @@ export class CalendarFacade {
 
   createEvent(newEvent: NewEvent): void {
     this.store.dispatch(new CalendarActions.CreateEvent(newEvent))
+  }
+
+  updateEvent(updatedEvent: UpdatedEvent): void {
+    this.store.dispatch(new CalendarActions.UpdateEvent(updatedEvent))
   }
 
   setActiveDate(date: dayjs.Dayjs): void {
