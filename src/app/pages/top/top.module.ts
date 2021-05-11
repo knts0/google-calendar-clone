@@ -27,6 +27,7 @@ import { EventCreateComponent } from './views/modal/event-create/event-create.co
 import { SideMenuComponent } from './views/side-menu/side-menu.component';
 import { CalendarComponent } from './views/side-menu/calendar/calendar.component';
 import { WeeklyCalendarComponent } from './views/weekly-calendar/weekly-calendar.component';
+import { EventModalBaseDirective } from './views/modal/common/event-modal-base.directive';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { WeeklyCalendarComponent } from './views/weekly-calendar/weekly-calendar
     SideMenuComponent,
     CalendarComponent,
     WeeklyCalendarComponent,
+    EventModalBaseDirective,
   ],
   imports: [
     CommonModule,
