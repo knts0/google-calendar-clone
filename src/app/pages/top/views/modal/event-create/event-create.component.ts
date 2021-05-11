@@ -17,10 +17,7 @@ export type EventCreateDialogData = {
 @Component({
   selector: 'app-event-create',
   templateUrl: './event-create.component.html',
-  styleUrls: [
-    '../common/event-modal-base.scss',
-    './event-create.component.scss'
-  ],
+  styleUrls: ['../common/event-modal-base.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EventCreateComponent implements OnInit {
