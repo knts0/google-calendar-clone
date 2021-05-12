@@ -5,9 +5,9 @@ import { Observable } from 'rxjs';
 import { map }        from 'rxjs/operators';
 import { Event } from '../models/event';
 import { EventLoadDto, EventLoadDtoModule } from '../models/event';
-import { NewEvent } from '../models/new-event';
+import { EventCreateDto, NewEvent } from '../models/new-event';
 import * as dayjs from 'dayjs';
-import { UpdatedEvent } from '../models/updated-event';
+import { EventUpdateDto } from '../models/updated-event';
 
 const TEST_URL = 'api/test'
 
@@ -32,14 +32,14 @@ export class EventService {
     )
   }
 
-  createEvent(event: NewEvent): Observable<void> {
-    return this.http.post<void>(CREATE_EVENT_URL, event)
+  createEvent(dto: EventCreateDto): Observable<void> {
+    return this.http.post<void>(CREATE_EVENT_URL, dto)
   }
 
-  updateEvent(event: UpdatedEvent): Observable<void> {
+  updateEvent(dto: EventUpdateDto): Observable<void> {
     return this.http.put<void>(
-      UPDATE_EVENT_URL + '/' + event.id,
-      event
+      UPDATE_EVENT_URL + '/' + dto.id,
+      dto
     )
   }
 

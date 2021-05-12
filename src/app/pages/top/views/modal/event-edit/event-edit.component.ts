@@ -6,6 +6,7 @@ import { Event }                   from 'src/app/models/event'
 import { EventModalBaseDirective } from '../common/event-modal-base.directive';
 import { CalendarFacade } from 'src/app/store/calendar/calendar.facade';
 import { UpdatedEvent } from 'src/app/models/updated-event';
+import * as dayjs from 'dayjs';
 
 export type EventEditDialogData = {
   event: Event,
@@ -44,8 +45,14 @@ export class EventEditComponent extends EventModalBaseDirective implements OnIni
     const data: UpdatedEvent = {
       id: this.data.event.id,
       title: this.form.value.title,
-      startTime: this.form.value.startDate + 'T' + this.form.value.startTime,
-      endTime: this.form.value.endDate + 'T' + this.form.value.endTime,
+      startTime: dayjs(
+        this.form.value.startDate + this.form.value.startTime,
+        'YYYY-MM-DD HH:mm'
+      ),
+      endTime: dayjs(
+        this.form.value.endDate + this.form.value.endTime,
+        'YYYY-MM-DD HH:mm'
+      )
     }
 
     this.calendarFacade.updateEvent(data)

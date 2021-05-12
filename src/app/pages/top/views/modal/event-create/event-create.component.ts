@@ -46,8 +46,14 @@ export class EventCreateComponent extends EventModalBaseDirective implements OnI
   onSave(): void {
     const data: NewEvent = {
       title: this.form.value.title,
-      startTime: this.form.value.startDate + 'T' + this.form.value.startTime,
-      endTime: this.form.value.endDate + 'T' + this.form.value.endTime,
+      startTime: dayjs(
+        this.form.value.startDate + this.form.value.startTime,
+        'YYYY-MM-DD HH:mm'
+      ),
+      endTime: dayjs(
+        this.form.value.endDate + this.form.value.endTime,
+        'YYYY-MM-DD HH:mm'
+      )
     }
 
     this.calendarFacade.createEvent(data)
