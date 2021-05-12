@@ -26,7 +26,7 @@ export class EventEditComponent extends EventModalBaseDirective implements OnIni
     private dialogRef: MatDialogRef<EventEditComponent>,
     @Inject(MAT_DIALOG_DATA) public data: EventEditDialogData
   ) {
-    super(dialogRef, calendarFacade.createEventSuccess$)
+    super(dialogRef, calendarFacade.updateEventSuccess$)
     this.form = new FormGroup({
       title: new FormControl(this.data.event.title),
       startDate: new FormControl(this.data.event.startTime.format('YYYY-MM-DD')),
