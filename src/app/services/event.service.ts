@@ -4,9 +4,9 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map }        from 'rxjs/operators';
 import { Event } from '../models/event';
+import { EventLoadDto, EventLoadDtoModule } from '../models/event';
 import { NewEvent } from '../models/new-event';
 import * as dayjs from 'dayjs';
-import { EventResponse, EventResponseModule } from './event-response';
 import { UpdatedEvent } from '../models/updated-event';
 
 const TEST_URL = 'api/test'
@@ -44,14 +44,14 @@ export class EventService {
   }
 
   getEvents(startDate: dayjs.Dayjs, endDate: dayjs.Dayjs): Observable<Event[]> {
-    return this.http.get<EventResponse>(
+    return this.http.get<EventLoadDto>(
       GET_EVENTS
       + '?startDate='
       + startDate.format('YYYY-MM-DD')
       + '&endDate='
       + endDate.format('YYYY-MM-DD')
     ).pipe(
-      map((res: EventResponse) => EventResponseModule.toModel(res))
+      map((res: EventLoadDto) => EventLoadDtoModule.toModel(res))
     )
   }
 }
