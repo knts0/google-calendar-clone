@@ -50,6 +50,14 @@
 
 <mat-dialog-actions class="action-buttons">
   <button
+    mat-icon-button
+    color   = "accent"
+    (click) = "onDelete()"
+  >
+    <mat-icon>delete</mat-icon>
+  </button>
+
+  <button
     mat-flat-button
     color="primary"
     (click) = "onSave()"
