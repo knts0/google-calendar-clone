@@ -82,6 +82,14 @@ export class CalendarState {
     )
   }
 
+  @Action(CalendarActions.DeleteEvent)
+  deleteEvent(
+    ctx: StateContext<CalendarStateModel>,
+    action: CalendarActions.DeleteEvent,
+  ) {
+    return this.eventService.deleteEvent(action.payload.eventId)
+  }
+
   @Action(CalendarActions.SetActiveDate)
   setActiveDate(
     ctx: StateContext<CalendarStateModel>,

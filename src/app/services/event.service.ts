@@ -15,6 +15,8 @@ const CREATE_EVENT_URL = 'api/event'
 
 const UPDATE_EVENT_URL = 'api/event'
 
+const DELETE_EVENT_URL = 'api/event'
+
 const GET_EVENTS = 'api/event'
 
 @Injectable({
@@ -40,6 +42,12 @@ export class EventService {
     return this.http.put<void>(
       UPDATE_EVENT_URL + '/' + dto.id,
       dto
+    )
+  }
+
+  deleteEvent(eventId: string): Observable<void> {
+    return this.http.delete<void>(
+      DELETE_EVENT_URL + '/' + eventId
     )
   }
 

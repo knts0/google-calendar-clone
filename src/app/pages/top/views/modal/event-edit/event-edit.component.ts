@@ -57,4 +57,8 @@ export class EventEditComponent extends EventModalBaseDirective implements OnIni
 
     this.calendarFacade.updateEvent(data)
   }
+
+  onDelete(): void {
+    this.calendarFacade.deleteEvent(this.data.event.id)
+  }
 }

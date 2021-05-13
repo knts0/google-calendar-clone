@@ -50,6 +50,10 @@ export class CalendarFacade {
     this.store.dispatch(new CalendarActions.UpdateEvent(updatedEvent))
   }
 
+  deleteEvent(eventId: string): void {
+    this.store.dispatch(new CalendarActions.DeleteEvent({ eventId: eventId }))
+  }
+
   setActiveDate(date: dayjs.Dayjs): void {
     this.store.dispatch(new CalendarActions.SetActiveDate(date))
   }

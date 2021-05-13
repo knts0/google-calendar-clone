@@ -22,6 +22,11 @@ export module CalendarActions {
     constructor(public readonly payload: UpdatedEvent) {}
   }
 
+  export class DeleteEvent {
+    static readonly type = '[CalendarState] DeleteEvent';
+    constructor(public readonly payload: { eventId: string }) {}
+  }
+
   export class SetActiveDate {
     static readonly type = '[CalendarState] SetActiveDate';
     constructor(public readonly payload: dayjs.Dayjs) {}
