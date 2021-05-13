@@ -26,6 +26,10 @@ export class CalendarFacade {
     ofActionSuccessful(CalendarActions.UpdateEvent)
   )
 
+  deleteEventSuccess$ = this.actions$.pipe(
+    ofActionSuccessful(CalendarActions.DeleteEvent)
+  )
+
   constructor(
     private actions$: Actions,
     private store: Store
