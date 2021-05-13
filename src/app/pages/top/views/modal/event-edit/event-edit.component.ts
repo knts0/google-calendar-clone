@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA }                      from '@angular/material/dialog';
 import { FormControl, FormGroup }                             from '@angular/forms';
+import { takeUntil } from 'rxjs/operators';
 
 import { Event }                   from 'src/app/models/event'
 import { EventModalBaseDirective } from '../common/event-modal-base.directive';
@@ -39,6 +40,12 @@ export class EventEditComponent extends EventModalBaseDirective implements OnIni
 
   ngOnInit(): void {
     super.ngOnInit()
+
+    this.calendarFacade.deleteEventSuccess$.pipe(
+      takeUntil(this.unsubscribe$)
+    ).subscribe(_ =>
+      this.close()
+    )
   }
 
   onSave(): void {
