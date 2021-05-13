@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit }  from '@angular/core';
 import * as dayjs                        from 'dayjs';
 import { Observable, Subject }           from 'rxjs';
+import { merge }                         from 'rxjs';
 import { takeUntil }                     from 'rxjs/operators';
 
 import { Event } from '../../../../models/event';
@@ -31,17 +32,16 @@ export class TopContainerComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.activeDate$.pipe(
+    merge(
+      this.activeDate$,
+      this.calendarFacade.createEventSuccess$,
+      this.calendarFacade.updateEventSuccess$,
+      this.calendarFacade.deleteEventSuccess$,
+    ).pipe(
       takeUntil(this.unsubscribe$)
     ).subscribe(_ => {
       this.loadEvent()
     })
-
-    this.calendarFacade.createEventSuccess$.pipe(
-      takeUntil(this.unsubscribe$)
-    ).subscribe(_ =>
-      this.loadEvent()
-    )
   }
 
   ngOnDestroy(): void {
