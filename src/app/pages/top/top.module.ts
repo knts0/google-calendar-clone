@@ -21,13 +21,13 @@ import { TopPageComponent } from './top.page'
 
 import { TopContainerComponent } from './containers/top/top.container';
 
-import { HeaderComponent } from './views/header/header.component';
-import { EventEditComponent } from './views/modal/event-edit/event-edit.component';
-import { EventCreateComponent } from './views/modal/event-create/event-create.component';
-import { SideMenuComponent } from './views/side-menu/side-menu.component';
-import { CalendarComponent } from './views/side-menu/calendar/calendar.component';
-import { WeeklyCalendarComponent } from './views/weekly-calendar/weekly-calendar.component';
-import { EventModalBaseDirective } from './views/modal/common/event-modal-base.directive';
+import { HeaderComponent } from './components/header/header.component';
+import { EventEditComponent } from './components/modal/event-edit/event-edit.component';
+import { EventCreateComponent } from './components/modal/event-create/event-create.component';
+import { SideMenuComponent } from './components/side-menu/side-menu.component';
+import { CalendarComponent } from './components/side-menu/calendar/calendar.component';
+import { WeeklyCalendarComponent } from './components/weekly-calendar/weekly-calendar.component';
+import { EventModalBaseDirective } from './components/modal/common/event-modal-base.directive';
 
 @NgModule({
   declarations: [
@@ -37,7 +37,7 @@ import { EventModalBaseDirective } from './views/modal/common/event-modal-base.d
     // containers
     TopContainerComponent,
 
-    // views
+    // components
     HeaderComponent,
     EventEditComponent,
     EventCreateComponent,
