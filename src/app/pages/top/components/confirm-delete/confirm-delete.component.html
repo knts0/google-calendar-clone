@@ -1,0 +1,18 @@
+<div mat-dialog-title>
+  予定の削除
+</div>
+<mat-dialog-content>
+  本当に削除しますか？
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button
+    mat-flat-button
+    color   = "secondary"
+    (click) = "onCancel()"
+  >キャンセル</button>
+  <button
+    mat-flat-button
+    color   = "primary"
+    (click) = "onDelete()"
+  >削除する</button>
+</mat-dialog-actions>
