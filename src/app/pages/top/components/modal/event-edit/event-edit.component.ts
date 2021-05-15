@@ -1,13 +1,14 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA }                      from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA }           from '@angular/material/dialog';
 import { FormControl, FormGroup }                             from '@angular/forms';
-import { takeUntil } from 'rxjs/operators';
+import { map, takeUntil } from 'rxjs/operators';
 
 import { Event }                   from 'src/app/models/event'
 import { EventModalBaseDirective } from '../common/event-modal-base.directive';
 import { CalendarFacade } from 'src/app/store/calendar/calendar.facade';
 import { UpdatedEvent } from 'src/app/models/updated-event';
 import * as dayjs from 'dayjs';
+import { ConfirmDeleteComponent, ConfirmDeleteResult } from '../../confirm-delete/confirm-delete.component';
 
 export type EventEditDialogData = {
   event: Event,
@@ -24,6 +25,7 @@ export class EventEditComponent extends EventModalBaseDirective implements OnIni
 
   constructor(
     private calendarFacade: CalendarFacade,
+    private dialog: MatDialog,
     private dialogRef: MatDialogRef<EventEditComponent>,
     @Inject(MAT_DIALOG_DATA) public data: EventEditDialogData
   ) {
@@ -66,6 +68,15 @@ export class EventEditComponent extends EventModalBaseDirective implements OnIni
   }
 
   onDelete(): void {
-    this.calendarFacade.deleteEvent(this.data.event.id)
+    this.dialog.open(ConfirmDeleteComponent)
+      .afterClosed()
+      .pipe(
+        map((result: ConfirmDeleteResult) => result.isDelete)
+      )
+      .subscribe((isDelete: boolean) => {
+        if (isDelete) {
+          this.calendarFacade.deleteEvent(this.data.event.id)
+        }
+      })
   }
 }
