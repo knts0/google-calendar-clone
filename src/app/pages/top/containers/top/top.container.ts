@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit }  from '@angular/core';
+import { MatSnackBar }                   from '@angular/material/snack-bar';
 import * as dayjs                        from 'dayjs';
 import { Observable, Subject }           from 'rxjs';
 import { merge }                         from 'rxjs';
@@ -29,6 +30,7 @@ export class TopContainerComponent implements OnInit, OnDestroy {
 
   constructor(
     private calendarFacade: CalendarFacade,
+    private snackBar: MatSnackBar,
   ) { }
 
   ngOnInit(): void {
@@ -36,10 +38,25 @@ export class TopContainerComponent implements OnInit, OnDestroy {
       this.activeDate$,
       this.calendarFacade.createEventSuccess$,
       this.calendarFacade.updateEventSuccess$,
-      this.calendarFacade.deleteEventSuccess$,
     ).pipe(
       takeUntil(this.unsubscribe$)
     ).subscribe(_ => {
+      this.loadEvent()
+    })
+
+
+    // after event deleted
+    this.calendarFacade.deleteEventSuccess$.pipe(
+      takeUntil(this.unsubscribe$)
+    ).subscribe((v: Event) => {
+      this.snackBar.open(
+        `予定「${v.title}」を削除しました`,
+        'OK',
+        {
+          duration: 5000
+        }
+      )
+
       this.loadEvent()
     })
   }
