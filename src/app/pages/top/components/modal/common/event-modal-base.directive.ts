@@ -10,7 +10,7 @@ export class EventModalBaseDirective {
 
   constructor(
     private dialogRefBaseDirective: MatDialogRef<EventModalBaseDirective>,
-    private submitSuccess$: Observable<void>,
+    private submitSuccess$: Observable<unknown>,
   ) { }
 
   unsubscribe$: Subject<any> = new Subject()

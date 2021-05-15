@@ -2,13 +2,14 @@ import { ChangeDetectionStrategy, Component, OnDestroy, OnInit }  from '@angular
 import { MatSnackBar }                   from '@angular/material/snack-bar';
 import * as dayjs                        from 'dayjs';
 import { Observable, Subject }           from 'rxjs';
-import { merge }                         from 'rxjs';
 import { takeUntil }                     from 'rxjs/operators';
 
 import { Event } from '../../../../models/event';
 import { CalendarViewMode } from '../../../../models/calendar-view-mode';
 import { CalendarFacade } from '../../../../store/calendar/calendar.facade';
 import { getFirstDayOfWeek } from 'src/app/util/date';
+import { UpdatedEvent } from 'src/app/models/updated-event';
+import { NewEvent } from 'src/app/models/new-event';
 
 
 @Component({
@@ -34,16 +35,41 @@ export class TopContainerComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    merge(
-      this.activeDate$,
-      this.calendarFacade.createEventSuccess$,
-      this.calendarFacade.updateEventSuccess$,
-    ).pipe(
+    this.activeDate$.pipe(
       takeUntil(this.unsubscribe$)
     ).subscribe(_ => {
       this.loadEvent()
     })
 
+    // after event created
+    this.calendarFacade.createEventSuccess$.pipe(
+      takeUntil(this.unsubscribe$)
+    ).subscribe((v: NewEvent) => {
+      this.snackBar.open(
+        `予定「${v.title}」を作成しました`,
+        'OK',
+        {
+          duration: 5000
+        }
+      )
+
+      this.loadEvent()
+    })
+
+    // after event updated
+    this.calendarFacade.updateEventSuccess$.pipe(
+      takeUntil(this.unsubscribe$)
+    ).subscribe((v: UpdatedEvent) => {
+      this.snackBar.open(
+        `予定「${v.title}」を更新しました`,
+        'OK',
+        {
+          duration: 5000
+        }
+      )
+
+      this.loadEvent()
+    })
 
     // after event deleted
     this.calendarFacade.deleteEventSuccess$.pipe(

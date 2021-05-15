@@ -19,12 +19,14 @@ export class CalendarFacade {
   @Select(CalendarState.calendarViewMode) calendarViewMode$: Observable<CalendarViewMode>;
   @Select(CalendarState.events) events$: Observable<Event[]>;
 
-  createEventSuccess$ = this.actions$.pipe(
-    ofActionSuccessful(CalendarActions.CreateEvent)
+  createEventSuccess$: Observable<NewEvent> = this.actions$.pipe(
+    ofActionSuccessful(CalendarActions.CreateEvent),
+    map((action: CalendarActions.CreateEvent) => action.payload)
   )
 
-  updateEventSuccess$ = this.actions$.pipe(
-    ofActionSuccessful(CalendarActions.UpdateEvent)
+  updateEventSuccess$: Observable<UpdatedEvent> = this.actions$.pipe(
+    ofActionSuccessful(CalendarActions.UpdateEvent),
+    map((action: CalendarActions.UpdateEvent) => action.payload)
   )
 
   deleteEventSuccess$: Observable<Event> = this.actions$.pipe(
