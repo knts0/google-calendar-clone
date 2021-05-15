@@ -1,5 +1,6 @@
 import * as dayjs from 'dayjs';
 
+import { Event } from 'src/app/models/event';
 import { NewEvent } from 'src/app/models/new-event';
 import { UpdatedEvent } from 'src/app/models/updated-event';
 
@@ -24,7 +25,7 @@ export module CalendarActions {
 
   export class DeleteEvent {
     static readonly type = '[CalendarState] DeleteEvent';
-    constructor(public readonly payload: { eventId: string }) {}
+    constructor(public readonly payload: Event) {}
   }
 
   export class SetActiveDate {

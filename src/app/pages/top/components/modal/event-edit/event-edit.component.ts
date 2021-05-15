@@ -75,7 +75,7 @@ export class EventEditComponent extends EventModalBaseDirective implements OnIni
       )
       .subscribe((isDelete: boolean) => {
         if (isDelete) {
-          this.calendarFacade.deleteEvent(this.data.event.id)
+          this.calendarFacade.deleteEvent(this.data.event)
         }
       })
   }

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, ofActionSuccessful, Select, Store } from '@ngxs/store';
 import * as dayjs from 'dayjs';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { NewEvent } from 'src/app/models/new-event';
 import { UpdatedEvent } from 'src/app/models/updated-event';
 
@@ -26,8 +27,9 @@ export class CalendarFacade {
     ofActionSuccessful(CalendarActions.UpdateEvent)
   )
 
-  deleteEventSuccess$ = this.actions$.pipe(
-    ofActionSuccessful(CalendarActions.DeleteEvent)
+  deleteEventSuccess$: Observable<Event> = this.actions$.pipe(
+    ofActionSuccessful(CalendarActions.DeleteEvent),
+    map((action: CalendarActions.DeleteEvent) => action.payload)
   )
 
   constructor(
@@ -54,8 +56,8 @@ export class CalendarFacade {
     this.store.dispatch(new CalendarActions.UpdateEvent(updatedEvent))
   }
 
-  deleteEvent(eventId: string): void {
-    this.store.dispatch(new CalendarActions.DeleteEvent({ eventId: eventId }))
+  deleteEvent(event: Event): void {
+    this.store.dispatch(new CalendarActions.DeleteEvent(event))
   }
 
   setActiveDate(date: dayjs.Dayjs): void {
