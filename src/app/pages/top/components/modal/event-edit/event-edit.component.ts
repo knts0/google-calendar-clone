@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA }           from '@angular/material/dialog';
-import { FormControl, FormGroup }                             from '@angular/forms';
+import { FormControl, FormGroup }                             from '@ngneat/reactive-forms';
 import { map, takeUntil } from 'rxjs/operators';
 
 import { Event }                   from 'src/app/models/event'
@@ -14,6 +14,15 @@ export type EventEditDialogData = {
   event: Event,
 }
 
+export type EventEditFormData = {
+  title: string,
+  startDate: string,
+  startTime: string,
+  endDate: string,
+  endTime: string,
+  isAllDay: boolean,
+}
+
 @Component({
   templateUrl: './event-edit.component.html',
   styleUrls: ['../common/event-modal-base.scss'],
@@ -21,7 +30,7 @@ export type EventEditDialogData = {
 })
 export class EventEditComponent extends EventModalBaseDirective implements OnInit {
 
-  form: FormGroup
+  form: FormGroup<EventEditFormData>
 
   constructor(
     private calendarFacade: CalendarFacade,
@@ -30,7 +39,7 @@ export class EventEditComponent extends EventModalBaseDirective implements OnIni
     @Inject(MAT_DIALOG_DATA) public data: EventEditDialogData
   ) {
     super(dialogRef, calendarFacade.updateEventSuccess$)
-    this.form = new FormGroup({
+    this.form = new FormGroup<EventEditFormData>({
       title: new FormControl(this.data.event.title),
       startDate: new FormControl(this.data.event.startTime.format('YYYY-MM-DD')),
       startTime: new FormControl(this.data.event.startTime.format('HH:mm')),
