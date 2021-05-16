@@ -1158,6 +1158,13 @@
     merge-source-map "^1.1.0"
     schema-utils "^2.7.0"
 
+"@ngneat/reactive-forms@^1.7.2":
+  version "1.7.2"
+  resolved "https://registry.yarnpkg.com/@ngneat/reactive-forms/-/reactive-forms-1.7.2.tgz#f7a795d864741710e7d5684b74d704653e139fc1"
+  integrity sha512-+2SS87eBByGh1skxGujqR4m78k06CvZiH/cq9mLqMdEKJ+xqyCVIloIYjsMryfaPUlMPuf4+QHu2pVlcV/b0jQ==
+  dependencies:
+    tslib "^2.0.0"
+
 "@ngtools/webpack@11.2.5":
   version "11.2.5"
   resolved "https://registry.yarnpkg.com/@ngtools/webpack/-/webpack-11.2.5.tgz#3e2265145d19fcdda9ec2894ccded83658b1fa66"
