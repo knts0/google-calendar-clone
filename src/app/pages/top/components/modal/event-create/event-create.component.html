@@ -46,6 +46,9 @@
       終日
     </mat-checkbox>
   </div>
+  <div *ngIf="form.invalid" class="error-messages">
+    <span *ngIf="form.errors?.inValidDateTime">開始時刻が終了時刻よりも後になっています。</span>
+  </div>
 </mat-dialog-content>
 
 <mat-dialog-actions class="action-buttons">
