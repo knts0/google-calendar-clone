@@ -1,11 +1,12 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA }                      from '@angular/material/dialog';
-import { FormControl, FormGroup }                             from '@ngneat/reactive-forms';
+import { FormGroup }                                          from '@ngneat/reactive-forms';
 import * as dayjs                                             from 'dayjs';
 
 import { NewEvent }                from 'src/app/models/new-event';
 import { CalendarFacade }          from 'src/app/store/calendar/calendar.facade';
 import { EventModalBaseDirective } from '../common/event-modal-base.directive';
+import { FormData, EventCreatePresenter } from './event-create.presenter';
 
 export type EventCreateDialogData = {
   start: dayjs.Dayjs,
@@ -13,59 +14,44 @@ export type EventCreateDialogData = {
   isAllDay: boolean,
 }
 
-export type EventCreateFormData = {
-  title: string,
-  startDate: string,
-  startTime: string,
-  endDate: string,
-  endTime: string,
-  isAllDay: boolean,
-}
-
 @Component({
   templateUrl: './event-create.component.html',
   styleUrls: ['../common/event-modal-base.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [EventCreatePresenter],
 })
 export class EventCreateComponent extends EventModalBaseDirective implements OnInit {
 
-  form: FormGroup<EventCreateFormData>
+  get form(): FormGroup<FormData> {
+    return this.presenter.form
+  }
 
   constructor(
     private calendarFacade: CalendarFacade,
     private dialogRef: MatDialogRef<EventCreateComponent>,
+    private presenter: EventCreatePresenter,
     @Inject(MAT_DIALOG_DATA) public data: EventCreateDialogData
   ) {
     super(dialogRef, calendarFacade.createEventSuccess$)
-    this.form = new FormGroup<EventCreateFormData>({
-      title: new FormControl(''),
-      startDate: new FormControl(this.data.start.format('YYYY-MM-DD')),
-      startTime: new FormControl(this.data.start.format('HH:mm')),
-      endDate: new FormControl(this.data.end.format('YYYY-MM-DD')),
-      endTime: new FormControl(this.data.end.format('HH:mm')),
-      isAllDay: new FormControl(this.data.isAllDay),
-    })
+    this.presenter.init({
+      title: '',
+      startDate: this.data.start.format('YYYY-MM-DD'),
+      startTime: this.data.start.format('HH:mm'),
+      endDate: this.data.end.format('YYYY-MM-DD'),
+      endTime: this.data.end.format('HH:mm'),
+      isAllDay: this.data.isAllDay,
+    });
   }
 
   ngOnInit(): void {
     super.ngOnInit()
+    this.presenter.create$.subscribe((newEvent: NewEvent) => {
+      this.calendarFacade.createEvent(newEvent)
+    })
   }
 
-
   onSave(): void {
-    const data: NewEvent = {
-      title: this.form.value.title,
-      startTime: dayjs(
-        this.form.value.startDate + this.form.value.startTime,
-        'YYYY-MM-DD HH:mm'
-      ),
-      endTime: dayjs(
-        this.form.value.endDate + this.form.value.endTime,
-        'YYYY-MM-DD HH:mm'
-      )
-    }
-
-    this.calendarFacade.createEvent(data)
+    this.presenter.createEvent()
   }
 
 }

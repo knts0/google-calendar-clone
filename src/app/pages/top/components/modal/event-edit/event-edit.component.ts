@@ -1,56 +1,49 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA }           from '@angular/material/dialog';
-import { FormControl, FormGroup }                             from '@ngneat/reactive-forms';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { FormGroup } from '@ngneat/reactive-forms';
 import { map, takeUntil } from 'rxjs/operators';
 
-import { Event }                   from 'src/app/models/event'
+import { Event } from 'src/app/models/event'
 import { EventModalBaseDirective } from '../common/event-modal-base.directive';
 import { CalendarFacade } from 'src/app/store/calendar/calendar.facade';
 import { UpdatedEvent } from 'src/app/models/updated-event';
-import * as dayjs from 'dayjs';
 import { ConfirmDeleteComponent, ConfirmDeleteResult } from '../../confirm-delete/confirm-delete.component';
+import { FormData, EventEditPresenter } from './event-edit.presenter';
 
 export type EventEditDialogData = {
   event: Event,
-}
-
-export type EventEditFormData = {
-  title: string,
-  startDate: string,
-  startTime: string,
-  endDate: string,
-  endTime: string,
-  isAllDay: boolean,
 }
 
 @Component({
   templateUrl: './event-edit.component.html',
   styleUrls: ['../common/event-modal-base.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [EventEditPresenter],
 })
 export class EventEditComponent extends EventModalBaseDirective implements OnInit {
 
-  form: FormGroup<EventEditFormData>
+  get form(): FormGroup<FormData> {
+    return this.presenter.form
+  }
 
   constructor(
     private calendarFacade: CalendarFacade,
     private dialog: MatDialog,
     private dialogRef: MatDialogRef<EventEditComponent>,
+    private presenter: EventEditPresenter,
     @Inject(MAT_DIALOG_DATA) public data: EventEditDialogData
   ) {
     super(dialogRef, calendarFacade.updateEventSuccess$)
-    this.form = new FormGroup<EventEditFormData>({
-      title: new FormControl(this.data.event.title),
-      startDate: new FormControl(this.data.event.startTime.format('YYYY-MM-DD')),
-      startTime: new FormControl(this.data.event.startTime.format('HH:mm')),
-      endDate: new FormControl(this.data.event.endTime.format('YYYY-MM-DD')),
-      endTime: new FormControl(this.data.event.endTime.format('HH:mm')),
-      isAllDay: new FormControl(false),
-    })
   }
 
   ngOnInit(): void {
     super.ngOnInit()
+
+    this.presenter.init(this.data.event)
+
+    this.presenter.update$.subscribe((updatedEvent: UpdatedEvent) => {
+      this.calendarFacade.updateEvent(updatedEvent)
+    })
 
     this.calendarFacade.deleteEventSuccess$.pipe(
       takeUntil(this.unsubscribe$)
@@ -60,20 +53,7 @@ export class EventEditComponent extends EventModalBaseDirective implements OnIni
   }
 
   onSave(): void {
-    const data: UpdatedEvent = {
-      id: this.data.event.id,
-      title: this.form.value.title,
-      startTime: dayjs(
-        this.form.value.startDate + this.form.value.startTime,
-        'YYYY-MM-DD HH:mm'
-      ),
-      endTime: dayjs(
-        this.form.value.endDate + this.form.value.endTime,
-        'YYYY-MM-DD HH:mm'
-      )
-    }
-
-    this.calendarFacade.updateEvent(data)
+    this.presenter.updateEvent()
   }
 
   onDelete(): void {
