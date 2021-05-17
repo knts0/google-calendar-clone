@@ -1,10 +1,10 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { ValidationErrors } from '@angular/forms';
 import * as dayjs from 'dayjs';
 import { FormControl, FormGroup } from '@ngneat/reactive-forms';
 import { Observable, Subject } from 'rxjs';
 
 import { NewEvent } from 'src/app/models/new-event';
+import { dateTimeValidator } from 'src/app/validators/date-time';
 
 export type FormData = {
   title: string,
@@ -13,13 +13,6 @@ export type FormData = {
   endDate: string,
   endTime: string,
   isAllDay: boolean,
-}
-
-type FormGroupWithDateTime = {
-  startDate: string,
-  startTime: string,
-  endDate: string,
-  endTime: string,
 }
 
 @Injectable()
@@ -33,24 +26,8 @@ export class EventCreatePresenter implements OnDestroy {
       endDate: new FormControl(),
       endTime: new FormControl(),
       isAllDay: new FormControl(),
-    }, { validators: this.dateTimeValidator }
+    }, { validators: dateTimeValidator }
   )
-
-  dateTimeValidator(formGroup: FormGroup<FormGroupWithDateTime>): ValidationErrors | null {
-    const startDateTime = dayjs(
-      formGroup.value.startDate + formGroup.value.startTime,
-      'YYYY-MM-DD HH:mm'
-    )
-    const endDateTime = dayjs(
-      formGroup.value.endDate + formGroup.value.endTime,
-      'YYYY-MM-DD HH:mm'
-    )
-
-    if (startDateTime.isAfter(endDateTime)) {
-      return { inValidDateTime: true }
-    }
-    return null
-  }
 
   private subject: Subject<NewEvent> = new Subject()
 
