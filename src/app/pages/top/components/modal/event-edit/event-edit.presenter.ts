@@ -57,19 +57,21 @@ export class EventEditPresenter implements OnDestroy {
   }
 
   updateEvent(): void {
-    const data: UpdatedEvent = {
-      id: this.eventId,
-      title: this.form.value.title,
-      startTime: dayjs(
-        this.form.value.startDate + this.form.value.startTime,
-        'YYYY-MM-DD HH:mm'
-      ),
-      endTime: dayjs(
-        this.form.value.endDate + this.form.value.endTime,
-        'YYYY-MM-DD HH:mm'
-      )
-    }
+    if (this.form.valid) {
+      const data: UpdatedEvent = {
+        id: this.eventId,
+        title: this.form.value.title,
+        startTime: dayjs(
+          this.form.value.startDate + this.form.value.startTime,
+          'YYYY-MM-DD HH:mm'
+        ),
+        endTime: dayjs(
+          this.form.value.endDate + this.form.value.endTime,
+          'YYYY-MM-DD HH:mm'
+        )
+      }
 
-    this.subject.next(data)
+      this.subject.next(data)
+    }
   }
 }
