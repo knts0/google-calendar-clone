@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component } from '@angular/core'
 
 @Component({
   selector: 'app-angular',
@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./angular.component.scss']
 })
 export class AngularComponent {
-  title = 'google-calendar-clone';
+  title = 'google-calendar-clone'
 }

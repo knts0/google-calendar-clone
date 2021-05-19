@@ -1,4 +1,4 @@
-import * as dayjs from "dayjs"
+import * as dayjs from 'dayjs'
 
 export const DAYS_PER_WEEK = 7
 export const FIRST_DAY_OF_WEEK = 1

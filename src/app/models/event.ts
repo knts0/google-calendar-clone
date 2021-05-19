@@ -1,20 +1,20 @@
-import * as dayjs from 'dayjs';
+import * as dayjs from 'dayjs'
 
 export type Event = {
-  id: string,
-  title: string,
-  startTime: dayjs.Dayjs,
-  endTime: dayjs.Dayjs,
+  id: string
+  title: string
+  startTime: dayjs.Dayjs
+  endTime: dayjs.Dayjs
 }
 
 export type EventLoadDto = Array<{
-  id: string,
-  title: string,
-  startTime: string,
-  endTime: string,
+  id: string
+  title: string
+  startTime: string
+  endTime: string
 }>
 
-export module EventLoadDtoModule {
+export namespace EventLoadDtoModule {
   export function toModel(res: EventLoadDto): Event[] {
     return res.map(v => {
       const model: Event = {

@@ -1,12 +1,12 @@
-import { ValidationErrors } from '@angular/forms';
-import * as dayjs from 'dayjs';
-import { FormGroup } from '@ngneat/reactive-forms';
+import { ValidationErrors } from '@angular/forms'
+import * as dayjs from 'dayjs'
+import { FormGroup } from '@ngneat/reactive-forms'
 
 type FormGroupWithDateTime = {
-  startDate: string,
-  startTime: string,
-  endDate: string,
-  endTime: string,
+  startDate: string
+  startTime: string
+  endDate: string
+  endTime: string
 }
 
 export function dateTimeValidator(formGroup: FormGroup<FormGroupWithDateTime>): ValidationErrors | null {

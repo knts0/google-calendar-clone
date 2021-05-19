@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { EventEmitter, Output }     from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core'
+import { EventEmitter, Output }     from '@angular/core'
 import * as dayjs                   from 'dayjs'
 
 @Component({

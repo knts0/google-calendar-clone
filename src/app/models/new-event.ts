@@ -1,18 +1,18 @@
-import * as dayjs from "dayjs";
+import * as dayjs from 'dayjs'
 
 export type NewEvent = {
-  title: string,
-  startTime: dayjs.Dayjs,
-  endTime: dayjs.Dayjs,
+  title: string
+  startTime: dayjs.Dayjs
+  endTime: dayjs.Dayjs
 }
 
 export type EventCreateDto = {
-  title: string,
-  startTime: string,
-  endTime: string,
+  title: string
+  startTime: string
+  endTime: string
 }
 
-export module EventCreateDtoModule {
+export namespace EventCreateDtoModule {
   export function toDto(model: NewEvent): EventCreateDto {
     return {
       title: model.title,

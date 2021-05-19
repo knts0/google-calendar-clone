@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import { Selector, State } from '@ngxs/store';
+import { Injectable } from '@angular/core'
+import { Selector, State } from '@ngxs/store'
 
 export interface TestStateModel {
-  aaa: string,
+  aaa: string
 }
 
 

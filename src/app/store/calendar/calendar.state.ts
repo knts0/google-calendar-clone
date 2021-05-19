@@ -1,19 +1,19 @@
-import { Injectable } from '@angular/core';
-import { Action, Selector, State, StateContext } from '@ngxs/store';
-import * as dayjs from 'dayjs';
-import { tap } from 'rxjs/operators';
-import { Event } from '../../models/event';
-import { EventService } from 'src/app/services/event.service';
-import { CalendarActions } from './calendar.actions';
-import { CalendarViewMode } from '../../models/calendar-view-mode';
-import { EventCreateDtoModule } from 'src/app/models/new-event';
-import { EventUpdateDtoModule } from 'src/app/models/updated-event';
+import { Injectable } from '@angular/core'
+import { Action, Selector, State, StateContext } from '@ngxs/store'
+import * as dayjs from 'dayjs'
+import { tap } from 'rxjs/operators'
+import { Event } from '../../models/event'
+import { EventService } from 'src/app/services/event.service'
+import { CalendarActions } from './calendar.actions'
+import { CalendarViewMode } from '../../models/calendar-view-mode'
+import { EventCreateDtoModule } from 'src/app/models/new-event'
+import { EventUpdateDtoModule } from 'src/app/models/updated-event'
 
 
 export interface CalendarStateModel {
-  activeDate: dayjs.Dayjs,
-  calendarViewMode: CalendarViewMode,
-  events: Event[],
+  activeDate: dayjs.Dayjs
+  calendarViewMode: CalendarViewMode
+  events: Event[]
 }
 
 
@@ -56,7 +56,7 @@ export class CalendarState {
       .pipe(
         tap((events: Event[]) =>
           ctx.patchState({
-            events: events,
+            events,
           })
         )
       )
@@ -95,10 +95,10 @@ export class CalendarState {
     ctx: StateContext<CalendarStateModel>,
     action: CalendarActions.SetActiveDate
   ) {
-    const state = ctx.getState();
+    const state = ctx.getState()
     ctx.patchState({
       activeDate: action.payload
-    });
+    })
   }
 
   @Action(CalendarActions.SetActiveDateToToday)
@@ -107,7 +107,7 @@ export class CalendarState {
   ) {
     ctx.patchState({
       activeDate: dayjs().startOf('day')
-    });
+    })
   }
 
 }

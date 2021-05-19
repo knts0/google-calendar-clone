@@ -1,18 +1,18 @@
-import { Injectable, OnDestroy } from '@angular/core';
-import * as dayjs from 'dayjs';
-import { FormControl, FormGroup } from '@ngneat/reactive-forms';
-import { Observable, Subject } from 'rxjs';
+import { Injectable, OnDestroy } from '@angular/core'
+import * as dayjs from 'dayjs'
+import { FormControl, FormGroup } from '@ngneat/reactive-forms'
+import { Observable, Subject } from 'rxjs'
 
-import { NewEvent } from 'src/app/models/new-event';
-import { dateTimeValidator } from 'src/app/validators/date-time';
+import { NewEvent } from 'src/app/models/new-event'
+import { dateTimeValidator } from 'src/app/validators/date-time'
 
 export type FormData = {
-  title: string,
-  startDate: string,
-  startTime: string,
-  endDate: string,
-  endTime: string,
-  isAllDay: boolean,
+  title: string
+  startDate: string
+  startTime: string
+  endDate: string
+  endTime: string
+  isAllDay: boolean
 }
 
 @Injectable()

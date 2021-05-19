@@ -1,7 +1,7 @@
-import { Directive }    from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
-import { Observable, Subject }   from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Directive }    from '@angular/core'
+import { MatDialogRef } from '@angular/material/dialog'
+import { Observable, Subject }   from 'rxjs'
+import { takeUntil } from 'rxjs/operators'
 
 @Directive({
   selector: '[appEventModalBase]'

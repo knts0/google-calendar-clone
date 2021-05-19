@@ -1,17 +1,17 @@
-import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormGroup } from '@ngneat/reactive-forms';
-import { map, takeUntil } from 'rxjs/operators';
+import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core'
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
+import { FormGroup } from '@ngneat/reactive-forms'
+import { map, takeUntil } from 'rxjs/operators'
 
 import { Event } from 'src/app/models/event'
-import { EventModalBaseDirective } from '../common/event-modal-base.directive';
-import { CalendarFacade } from 'src/app/store/calendar/calendar.facade';
-import { UpdatedEvent } from 'src/app/models/updated-event';
-import { ConfirmDeleteComponent, ConfirmDeleteResult } from '../../confirm-delete/confirm-delete.component';
-import { FormData, EventEditPresenter } from './event-edit.presenter';
+import { EventModalBaseDirective } from '../common/event-modal-base.directive'
+import { CalendarFacade } from 'src/app/store/calendar/calendar.facade'
+import { UpdatedEvent } from 'src/app/models/updated-event'
+import { ConfirmDeleteComponent, ConfirmDeleteResult } from '../../confirm-delete/confirm-delete.component'
+import { FormData, EventEditPresenter } from './event-edit.presenter'
 
 export type EventEditDialogData = {
-  event: Event,
+  event: Event
 }
 
 @Component({

@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { Select } from '@ngxs/store';
-import { Observable } from 'rxjs';
-import { TestState } from '../state/test.state';
+import { Component, OnInit } from '@angular/core'
+import { Select } from '@ngxs/store'
+import { Observable } from 'rxjs'
+import { TestState } from '../state/test.state'
 
 @Component({
   selector: 'app-test',

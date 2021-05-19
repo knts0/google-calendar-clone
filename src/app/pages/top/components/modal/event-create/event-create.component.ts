@@ -1,17 +1,17 @@
-import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA }                      from '@angular/material/dialog';
-import { FormGroup }                                          from '@ngneat/reactive-forms';
-import * as dayjs                                             from 'dayjs';
+import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core'
+import { MatDialogRef, MAT_DIALOG_DATA }                      from '@angular/material/dialog'
+import { FormGroup }                                          from '@ngneat/reactive-forms'
+import * as dayjs                                             from 'dayjs'
 
-import { NewEvent }                from 'src/app/models/new-event';
-import { CalendarFacade }          from 'src/app/store/calendar/calendar.facade';
-import { EventModalBaseDirective } from '../common/event-modal-base.directive';
-import { FormData, EventCreatePresenter } from './event-create.presenter';
+import { NewEvent }                from 'src/app/models/new-event'
+import { CalendarFacade }          from 'src/app/store/calendar/calendar.facade'
+import { EventModalBaseDirective } from '../common/event-modal-base.directive'
+import { FormData, EventCreatePresenter } from './event-create.presenter'
 
 export type EventCreateDialogData = {
-  start: dayjs.Dayjs,
-  end: dayjs.Dayjs,
-  isAllDay: boolean,
+  start: dayjs.Dayjs
+  end: dayjs.Dayjs
+  isAllDay: boolean
 }
 
 @Component({
@@ -40,7 +40,7 @@ export class EventCreateComponent extends EventModalBaseDirective implements OnI
       endDate: this.data.end.format('YYYY-MM-DD'),
       endTime: this.data.end.format('HH:mm'),
       isAllDay: this.data.isAllDay,
-    });
+    })
   }
 
   ngOnInit(): void {
