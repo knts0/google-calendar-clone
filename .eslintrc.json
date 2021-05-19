@@ -21,6 +21,27 @@
         "plugin:@angular-eslint/template/process-inline-templates"
       ],
       "rules": {
+        // object literal alignment
+
+        // curly
+        "curly": ["error", "all"],
+
+        // member delimiter style
+        "@typescript-eslint/member-delimiter-style": ["error", {
+          "multiline": {
+            "delimiter": "none",
+            "requireLast": false
+          },
+          "singleline": {
+            "delimiter": "comma",
+            "requireLast": false
+          },
+          "multilineDetection": "brackets"
+        }],
+
+        // semicolon at the end of statements
+        "@typescript-eslint/semi": ["error", "never"],
+
         "@angular-eslint/component-selector": [
           "error",
           {
@@ -47,7 +68,7 @@
         "plugin:@angular-eslint/template/recommended"
       ],
       "rules": {
-        "@angular-eslint/template/eqeqeq": "error"
+        // "@angular-eslint/template/eqeqeq": "error"
       }
     }
   ]
