@@ -14,13 +14,11 @@ export type EventUpdateDto = {
   endTime: string
 }
 
-export namespace EventUpdateDtoModule {
-  export function toDto(model: UpdatedEvent): EventUpdateDto {
-    return {
-      id: model.id,
-      title: model.title,
-      startTime: model.startTime.format('YYYY-MM-DDTHH:mm:ss'),
-      endTime: model.endTime.format('YYYY-MM-DDTHH:mm:ss'),
-    }
+export function toDto(model: UpdatedEvent): EventUpdateDto {
+  return {
+    id: model.id,
+    title: model.title,
+    startTime: model.startTime.format('YYYY-MM-DDTHH:mm:ss'),
+    endTime: model.endTime.format('YYYY-MM-DDTHH:mm:ss'),
   }
 }

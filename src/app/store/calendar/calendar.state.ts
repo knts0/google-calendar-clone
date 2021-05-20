@@ -6,8 +6,8 @@ import { Event } from '../../models/event'
 import { EventService } from 'src/app/services/event.service'
 import { CalendarActions } from './calendar.actions'
 import { CalendarViewMode } from '../../models/calendar-view-mode'
-import { EventCreateDtoModule } from 'src/app/models/new-event'
-import { EventUpdateDtoModule } from 'src/app/models/updated-event'
+import * as newEvent from 'src/app/models/new-event'
+import * as updatedEvent from 'src/app/models/updated-event'
 
 
 export interface CalendarStateModel {
@@ -68,7 +68,7 @@ export class CalendarState {
     action: CalendarActions.CreateEvent,
   ) {
     return this.eventService.createEvent(
-      EventCreateDtoModule.toDto(action.payload)
+      newEvent.toDto(action.payload)
     )
   }
 
@@ -78,7 +78,7 @@ export class CalendarState {
     action: CalendarActions.UpdateEvent,
   ) {
     return this.eventService.updateEvent(
-      EventUpdateDtoModule.toDto(action.payload)
+      updatedEvent.toDto(action.payload)
     )
   }
 

@@ -14,16 +14,14 @@ export type EventLoadDto = Array<{
   endTime: string
 }>
 
-export namespace EventLoadDtoModule {
-  export function toModel(res: EventLoadDto): Event[] {
-    return res.map(v => {
-      const model: Event = {
-        id: v.id,
-        title: v.title,
-        startTime: dayjs(v.startTime),
-        endTime: dayjs(v.endTime),
-      }
-      return model
-    })
-  }
+export function toModel(res: EventLoadDto): Event[] {
+  return res.map(v => {
+    const model: Event = {
+      id: v.id,
+      title: v.title,
+      startTime: dayjs(v.startTime),
+      endTime: dayjs(v.endTime),
+    }
+    return model
+  })
 }

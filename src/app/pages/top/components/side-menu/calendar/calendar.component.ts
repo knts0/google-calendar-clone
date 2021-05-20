@@ -66,7 +66,7 @@ export class CalendarComponent implements OnInit {
 
         const curDayjsObj = this._activeYearMonth1stDate.date(curDateOfMonth)
 
-        if (cellDayOfWeek == curDayjsObj.day() && curDateOfMonth <= totalDaysOfMonth) {
+        if (cellDayOfWeek === curDayjsObj.day() && curDateOfMonth <= totalDaysOfMonth) {
           week.push(curDayjsObj)
           curDateOfMonth += 1
         } else {

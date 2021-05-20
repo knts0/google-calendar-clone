@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http'
 import { Observable } from 'rxjs'
 import { map }        from 'rxjs/operators'
 import { Event } from '../models/event'
-import { EventLoadDto, EventLoadDtoModule } from '../models/event'
+import { EventLoadDto, toModel } from '../models/event'
 import { EventCreateDto, NewEvent } from '../models/new-event'
 import * as dayjs from 'dayjs'
 import { EventUpdateDto } from '../models/updated-event'
@@ -59,7 +59,7 @@ export class EventService {
       + '&endDate='
       + endDate.format('YYYY-MM-DD')
     ).pipe(
-      map((res: EventLoadDto) => EventLoadDtoModule.toModel(res))
+      map((res: EventLoadDto) => toModel(res))
     )
   }
 }
