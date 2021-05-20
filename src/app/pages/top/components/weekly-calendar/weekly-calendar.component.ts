@@ -1,27 +1,27 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { MatDialog }                from '@angular/material/dialog';
-import * as dayjs                   from 'dayjs';
-import * as duration                from 'dayjs/plugin/duration';
-import { DAYS_PER_WEEK, FIRST_DAY_OF_WEEK, getFirstDayOfWeek } from 'src/app/util/date';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core'
+import { MatDialog }                from '@angular/material/dialog'
+import * as dayjs                   from 'dayjs'
+import * as duration                from 'dayjs/plugin/duration'
+import { DAYS_PER_WEEK, FIRST_DAY_OF_WEEK, getFirstDayOfWeek } from 'src/app/util/date'
 
-import { Event }                from '../../../../models/event';
-import { EventCreateComponent } from '../modal/event-create/event-create.component';
-import { EventEditComponent }   from '../modal/event-edit/event-edit.component';
+import { Event }                from '../../../../models/event'
+import { EventCreateComponent } from '../modal/event-create/event-create.component'
+import { EventEditComponent }   from '../modal/event-edit/event-edit.component'
 
 
 const HEIGHT_PX_PER_HOUR = 60
 
 type DayItem = {
-  day:        dayjs.Dayjs,
-  weekday:    string,
+  day:        dayjs.Dayjs
+  weekday:    string
   eventItems: EventItem[]
 }
 
 type EventItem = {
-  event: Event,
+  event: Event
   style: {
-    top: string,
-    height: string,
+    top: string
+    height: string
   }
 }
 
@@ -62,11 +62,11 @@ export class WeeklyCalendarComponent implements OnInit {
 
   newEventPreview:
     {
-      day: dayjs.Dayjs,
+      day: dayjs.Dayjs
       style: {
-        top:    number,
-        height: number,
-      },
+        top:    number
+        height: number
+      }
     } | null = null
 
   constructor(
@@ -99,9 +99,7 @@ export class WeeklyCalendarComponent implements OnInit {
       this.days.push({
         day:        day,
         weekday:    this.weekdays[dayOfWeek],
-        eventItems: this._eventItems.filter(v => {
-          return v.event.startTime.isSame(day, 'day') || v.event.endTime.isSame(day, 'day')
-        })
+        eventItems: this._eventItems.filter(v => v.event.startTime.isSame(day, 'day') || v.event.endTime.isSame(day, 'day'))
       })
     }
   }

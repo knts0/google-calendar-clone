@@ -56,7 +56,7 @@ export class CalendarState {
       .pipe(
         tap((events: Event[]) =>
           ctx.patchState({
-            events,
+            events: events,
           })
         )
       )

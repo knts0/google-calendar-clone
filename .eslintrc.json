@@ -48,6 +48,8 @@
           "multilineDetection": "brackets"
         }],
 
+        "object-shorthand": ["error", "never"],
+
         // prefer arrow
         "prefer-arrow/prefer-arrow-functions": [
           "error",
