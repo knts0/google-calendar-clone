@@ -30,7 +30,7 @@
         "eqeqeq": ["error", "smart"],
 
         // no namespace
-        "@typescript-eslint/no-namespace": ["error", { "allowDeclarations": false, "allowDefinitionFiles": true }],
+        "@typescript-eslint/no-namespace": ["error", { "allowDeclarations": true, "allowDefinitionFiles": true }],
 
         // no underscore dangle
         "no-underscore-dangle": ["error", { "allowAfterThis": true }],
