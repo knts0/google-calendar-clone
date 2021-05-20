@@ -26,6 +26,12 @@
         // curly
         "curly": ["error", "all"],
 
+        // no namespace
+        "@typescript-eslint/no-namespace": ["error", { "allowDeclarations": false, "allowDefinitionFiles": true }],
+
+        // no underscore dangle
+        "no-underscore-dangle": ["error", { "allowAfterThis": true }],
+
         // member delimiter style
         "@typescript-eslint/member-delimiter-style": ["error", {
           "multiline": {
@@ -38,6 +44,16 @@
           },
           "multilineDetection": "brackets"
         }],
+
+        // prefer arrow
+        "prefer-arrow/prefer-arrow-functions": [
+          "error",
+          {
+            "disallowPrototype": true,
+            "singleReturnOnly": false,
+            "classPropertiesAllowed": false
+          }
+        ],
 
         // semicolon at the end of statements
         "@typescript-eslint/semi": ["error", "never"],
