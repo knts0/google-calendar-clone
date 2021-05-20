@@ -40,7 +40,6 @@ export class WeeklyCalendarComponent implements OnInit {
   set activeDate(date: dayjs.Dayjs) {
     this._activeDate = date
   }
-  _activeDate: dayjs.Dayjs
 
   @Input() today: dayjs.Dayjs
 
@@ -48,6 +47,8 @@ export class WeeklyCalendarComponent implements OnInit {
   set events(events: Event[]) {
     this._initDays(events)
   }
+
+  _activeDate: dayjs.Dayjs
 
   _eventItems: EventItem[]
 
