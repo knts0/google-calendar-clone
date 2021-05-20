@@ -26,6 +26,9 @@
         // curly
         "curly": ["error", "all"],
 
+        // eqeqeq
+        "eqeqeq": ["error", "smart"],
+
         // no namespace
         "@typescript-eslint/no-namespace": ["error", { "allowDeclarations": false, "allowDefinitionFiles": true }],
 
@@ -51,7 +54,8 @@
           {
             "disallowPrototype": true,
             "singleReturnOnly": false,
-            "classPropertiesAllowed": false
+            "classPropertiesAllowed": true,
+            "allowStandaloneDeclarations": true
           }
         ],
 
