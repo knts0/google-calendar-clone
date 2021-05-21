@@ -16,6 +16,7 @@
         "createDefaultProgram": true
       },
       "extends": [
+        "standard",
         "plugin:@angular-eslint/ng-cli-compat",
         "plugin:@angular-eslint/ng-cli-compat--formatting-add-on",
         "plugin:@angular-eslint/template/process-inline-templates"
@@ -23,17 +24,27 @@
       "rules": {
         // object literal alignment
 
+        "accessor-pairs": ["off"],
+
+        "array-bracket-spacing": ["off"],
+
         // curly
         "curly": ["error", "all"],
 
         // eqeqeq
         "eqeqeq": ["error", "smart"],
 
+        "no-multi-spaces": ["off"],
+
+        "no-undef": ["off"],
+
         // no namespace
         "@typescript-eslint/no-namespace": ["error", { "allowDeclarations": true, "allowDefinitionFiles": true }],
 
         // no underscore dangle
         "no-underscore-dangle": ["error", { "allowAfterThis": true }],
+
+        "no-useless-constructor": ["off"],
 
         // member delimiter style
         "@typescript-eslint/member-delimiter-style": ["error", {
@@ -49,6 +60,8 @@
         }],
 
         "object-shorthand": ["error", "never"],
+
+        "padded-blocks": ["error", { "classes": "always" }],
 
         // prefer arrow
         "prefer-arrow/prefer-arrow-functions": [
