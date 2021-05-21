@@ -6,5 +6,7 @@ import { Component } from '@angular/core'
   styleUrls: ['./angular.component.scss']
 })
 export class AngularComponent {
+
   title = 'google-calendar-clone'
+
 }

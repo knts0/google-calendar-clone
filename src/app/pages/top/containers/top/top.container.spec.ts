@@ -10,7 +10,7 @@ describe('TopContainerComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ TopContainerComponent ]
     })
-    .compileComponents()
+      .compileComponents()
   }))
 
   beforeEach(() => {

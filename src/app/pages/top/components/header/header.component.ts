@@ -33,4 +33,5 @@ export class HeaderComponent implements OnInit {
   onClickNextButton(): void {
     this.onNextClicked.emit()
   }
+
 }

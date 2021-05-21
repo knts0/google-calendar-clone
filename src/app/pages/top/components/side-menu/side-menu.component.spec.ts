@@ -10,7 +10,7 @@ describe('SideMenuComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ SideMenuComponent ]
     })
-    .compileComponents()
+      .compileComponents()
   }))
 
   beforeEach(() => {

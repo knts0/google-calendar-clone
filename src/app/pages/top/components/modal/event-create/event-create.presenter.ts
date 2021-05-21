@@ -19,14 +19,15 @@ export type FormData = {
 export class EventCreatePresenter implements OnDestroy {
 
   form: FormGroup<FormData> =
-    new FormGroup<FormData>({
-      title: new FormControl(),
-      startDate: new FormControl(),
-      startTime: new FormControl(),
-      endDate: new FormControl(),
-      endTime: new FormControl(),
-      isAllDay: new FormControl(),
-    }, { validators: dateTimeValidator }
+    new FormGroup<FormData>(
+      {
+        title: new FormControl(),
+        startDate: new FormControl(),
+        startTime: new FormControl(),
+        endDate: new FormControl(),
+        endTime: new FormControl(),
+        isAllDay: new FormControl(),
+      }, { validators: dateTimeValidator }
   )
 
   private subject: Subject<NewEvent> = new Subject()
@@ -62,4 +63,5 @@ export class EventCreatePresenter implements OnDestroy {
       this.subject.next(data)
     }
   }
+
 }

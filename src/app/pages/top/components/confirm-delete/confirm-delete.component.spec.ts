@@ -10,7 +10,7 @@ describe('ConfirmDeleteComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ ConfirmDeleteComponent ]
     })
-    .compileComponents()
+      .compileComponents()
   })
 
   beforeEach(() => {

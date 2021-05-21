@@ -17,6 +17,7 @@ export class CalendarComponent implements OnInit {
   get activeDate(): dayjs.Dayjs {
     return this._activeDate
   }
+
   set activeDate(date: dayjs.Dayjs) {
     this._today = dayjs()
 

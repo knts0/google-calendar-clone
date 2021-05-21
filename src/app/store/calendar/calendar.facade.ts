@@ -15,6 +15,7 @@ import { CalendarState } from './calendar.state'
   providedIn: 'root',
 })
 export class CalendarFacade {
+
   @Select(CalendarState.activeDate) activeDate$: Observable<dayjs.Dayjs>
   @Select(CalendarState.calendarViewMode) calendarViewMode$: Observable<CalendarViewMode>
   @Select(CalendarState.events) events$: Observable<Event[]>
@@ -69,4 +70,5 @@ export class CalendarFacade {
   setActiveDateToToday(): void {
     this.store.dispatch(new CalendarActions.SetActiveDateToToday())
   }
+
 }

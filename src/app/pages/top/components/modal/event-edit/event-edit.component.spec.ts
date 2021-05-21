@@ -10,7 +10,7 @@ describe('EventEditComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ EventEditComponent ]
     })
-    .compileComponents()
+      .compileComponents()
   })
 
   beforeEach(() => {

@@ -22,4 +22,5 @@ export class SideMenuComponent implements OnInit {
   onChangeActiveDate(date: dayjs.Dayjs) {
     this.onActiveDateChanged.emit(date)
   }
+
 }

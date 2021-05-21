@@ -11,18 +11,18 @@ import { EventEditComponent }   from '../modal/event-edit/event-edit.component'
 
 const HEIGHT_PX_PER_HOUR = 60
 
-type DayItem = {
-  day:        dayjs.Dayjs
-  weekday:    string
-  eventItems: EventItem[]
-}
-
 type EventItem = {
   event: Event
   style: {
     top: string
     height: string
   }
+}
+
+type DayItem = {
+  day:        dayjs.Dayjs
+  weekday:    string
+  eventItems: EventItem[]
 }
 
 @Component({
@@ -37,6 +37,7 @@ export class WeeklyCalendarComponent implements OnInit {
   get activeDate(): dayjs.Dayjs {
     return this._activeDate
   }
+
   set activeDate(date: dayjs.Dayjs) {
     this._activeDate = date
   }
@@ -120,7 +121,7 @@ export class WeeklyCalendarComponent implements OnInit {
     const top    = this.startHour * HEIGHT_PX_PER_HOUR
     const bottom = top + HEIGHT_PX_PER_HOUR
 
-    this.newEventPreview= {
+    this.newEventPreview = {
       day: dayItem.day,
       style: {
         top:    top,
@@ -193,4 +194,5 @@ export class WeeklyCalendarComponent implements OnInit {
       this.endHour = null
     })
   }
+
 }

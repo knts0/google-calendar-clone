@@ -28,4 +28,5 @@ export class ConfirmDeleteComponent implements OnInit {
     const result: ConfirmDeleteResult = { isDelete: true }
     this.dialogRef.close(result)
   }
+
 }
