@@ -3,7 +3,7 @@ import { MatDialog }                from '@angular/material/dialog'
 import * as dayjs                   from 'dayjs'
 import * as duration                from 'dayjs/plugin/duration'
 import { combineLatest, merge, Observable, Subject } from 'rxjs'
-import { filter, map, share, takeUntil, tap, withLatestFrom } from 'rxjs/operators'
+import { filter, map, takeUntil, withLatestFrom } from 'rxjs/operators'
 import { DAYS_PER_WEEK, FIRST_DAY_OF_WEEK, getFirstDayOfWeek } from 'src/app/util/date'
 
 import { Event }                from '../../../../models/event'
@@ -25,6 +25,15 @@ type DayItem = {
   day:        dayjs.Dayjs
   weekday:    string
   eventItems: EventItem[]
+}
+
+type EventPreview ={
+  startTime: dayjs.Dayjs
+  endTime: dayjs.Dayjs
+  style: {
+    top:    number
+    height: number
+  }
 }
 
 @Component({
@@ -67,15 +76,7 @@ export class WeeklyCalendarComponent implements OnInit {
   _endTime$: Observable<dayjs.Dayjs>
 
   _isShowNewEventPreview: boolean = false
-  _newEventPreview$: Observable<
-    {
-      day: dayjs.Dayjs
-      style: {
-        top:    number
-        height: number
-      }
-    }
-  >
+  _newEventPreview$: Observable<EventPreview>
 
   private readonly onDestroy$ = new EventEmitter();
 
@@ -101,8 +102,6 @@ export class WeeklyCalendarComponent implements OnInit {
           mouseDown.startTime.hour(Math.floor(mouseMove.offsetY / HEIGHT_PX_PER_HOUR))
         ),
       )
-    ).pipe(
-      share(),
     )
 
     this._endTime$ = merge(
@@ -122,37 +121,38 @@ export class WeeklyCalendarComponent implements OnInit {
           mouseDown.startTime.hour(Math.ceil(mouseMove.offsetY / HEIGHT_PX_PER_HOUR))
         ),
       )
-    ).pipe(
-      share(),
     )
 
     this._newEventPreview$ = combineLatest([
       this._startTime$,
       this._endTime$,
     ]).pipe(
-      withLatestFrom(this._eventMouseDown),
-      map(([[startTime, endTime], mouseDown]) => {
-        // calc preview event position
-        const top    = startTime.hour() * HEIGHT_PX_PER_HOUR
-        const bottom = endTime.hour() * HEIGHT_PX_PER_HOUR
-
+      map(([startTime, endTime]) => {
         return {
-          day: mouseDown.startTime,
-          style: {
-            top:    top,
-            height: bottom - top,
-          }
+          startTime: startTime,
+          endTime: endTime,
+          style: this.calcNewEventPreviewStyle(startTime, endTime)
         }
       }),
-      share(),
     )
 
     this._eventMouseUp.pipe(
       takeUntil(this.onDestroy$),
-      withLatestFrom(this._newEventPreview$, this._startTime$, this._endTime$)
-    ).subscribe(([_, eventPreview, startTime, endTime]) => {
-      this.openEventEditDialog(eventPreview.day, startTime, endTime)}
+      withLatestFrom(this._startTime$, this._endTime$)
+    ).subscribe(([_, startTime, endTime]) => {
+      this.openEventEditDialog(startTime, endTime)}
     )
+  }
+
+  private calcNewEventPreviewStyle(startTime: dayjs.Dayjs, endTime: dayjs.Dayjs): { top: number, height: number } {
+    // calc preview event position
+    const top    = startTime.hour() * HEIGHT_PX_PER_HOUR
+    const bottom = endTime.hour() * HEIGHT_PX_PER_HOUR
+
+    return {
+      top:    top,
+      height: bottom - top,
+    }
   }
 
   ngOnDestroy() {
@@ -222,7 +222,7 @@ export class WeeklyCalendarComponent implements OnInit {
     })
   }
 
-  openEventEditDialog(date: dayjs.Dayjs, startTime: dayjs.Dayjs, endTime: dayjs.Dayjs): void {
+  openEventEditDialog(startTime: dayjs.Dayjs, endTime: dayjs.Dayjs): void {
     dayjs.extend(duration)
 
     const data = {
