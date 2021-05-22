@@ -64,16 +64,18 @@
           </div>
 
           <!-- Preview event -->
+          <ng-container *ngIf = "_newEventPreview$ | async as newEventPreview">
           <div
-            *ngIf             = "newEventPreview != null && item.day === newEventPreview.day"
+            *ngIf             = "item.day === newEventPreview.day"
             class             = "grid-view__preview-event"
             [style.top.px]    = "newEventPreview.style.top"
             [style.height.px] = "newEventPreview.style.height"
           >
             無題
             <br>
-            {{ startHour }}:00〜{{ endHour }}:00
+            {{ _startHour$ | async }}:00〜{{ _endHour$ | async }}:00
           </div>
+          </ng-container>
 
           <!-- registered events click area (transparent) -->
           <div

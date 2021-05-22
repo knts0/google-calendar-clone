@@ -1,7 +1,9 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core'
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit } from '@angular/core'
 import { MatDialog }                from '@angular/material/dialog'
 import * as dayjs                   from 'dayjs'
 import * as duration                from 'dayjs/plugin/duration'
+import { combineLatest, merge, Observable, Subject } from 'rxjs'
+import { filter, map, takeUntil, tap, withLatestFrom } from 'rxjs/operators'
 import { DAYS_PER_WEEK, FIRST_DAY_OF_WEEK, getFirstDayOfWeek } from 'src/app/util/date'
 
 import { Event }                from '../../../../models/event'
@@ -57,25 +59,107 @@ export class WeeklyCalendarComponent implements OnInit {
   weekdays = [ '月', '火', '水', '木', '金', '土', '日' ]
   days: DayItem[] = []
 
-  isMovingMouse = false
-  startHour: number | null =  null
-  initialStartHour: number | null =  null
-  endHour: number | null =  null
+  _eventMouseDown = new Subject<{ startHour: number, endHour: number, dayItem: DayItem }>()
+  _eventMouseMove = new Subject<{ offsetY: number }>()
+  _eventMouseUp = new Subject<void>()
 
-  newEventPreview:
+  _startHour$: Observable<number>
+  _endHour$: Observable<number>
+
+  // isMovingMouse = false
+  // startHour: number | null =  null
+  // initialStartHour: number | null =  null
+  // endHour: number | null =  null
+
+  // newEventPreview:
+  //   {
+  //     day: dayjs.Dayjs
+  //     style: {
+  //       top:    number
+  //       height: number
+  //     }
+  //   } | null = null
+
+  _newEventPreview$: Observable<
     {
       day: dayjs.Dayjs
       style: {
         top:    number
         height: number
       }
-    } | null = null
+    }
+  >
+
+  private readonly onDestroy$ = new EventEmitter();
 
   constructor(
     private dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
+    this._startHour$ = merge(
+      this._eventMouseDown.pipe(
+        map(mouseDown => mouseDown.startHour)
+      ),
+      this._eventMouseMove.pipe(
+        withLatestFrom(this._eventMouseDown),
+
+        // mouse move (up)
+        filter(([mouseMove, mouseDown]) => mouseDown.startHour * HEIGHT_PX_PER_HOUR >= mouseMove.offsetY),
+
+        // new start hour of event (round down mouse move position)
+        map(([mouseMove, _]) => Math.floor(mouseMove.offsetY / HEIGHT_PX_PER_HOUR)),
+      )
+    )
+
+    this._endHour$ = merge(
+      this._eventMouseDown.pipe(
+        map(mouseDown => mouseDown.endHour)
+      ),
+      this._eventMouseMove.pipe(
+        withLatestFrom(this._eventMouseDown),
+
+        // mouse move (down)
+        filter(([mouseMove, mouseDown]) => mouseDown.startHour * HEIGHT_PX_PER_HOUR < mouseMove.offsetY),
+
+        // new end hour of event (round up mouse move position)
+        map(([mouseMove, _]) => Math.ceil(mouseMove.offsetY / HEIGHT_PX_PER_HOUR)),
+      )
+    )
+
+    this._newEventPreview$ = combineLatest([
+      this._startHour$,
+      this._endHour$,
+    ]).pipe(
+      withLatestFrom(this._eventMouseDown),
+      map(([[startHour, endHour], mouseDown]) => {
+        // calc preview event position
+        const top    = startHour * HEIGHT_PX_PER_HOUR
+        const bottom = endHour * HEIGHT_PX_PER_HOUR
+
+        return {
+          day: mouseDown.dayItem.day,
+          style: {
+            top:    top,
+            height: bottom - top,
+          }
+        }
+      })
+    )
+
+    this._eventMouseUp.pipe(
+      takeUntil(this.onDestroy$),
+      withLatestFrom(this._newEventPreview$, this._startHour$, this._endHour$)
+    ).subscribe(([_, eventPreview, startHour, endHour]) => {
+      console.log('mouse up')
+      this._newEventPreview$
+
+      this.openEventEditDialog(eventPreview.day, startHour, endHour)}
+    )
+  }
+
+  ngOnDestroy() {
+    this.onDestroy$.emit();
   }
 
   _initDays(events: Event[]): void {
@@ -112,59 +196,29 @@ export class WeeklyCalendarComponent implements OnInit {
 
   // https://developer.mozilla.org/ja/docs/Web/API/Element/mouseup_event
   onMouseDown(event, dayItem: DayItem): void {
-    // set start hour of event(round down mouse down position)
-    this.startHour = Math.floor(event.offsetY / HEIGHT_PX_PER_HOUR)
-    this.endHour   = this.startHour + 1
-    this.initialStartHour = this.startHour
+    // set start hour of event (round down mouse down position)
+    const startHour = Math.floor(event.offsetY / HEIGHT_PX_PER_HOUR)
 
-    // calc preview event position
-    const top    = this.startHour * HEIGHT_PX_PER_HOUR
-    const bottom = top + HEIGHT_PX_PER_HOUR
 
-    this.newEventPreview = {
-      day: dayItem.day,
-      style: {
-        top:    top,
-        height: bottom - top,
-      }
-    }
+    this._eventMouseDown.next({
+      startHour: startHour,
+      endHour: startHour + 1,
+      dayItem: dayItem,
+    })
 
     event.stopImmediatePropagation()
-    this.isMovingMouse = true
-  }
-
-  onMouseUp(event, dayItem: DayItem): void {
-    this.openEventEditDialog(dayItem.day, this.startHour, this.endHour)
-
-    // reset
-    this.isMovingMouse = false
+    // this.isMovingMouse = true
   }
 
   onMouseMove(event): void {
-    if (this.isMovingMouse && this.newEventPreview != null) {
-      // mouse move (down)
-      if (this.initialStartHour * HEIGHT_PX_PER_HOUR < event.offsetY) {
-        // update end hour of event (round up mouse move position)
-        const endHour = Math.ceil(event.offsetY / HEIGHT_PX_PER_HOUR)
-        this.endHour = endHour
+    this._eventMouseMove.next({ offsetY: event.offsetY })
+  }
 
-      // mouse move (up)
-      } else {
-        // update start hour of event (round down mouse move position)
-        const newStartHour = Math.floor(event.offsetY / HEIGHT_PX_PER_HOUR)
-        this.startHour = newStartHour
-      }
+  onMouseUp(event, dayItem: DayItem): void {
+    this._eventMouseUp.next()
 
-      // calc preview event position
-      const top = this.startHour * HEIGHT_PX_PER_HOUR
-      const bottom = this.endHour * HEIGHT_PX_PER_HOUR
-
-      // update event preview style
-      this.newEventPreview.style = {
-        top:    top,
-        height: bottom - top,
-      }
-    }
+    // reset
+    // this.isMovingMouse = false
   }
 
   onClickEvent(event: Event): void {
@@ -188,10 +242,10 @@ export class WeeklyCalendarComponent implements OnInit {
       panelClass: 'transition',
       data: data,
     }).afterClosed().subscribe( _ => {
-      this.newEventPreview = null
-      this.startHour = null
-      this.initialStartHour = null
-      this.endHour = null
+      // this.newEventPreview = null
+      // this.startHour = null
+      // this.initialStartHour = null
+      // this.endHour = null
     })
   }
 
