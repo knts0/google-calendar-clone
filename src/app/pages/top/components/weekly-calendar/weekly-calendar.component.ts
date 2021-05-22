@@ -62,8 +62,6 @@ export class WeeklyCalendarComponent implements OnInit {
 
   _activeDate: dayjs.Dayjs
 
-  _eventItems: EventItem[]
-
   hours = Array.from({ length: 24 }, (v, i) => i )
   weekdays = [ '月', '火', '水', '木', '金', '土', '日' ]
   days: DayItem[] = []
@@ -146,16 +144,10 @@ export class WeeklyCalendarComponent implements OnInit {
   }
 
   _initDays(events: Event[]): void {
-    this._eventItems = events.map(e => {
-      const top    = HEIGHT_PX_PER_HOUR * e.startTime.hour()
-      const bottom = HEIGHT_PX_PER_HOUR * e.endTime.hour()
-
+    const eventItems = events.map(e => {
       return {
         event: e,
-        style: {
-          top:    `${top}px`,
-          height: `${bottom - top}px`,
-        }
+        style: this.calcNewEventPreviewStyle(e.startTime, e.endTime),
       }
     })
 
@@ -168,7 +160,7 @@ export class WeeklyCalendarComponent implements OnInit {
       this.days.push({
         day:        day,
         weekday:    this.weekdays[dayOfWeek],
-        eventItems: this._eventItems.filter(v => v.event.startTime.isSame(day, 'day') || v.event.endTime.isSame(day, 'day'))
+        eventItems: eventItems.filter(v => v.event.startTime.isSame(day, 'day') || v.event.endTime.isSame(day, 'day'))
       })
     }
   }
