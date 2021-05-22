@@ -89,6 +89,8 @@ export class WeeklyCalendarComponent implements OnInit {
         map(mouseDown => mouseDown.startHour)
       ),
       this._eventMouseMove.pipe(
+        filter(_ => this._isShowNewEventPreview),
+
         withLatestFrom(this._eventMouseDown),
 
         // mouse move (up)
@@ -104,6 +106,8 @@ export class WeeklyCalendarComponent implements OnInit {
         map(mouseDown => mouseDown.endHour)
       ),
       this._eventMouseMove.pipe(
+        filter(_ => this._isShowNewEventPreview),
+
         withLatestFrom(this._eventMouseDown),
 
         // mouse move (down)
