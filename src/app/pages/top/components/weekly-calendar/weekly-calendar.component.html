@@ -40,9 +40,9 @@
         <!-- for detecting mouse events -->
         <div class="grid-view__detecting-mouse-events"
           (mousedown) = "onMouseDown($event, item)"
-          (mouseup)   = "onMouseUp($event, item)"
           (mousemove) = "onMouseMove($event)"
-          [class.cursor-move] = "isMovingMouse"
+          (mouseup)   = "onMouseUp()"
+          [class.cursor-move] = "_isShowNewEventPreview"
         ></div>
 
         <!-- timeline frame -->
@@ -64,17 +64,17 @@
           </div>
 
           <!-- Preview event -->
-          <ng-container *ngIf = "_newEventPreview$ | async as newEventPreview">
-          <div
-            *ngIf             = "item.day === newEventPreview.day"
-            class             = "grid-view__preview-event"
-            [style.top.px]    = "newEventPreview.style.top"
-            [style.height.px] = "newEventPreview.style.height"
-          >
-            無題
-            <br>
-            {{ _startHour$ | async }}:00〜{{ _endHour$ | async }}:00
-          </div>
+          <ng-container *ngIf="_isShowNewEventPreview && _newEventPreview$ | async as newEventPreview">
+            <div
+              *ngIf             = "item.day === newEventPreview.day"
+              class             = "grid-view__preview-event"
+              [style.top.px]    = "newEventPreview.style.top"
+              [style.height.px] = "newEventPreview.style.height"
+            >
+              無題
+              <br>
+              {{ _startHour$ | async }}:00〜{{ _endHour$ | async }}:00
+            </div>
           </ng-container>
 
           <!-- registered events click area (transparent) -->
