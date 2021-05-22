@@ -65,9 +65,8 @@
 
           <!-- Preview event -->
           <ng-container *ngIf="_newEventPreview$ | async as newEventPreview">
-          <ng-container *ngIf="_isShowNewEventPreview">
             <div
-              *ngIf             = "item.day.isSame(newEventPreview.startTime, 'day')"
+              *ngIf             = "_isShowNewEventPreview && item.day.isSame(newEventPreview.startTime, 'day')"
               class             = "grid-view__preview-event"
               [style.top.px]    = "newEventPreview.style.top"
               [style.height.px] = "newEventPreview.style.height"
@@ -76,7 +75,6 @@
               <br>
               {{ newEventPreview.startTime.hour() }}:00〜{{ newEventPreview.endTime.hour() }}:00
             </div>
-          </ng-container>
           </ng-container>
 
           <!-- registered events click area (transparent) -->
