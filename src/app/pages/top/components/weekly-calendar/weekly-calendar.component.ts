@@ -59,12 +59,12 @@ export class WeeklyCalendarComponent implements OnInit {
   weekdays = [ '月', '火', '水', '木', '金', '土', '日' ]
   days: DayItem[] = []
 
-  _eventMouseDown = new Subject<{ startHour: number, endHour: number, dayItem: DayItem }>()
+  _eventMouseDown = new Subject<{ startTime: dayjs.Dayjs, endTime: dayjs.Dayjs }>()
   _eventMouseMove = new Subject<{ offsetY: number }>()
   _eventMouseUp = new Subject<void>()
 
-  _startHour$: Observable<number>
-  _endHour$: Observable<number>
+  _startTime$: Observable<dayjs.Dayjs>
+  _endTime$: Observable<dayjs.Dayjs>
 
   _isShowNewEventPreview: boolean = false
   _newEventPreview$: Observable<
@@ -84,9 +84,9 @@ export class WeeklyCalendarComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this._startHour$ = merge(
+    this._startTime$ = merge(
       this._eventMouseDown.pipe(
-        map(mouseDown => mouseDown.startHour)
+        map(mouseDown => mouseDown.startTime)
       ),
       this._eventMouseMove.pipe(
         filter(_ => this._isShowNewEventPreview),
@@ -94,16 +94,20 @@ export class WeeklyCalendarComponent implements OnInit {
         withLatestFrom(this._eventMouseDown),
 
         // mouse move (up)
-        filter(([mouseMove, mouseDown]) => mouseDown.startHour * HEIGHT_PX_PER_HOUR >= mouseMove.offsetY),
+        filter(([mouseMove, mouseDown]) => mouseDown.startTime.hour() * HEIGHT_PX_PER_HOUR >= mouseMove.offsetY),
 
         // new start hour of event (round down mouse move position)
-        map(([mouseMove, _]) => Math.floor(mouseMove.offsetY / HEIGHT_PX_PER_HOUR)),
+        map(([mouseMove, mouseDown]) =>
+          mouseDown.startTime.hour(Math.floor(mouseMove.offsetY / HEIGHT_PX_PER_HOUR))
+        ),
       )
+    ).pipe(
+      share(),
     )
 
-    this._endHour$ = merge(
+    this._endTime$ = merge(
       this._eventMouseDown.pipe(
-        map(mouseDown => mouseDown.endHour)
+        map(mouseDown => mouseDown.endTime)
       ),
       this._eventMouseMove.pipe(
         filter(_ => this._isShowNewEventPreview),
@@ -111,40 +115,43 @@ export class WeeklyCalendarComponent implements OnInit {
         withLatestFrom(this._eventMouseDown),
 
         // mouse move (down)
-        filter(([mouseMove, mouseDown]) => mouseDown.startHour * HEIGHT_PX_PER_HOUR < mouseMove.offsetY),
+        filter(([mouseMove, mouseDown]) => mouseDown.startTime.hour() * HEIGHT_PX_PER_HOUR < mouseMove.offsetY),
 
         // new end hour of event (round up mouse move position)
-        map(([mouseMove, _]) => Math.ceil(mouseMove.offsetY / HEIGHT_PX_PER_HOUR)),
+        map(([mouseMove, mouseDown]) =>
+          mouseDown.startTime.hour(Math.ceil(mouseMove.offsetY / HEIGHT_PX_PER_HOUR))
+        ),
       )
+    ).pipe(
+      share(),
     )
 
     this._newEventPreview$ = combineLatest([
-      this._startHour$,
-      this._endHour$,
+      this._startTime$,
+      this._endTime$,
     ]).pipe(
       withLatestFrom(this._eventMouseDown),
-      map(([[startHour, endHour], mouseDown]) => {
-        console.log('event preview')
+      map(([[startTime, endTime], mouseDown]) => {
         // calc preview event position
-        const top    = startHour * HEIGHT_PX_PER_HOUR
-        const bottom = endHour * HEIGHT_PX_PER_HOUR
+        const top    = startTime.hour() * HEIGHT_PX_PER_HOUR
+        const bottom = endTime.hour() * HEIGHT_PX_PER_HOUR
 
         return {
-          day: mouseDown.dayItem.day,
+          day: mouseDown.startTime,
           style: {
             top:    top,
             height: bottom - top,
           }
         }
       }),
-      share()
+      share(),
     )
 
     this._eventMouseUp.pipe(
       takeUntil(this.onDestroy$),
-      withLatestFrom(this._newEventPreview$, this._startHour$, this._endHour$)
-    ).subscribe(([_, eventPreview, startHour, endHour]) => {
-      this.openEventEditDialog(eventPreview.day, startHour, endHour)}
+      withLatestFrom(this._newEventPreview$, this._startTime$, this._endTime$)
+    ).subscribe(([_, eventPreview, startTime, endTime]) => {
+      this.openEventEditDialog(eventPreview.day, startTime, endTime)}
     )
   }
 
@@ -190,9 +197,8 @@ export class WeeklyCalendarComponent implements OnInit {
     const startHour = Math.floor(event.offsetY / HEIGHT_PX_PER_HOUR)
 
     this._eventMouseDown.next({
-      startHour: startHour,
-      endHour: startHour + 1,
-      dayItem: dayItem,
+      startTime: dayItem.day.hour(startHour),
+      endTime: dayItem.day.hour(startHour + 1),
     })
 
     event.stopImmediatePropagation()
@@ -216,12 +222,12 @@ export class WeeklyCalendarComponent implements OnInit {
     })
   }
 
-  openEventEditDialog(date: dayjs.Dayjs, startHour: number, endHour: number): void {
+  openEventEditDialog(date: dayjs.Dayjs, startTime: dayjs.Dayjs, endTime: dayjs.Dayjs): void {
     dayjs.extend(duration)
 
     const data = {
-      start: date.hour(startHour),
-      end: date.hour(endHour),
+      start: startTime,
+      end: endTime,
       isAllDay: false,
     }
 

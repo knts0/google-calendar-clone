@@ -66,14 +66,14 @@
           <!-- Preview event -->
           <ng-container *ngIf="_isShowNewEventPreview && _newEventPreview$ | async as newEventPreview">
             <div
-              *ngIf             = "item.day === newEventPreview.day"
+              *ngIf             = "item.day.isSame(newEventPreview.day, 'day')"
               class             = "grid-view__preview-event"
               [style.top.px]    = "newEventPreview.style.top"
               [style.height.px] = "newEventPreview.style.height"
             >
               無題
               <br>
-              {{ _startHour$ | async }}:00〜{{ _endHour$ | async }}:00
+              {{ (_startTime$ | async)?.hour() }}:00〜{{ (_endTime$ | async)?.hour() }}:00
             </div>
           </ng-container>
 
