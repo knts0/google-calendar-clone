@@ -91,32 +91,10 @@ export class WeeklyCalendarComponent implements OnInit {
       ),
       this._eventMouseMove.pipe(
         filter(_ => this._isShowNewEventPreview),
-
         withLatestFrom(this._eventMouseDown),
-
-        // new start hour of event (round down mouse move position)
-        map(([mouseMove, mouseDown]) => {
-          // mouse move (up)
-          if (mouseDown.startTime.hour() * HEIGHT_PX_PER_HOUR >= mouseMove.offsetY) {
-            const startTime = mouseDown.startTime.hour(Math.floor(mouseMove.offsetY / HEIGHT_PX_PER_HOUR))
-            const endTime = mouseDown.endTime
-            return {
-              startTime: startTime,
-              endTime: endTime,
-              style: this.calcNewEventPreviewStyle(startTime, endTime),
-            }
-
-          // mouse move (down)
-          } else {
-            const startTime = mouseDown.startTime
-            const endTime = mouseDown.startTime.hour(Math.ceil(mouseMove.offsetY / HEIGHT_PX_PER_HOUR))
-            return {
-              startTime: startTime,
-              endTime: endTime,
-              style: this.calcNewEventPreviewStyle(startTime, endTime),
-            }
-          }
-        }),
+        map(([mouseMove, mouseDown]) =>
+          this.eventPreview(mouseDown.startTime, mouseDown.endTime, mouseMove.offsetY)
+        ),
       )
     )
 
@@ -136,6 +114,33 @@ export class WeeklyCalendarComponent implements OnInit {
     return {
       top:    `${top}px`,
       height: `${bottom - top}px`,
+    }
+  }
+
+  private eventPreview(startTimeWhenMouseDown: dayjs.Dayjs, endTimeWhenMouseDown: dayjs.Dayjs, newOffsetY: number): EventPreview {
+    const startTimeWhenMouseDownOffsetY = startTimeWhenMouseDown.hour() * HEIGHT_PX_PER_HOUR
+
+    // mouse move (up): only change start time
+    if (startTimeWhenMouseDownOffsetY >= newOffsetY) {
+      // new start time of event (round down mouse move position)
+      const startTime = startTimeWhenMouseDown.hour(Math.floor(newOffsetY / HEIGHT_PX_PER_HOUR))
+      const endTime = endTimeWhenMouseDown
+      return {
+        startTime: startTime,
+        endTime: endTime,
+        style: this.calcNewEventPreviewStyle(startTime, endTime),
+      }
+
+    // mouse move (down): only change end time
+    } else {
+      const startTime = startTimeWhenMouseDown
+      // new end time of event (round up mouse move position)
+      const endTime = endTimeWhenMouseDown.hour(Math.ceil(newOffsetY / HEIGHT_PX_PER_HOUR))
+      return {
+        startTime: startTime,
+        endTime: endTime,
+        style: this.calcNewEventPreviewStyle(startTime, endTime),
+      }
     }
   }
 
