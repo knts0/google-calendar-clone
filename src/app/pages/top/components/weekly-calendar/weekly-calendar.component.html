@@ -66,10 +66,9 @@
           <!-- Preview event -->
           <ng-container *ngIf="_newEventPreview$ | async as newEventPreview">
             <div
-              *ngIf             = "_isShowNewEventPreview && item.day.isSame(newEventPreview.startTime, 'day')"
-              class             = "grid-view__preview-event"
-              [style.top.px]    = "newEventPreview.style.top"
-              [style.height.px] = "newEventPreview.style.height"
+              *ngIf   = "_isShowNewEventPreview && item.day.isSame(newEventPreview.startTime, 'day')"
+              class   = "grid-view__preview-event"
+              [style] = "newEventPreview.style"
             >
               無題
               <br>

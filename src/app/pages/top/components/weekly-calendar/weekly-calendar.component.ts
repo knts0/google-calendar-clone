@@ -31,8 +31,8 @@ type EventPreview ={
   startTime: dayjs.Dayjs
   endTime: dayjs.Dayjs
   style: {
-    top:    number
-    height: number
+    top:    string
+    height: string
   }
 }
 
@@ -130,14 +130,14 @@ export class WeeklyCalendarComponent implements OnInit {
     )
   }
 
-  private calcNewEventPreviewStyle(startTime: dayjs.Dayjs, endTime: dayjs.Dayjs): { top: number, height: number } {
+  private calcNewEventPreviewStyle(startTime: dayjs.Dayjs, endTime: dayjs.Dayjs): { top: string, height: string } {
     // calc preview event position
     const top    = startTime.hour() * HEIGHT_PX_PER_HOUR
     const bottom = endTime.hour() * HEIGHT_PX_PER_HOUR
 
     return {
-      top:    top,
-      height: bottom - top,
+      top:    `${top}px`,
+      height: `${bottom - top}px`,
     }
   }
 
