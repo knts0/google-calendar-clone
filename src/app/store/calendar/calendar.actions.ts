@@ -4,7 +4,7 @@ import { Event } from 'src/app/models/event'
 import { NewEvent } from 'src/app/models/new-event'
 import { UpdatedEvent } from 'src/app/models/updated-event'
 
-export declare namespace CalendarActions {
+export namespace CalendarActions {
 
   export class LoadEvents {
 
