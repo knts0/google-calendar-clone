@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit } from 
 import { MatDialog }                from '@angular/material/dialog'
 import * as dayjs                   from 'dayjs'
 import * as duration                from 'dayjs/plugin/duration'
-import { combineLatest, merge, Observable, Subject } from 'rxjs'
+import { merge, Observable, Subject } from 'rxjs'
 import { filter, map, takeUntil, withLatestFrom } from 'rxjs/operators'
 import { DAYS_PER_WEEK, FIRST_DAY_OF_WEEK, getFirstDayOfWeek } from 'src/app/util/date'
 
@@ -72,9 +72,6 @@ export class WeeklyCalendarComponent implements OnInit {
   _eventMouseMove = new Subject<{ offsetY: number }>()
   _eventMouseUp = new Subject<void>()
 
-  _startTime$: Observable<dayjs.Dayjs>
-  _endTime$: Observable<dayjs.Dayjs>
-
   _isShowNewEventPreview: boolean = false
   _newEventPreview$: Observable<EventPreview>
 
@@ -85,61 +82,50 @@ export class WeeklyCalendarComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this._startTime$ = merge(
+    this._newEventPreview$ = merge(
+      // mouse down event
       this._eventMouseDown.pipe(
-        map(mouseDown => mouseDown.startTime)
+        map(mouseDown => { return {
+          startTime: mouseDown.startTime,
+          endTime: mouseDown.endTime,
+          style: this.calcNewEventPreviewStyle(mouseDown.startTime, mouseDown.endTime)
+        }})
       ),
       this._eventMouseMove.pipe(
         filter(_ => this._isShowNewEventPreview),
 
         withLatestFrom(this._eventMouseDown),
-
-        // mouse move (up)
-        filter(([mouseMove, mouseDown]) => mouseDown.startTime.hour() * HEIGHT_PX_PER_HOUR >= mouseMove.offsetY),
 
         // new start hour of event (round down mouse move position)
-        map(([mouseMove, mouseDown]) =>
-          mouseDown.startTime.hour(Math.floor(mouseMove.offsetY / HEIGHT_PX_PER_HOUR))
-        ),
+        map(([mouseMove, mouseDown]) => {
+          // mouse move (up)
+          if (mouseDown.startTime.hour() * HEIGHT_PX_PER_HOUR >= mouseMove.offsetY) {
+            const startTime = mouseDown.startTime.hour(Math.floor(mouseMove.offsetY / HEIGHT_PX_PER_HOUR))
+            const endTime = mouseDown.endTime
+            return {
+              startTime: startTime,
+              endTime: endTime,
+              style: this.calcNewEventPreviewStyle(startTime, endTime),
+            }
+
+          // mouse move (down)
+          } else {
+            const startTime = mouseDown.startTime
+            const endTime = mouseDown.startTime.hour(Math.ceil(mouseMove.offsetY / HEIGHT_PX_PER_HOUR))
+            return {
+              startTime: startTime,
+              endTime: endTime,
+              style: this.calcNewEventPreviewStyle(startTime, endTime),
+            }
+          }
+        }),
       )
-    )
-
-    this._endTime$ = merge(
-      this._eventMouseDown.pipe(
-        map(mouseDown => mouseDown.endTime)
-      ),
-      this._eventMouseMove.pipe(
-        filter(_ => this._isShowNewEventPreview),
-
-        withLatestFrom(this._eventMouseDown),
-
-        // mouse move (down)
-        filter(([mouseMove, mouseDown]) => mouseDown.startTime.hour() * HEIGHT_PX_PER_HOUR < mouseMove.offsetY),
-
-        // new end hour of event (round up mouse move position)
-        map(([mouseMove, mouseDown]) =>
-          mouseDown.startTime.hour(Math.ceil(mouseMove.offsetY / HEIGHT_PX_PER_HOUR))
-        ),
-      )
-    )
-
-    this._newEventPreview$ = combineLatest([
-      this._startTime$,
-      this._endTime$,
-    ]).pipe(
-      map(([startTime, endTime]) => {
-        return {
-          startTime: startTime,
-          endTime: endTime,
-          style: this.calcNewEventPreviewStyle(startTime, endTime)
-        }
-      }),
     )
 
     this._eventMouseUp.pipe(
       takeUntil(this.onDestroy$),
-      withLatestFrom(this._startTime$, this._endTime$)
-    ).subscribe(([_, startTime, endTime]) => {
+      withLatestFrom(this._newEventPreview$)
+    ).subscribe(([_, { startTime, endTime }]) => {
       this.openEventEditDialog(startTime, endTime)}
     )
   }
