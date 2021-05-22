@@ -143,7 +143,7 @@ export class WeeklyCalendarComponent implements OnInit {
     this.onDestroy$.emit();
   }
 
-  _initDays(events: Event[]): void {
+  private _initDays(events: Event[]): void {
     const eventItems = events.map(e => {
       return {
         event: e,
@@ -200,7 +200,7 @@ export class WeeklyCalendarComponent implements OnInit {
     })
   }
 
-  openEventEditDialog(startTime: dayjs.Dayjs, endTime: dayjs.Dayjs): void {
+  private openEventEditDialog(startTime: dayjs.Dayjs, endTime: dayjs.Dayjs): void {
     dayjs.extend(duration)
 
     const data = {
