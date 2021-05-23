@@ -127,9 +127,16 @@
       position: absolute;
       z-index:  5;
       width:    100%;
-      cursor:   pointer;
     }
 
+    &__event-clickable {
+      height: calc(100% - 8px);
+      cursor: pointer;
+    }
 
+    &__event-size-adjustable {
+      height: 8px;
+      cursor: ns-resize;
+    }
   }
 }
