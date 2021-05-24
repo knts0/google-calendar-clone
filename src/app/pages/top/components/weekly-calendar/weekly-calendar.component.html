@@ -93,9 +93,21 @@
           >
             <div class="grid-view__event-clickable">
             </div>
-            <div class="grid-view__event-size-adjustable">
+            <div
+              class       = "grid-view__event-size-adjustable"
+              (mousedown) = "onMouseDownOnEvent($event, eventItem)"
+            >
             </div>
           </div>
+          <ng-container *ngIf="_resizingEvent$ | async as resizingEvent">
+            <div
+              *ngIf   = "_isResizingEvent && item.day.isSame(resizingEvent.startTime, 'day')"
+              class   = "grid-view__event-resize-preview"
+              [style] = "resizingEvent.style"
+            >
+              aaa
+            </div>
+          </ng-container>
         </div>
 
       </div>

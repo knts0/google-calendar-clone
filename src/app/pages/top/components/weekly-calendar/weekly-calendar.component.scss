@@ -97,8 +97,6 @@
       background-color: lightblue;
       z-index:          2;
       user-select:      none;
-      resize:both;
-      overflow: hidden;
     }
 
     &__preview-event {
@@ -118,7 +116,7 @@
       width:    100px;
       height:   100%;
       cursor:   pointer;
-      z-index:  4;
+      z-index:  10;
 
       &.cursor-move {
         cursor: move;
@@ -127,20 +125,27 @@
 
     &__event-click-area {
       position: absolute;
-      z-index:  5;
+      z-index:  11;
       width:    100%;
     }
 
     &__event-clickable {
       height: calc(100% - 8px);
       cursor: pointer;
+      user-select:      none;
     }
 
     &__event-size-adjustable {
       height: 8px;
-      // cursor: ns-resize;
-      // resize: vertical;
-      // background-color: red;
+      cursor: ns-resize;
+      background-color: red;
+    }
+
+    &__event-resize-preview {
+      width: 100%;
+      position: absolute;
+      z-index: 4;
+      background-color: blue;
     }
   }
 }
