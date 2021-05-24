@@ -146,7 +146,6 @@ export class WeeklyCalendarComponent implements OnInit {
       takeUntil(this.onDestroy$),
       withLatestFrom(this._resizingEvent$)
     ).subscribe(([_, { startTime, endTime }]) => {
-      console.log('event resize')
       this._isResizingEvent = false
     })
   }
