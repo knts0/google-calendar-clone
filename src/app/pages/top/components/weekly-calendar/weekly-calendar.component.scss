@@ -97,6 +97,8 @@
       background-color: lightblue;
       z-index:          2;
       user-select:      none;
+      resize:both;
+      overflow: hidden;
     }
 
     &__preview-event {
@@ -136,7 +138,9 @@
 
     &__event-size-adjustable {
       height: 8px;
-      cursor: ns-resize;
+      // cursor: ns-resize;
+      // resize: vertical;
+      // background-color: red;
     }
   }
 }
