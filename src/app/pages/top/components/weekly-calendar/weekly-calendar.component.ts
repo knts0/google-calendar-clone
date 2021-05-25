@@ -1,9 +1,11 @@
+import { Output } from '@angular/core'
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit } from '@angular/core'
 import { MatDialog }                from '@angular/material/dialog'
 import * as dayjs                   from 'dayjs'
 import * as duration                from 'dayjs/plugin/duration'
 import { merge, Observable, Subject } from 'rxjs'
 import { filter, map, share, takeUntil, tap, withLatestFrom } from 'rxjs/operators'
+import { UpdatedEvent } from 'src/app/models/updated-event'
 import { DAYS_PER_WEEK, FIRST_DAY_OF_WEEK, getFirstDayOfWeek } from 'src/app/util/date'
 
 import { Event }                from '../../../../models/event'
@@ -69,6 +71,8 @@ export class WeeklyCalendarComponent implements OnInit {
   set events(events: Event[]) {
     this._initDays(events)
   }
+
+  @Output() eventUpdated = new EventEmitter<UpdatedEvent>();
 
   _activeDate: dayjs.Dayjs
 
@@ -145,8 +149,16 @@ export class WeeklyCalendarComponent implements OnInit {
       filter(_ => this._isResizingEvent),
       takeUntil(this.onDestroy$),
       withLatestFrom(this._resizingEvent$)
-    ).subscribe(([_, { startTime, endTime }]) => {
+    ).subscribe(([_, resizingEvent]) => {
       this._isResizingEvent = false
+
+      const data: UpdatedEvent = {
+        id: resizingEvent.event.id,
+        title: resizingEvent.event.title,
+        startTime: resizingEvent.startTime,
+        endTime: resizingEvent.endTime,
+      }
+      this.eventUpdated.emit(data)
     })
   }
 

@@ -14,10 +14,11 @@
   <!-- calendar view -->
   <ng-container [ngSwitch]="calendarViewMode">
     <app-weekly-calendar
-      *ngSwitchCase = "'week'"
-      [activeDate]  = "activeDate$ | async"
-      [today]       = "today"
-      [events]      = "events$ | async"
+      *ngSwitchCase  = "'week'"
+      [activeDate]   = "activeDate$ | async"
+      [today]        = "today"
+      [events]       = "events$ | async"
+      (eventUpdated) = "onUpdateEvent($event)"
     >
     </app-weekly-calendar>
   </ng-container>

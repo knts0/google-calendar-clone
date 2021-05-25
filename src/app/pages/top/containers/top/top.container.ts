@@ -122,6 +122,10 @@ export class TopContainerComponent implements OnInit, OnDestroy {
     this.calendarFacade.setActiveDateToToday()
   }
 
+  onUpdateEvent(event: UpdatedEvent): void {
+    this.calendarFacade.updateEvent(event)
+  }
+
   private loadEvent(): void {
     switch (this.calendarViewMode) {
       case 'week': {
