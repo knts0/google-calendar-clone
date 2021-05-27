@@ -87,6 +87,7 @@ export class WeeklyCalendarComponent implements OnInit {
   _resizingEvent$: Observable<ResizingEvent>
   _isResizingEvent: boolean = false
   _eventMouseDownOnEvent = new Subject<{ event: Event }>()
+  _eventMouseOutOnEvent = new Subject<{ event: Event }>()
 
   _isShowNewEventPreview: boolean = false
   _newEventPreview$: Observable<EventPreview>
@@ -98,25 +99,17 @@ export class WeeklyCalendarComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this._resizingEvent$ = merge(
-      // mouse down event
-      this._eventMouseDownOnEvent.pipe(
-        map(mouseDown => {
-          return {
-            event: mouseDown.event,
-            startTime: mouseDown.event.startTime,
-            endTime: mouseDown.event.endTime,
-            style: this.calcNewEventPreviewStyle(mouseDown.event.startTime, mouseDown.event.endTime)
-          }
-        })
+    this._eventMouseOutOnEvent.pipe(
+      takeUntil(this.onDestroy$),
+      withLatestFrom(this._eventMouseDownOnEvent),
+    ).subscribe(_ => this._isResizingEvent = true)
+
+    this._resizingEvent$ = this._eventMouseMove.pipe(
+      filter(_ => this._isResizingEvent),
+      withLatestFrom(this._eventMouseOutOnEvent),
+      map(([mouseMove, mouseOut]) =>
+        this.event(mouseOut.event, mouseOut.event.startTime, mouseOut.event.endTime, mouseMove.offsetY)
       ),
-      this._eventMouseMove.pipe(
-        filter(_ => this._isResizingEvent),
-        withLatestFrom(this._eventMouseDownOnEvent),
-        map(([mouseMove, mouseDown]) =>
-          this.event(mouseDown.event, mouseDown.event.startTime, mouseDown.event.endTime, mouseMove.offsetY)
-        ),
-      )
     )
 
     this._newEventPreview$ = merge(
@@ -287,9 +280,11 @@ export class WeeklyCalendarComponent implements OnInit {
       event: eventItem.event,
     })
 
-    this._isResizingEvent = true
-
     event.stopImmediatePropagation()
+  }
+
+  onMouseOutOnEvent(event, eventItem: EventItem): void {
+    this._eventMouseOutOnEvent.next({ event: eventItem.event })
   }
 
   onClickEvent(event: Event): void {
