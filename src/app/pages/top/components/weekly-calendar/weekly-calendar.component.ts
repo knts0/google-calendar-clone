@@ -108,7 +108,7 @@ export class WeeklyCalendarComponent implements OnInit {
       filter(_ => this._isResizingEvent),
       withLatestFrom(this._eventMouseOutOnEvent),
       map(([mouseMove, mouseOut]) =>
-        this.event(mouseOut.event, mouseOut.event.startTime, mouseOut.event.endTime, mouseMove.offsetY)
+        this.event(mouseOut.event, mouseMove.offsetY)
       ),
     )
 
@@ -166,32 +166,16 @@ export class WeeklyCalendarComponent implements OnInit {
     }
   }
 
-  private event(event: Event, startTimeWhenMouseDown: dayjs.Dayjs, endTimeWhenMouseDown: dayjs.Dayjs, newOffsetY: number): ResizingEvent {
-    const startTimeWhenMouseDownOffsetY = startTimeWhenMouseDown.hour() * HEIGHT_PX_PER_HOUR
-
-    // mouse move (up): only change start time
-    if (startTimeWhenMouseDownOffsetY + HEIGHT_PX_PER_HOUR / 4 >= newOffsetY) {
-      // new start time of event (round down mouse move position)
-      const startTime = startTimeWhenMouseDown
-      const endTime = startTimeWhenMouseDown.add(15, 'minute')
-      return {
-        event: event,
-        startTime: startTime,
-        endTime: endTime,
-        style: this.calcNewEventPreviewStyle(startTime, endTime),
-      }
-
-    // mouse move (down): only change end time
-    } else {
-      const startTime = startTimeWhenMouseDown
-      // new end time of event (round up mouse move position)
-      const endTime = endTimeWhenMouseDown.hour(Math.ceil(newOffsetY / HEIGHT_PX_PER_HOUR))
-      return {
-        event: event,
-        startTime: startTime,
-        endTime: endTime,
-        style: this.calcNewEventPreviewStyle(startTime, endTime),
-      }
+  private event(event: Event, newOffsetY: number): ResizingEvent {
+    // mouse move (up&down): only change end time
+    // new start time of event (round down mouse move position)
+    const startTime = event.startTime
+    const endTime = event.endTime.hour(Math.ceil(newOffsetY / HEIGHT_PX_PER_HOUR))
+    return {
+      event: event,
+      startTime: startTime,
+      endTime: endTime,
+      style: this.calcNewEventPreviewStyle(startTime, endTime),
     }
   }
 
@@ -284,6 +268,7 @@ export class WeeklyCalendarComponent implements OnInit {
   }
 
   onMouseOutOnEvent(event, eventItem: EventItem): void {
+    console.log('mouse out')
     this._eventMouseOutOnEvent.next({ event: eventItem.event })
   }
 
