@@ -149,8 +149,19 @@
     &__event-resize-preview {
       width: 100%;
       position: absolute;
-      z-index: 4;
+      z-index: 13;
       background-color: blue;
+    }
+
+    &__event-resize-preview-adjustable {
+      position:         absolute;
+      z-index:          14;
+      bottom:           0;
+      width:            100%;
+      height:           60px;
+      cursor:           ns-resize;
+      background-color: red;
+      user-select:      none;
     }
   }
 }

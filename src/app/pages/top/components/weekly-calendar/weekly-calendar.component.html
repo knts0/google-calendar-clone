@@ -95,20 +95,24 @@
             </div>
             <div
               class       = "grid-view__event-size-adjustable"
-              (mousedown) = "onMouseDownOnEvent($event, eventItem)"
-              (mouseout)  = "onMouseOutOnEvent($event, eventItem)"
+              (mousedown) = "onMouseDownOnResizable($event, eventItem)"
             >
             </div>
           </div>
-          <ng-container *ngIf="_resizingEvent$ | async as resizingEvent">
+
+          <!-- resized event preview -->
+          <div
+            *ngIf   = "_isResizingEvent && item.day.isSame(_resizingEvent.event.startTime, 'day')"
+            class   = "grid-view__event-resize-preview"
+            [style] = "_resizingEvent.style"
+          >
             <div
-              *ngIf   = "_isResizingEvent && item.day.isSame(resizingEvent.startTime, 'day')"
-              class   = "grid-view__event-resize-preview"
-              [style] = "resizingEvent.style"
+              class      = "grid-view__event-resize-preview-adjustable"
+              (mouseout) = "onMouseOutOnResizable($event)"
+              (mouseup)  = "onMouseUpOnResizable()"
             >
-              aaa
             </div>
-          </ng-container>
+          </div>
         </div>
 
       </div>
