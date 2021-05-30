@@ -52,6 +52,7 @@
         *ngFor  = "let eventItem of eventItems"
         class   = "grid-view__event"
         [style] = "eventItem.style"
+        (click) = "onClickEvent(eventItem.event)"
       >
         <div class="grid-view__event-text">
           <div class="grid-view__event-title">
@@ -61,20 +62,9 @@
             {{ eventItem.event.startTime.hour() }}:00〜{{ eventItem.event.endTime.hour() }}:00
           </div>
         </div>
-      </div>
-
-      <!-- registered events click area (transparent) -->
-      <div
-        *ngFor  = "let eventItem of eventItems"
-        class   = "grid-view__event-click-area"
-        [style] = "eventItem.style"
-        (click) = "onClickEvent(eventItem.event)"
-      >
-        <div class="grid-view__event-clickable">
-        </div>
         <div
           class       = "grid-view__event-size-adjustable"
-          (mousedown) = "onMouseDownOnResizable($event, eventItem)"
+          (mousedown) = "onMouseDownOnResizable($event, eventItem.event)"
         >
         </div>
       </div>
@@ -95,23 +85,6 @@
           </div>
         </div>
       </ng-container>
-
-     <!-- resized event preview -->
-     <ng-container *ngIf="_resizingEvent$ | async as resizingEvent">
-       <div
-         *ngIf   = "_isResizingEvent && item.day.isSame(resizingEvent.event.startTime, 'day')"
-         class   = "grid-view__event-resize-preview"
-         [style] = "resizingEvent.style"
-       >
-         <div
-           class      = "grid-view__event-resize-preview-adjustable"
-           (mouseout) = "onMouseOutOnResizable($event, resizingEvent)"
-           (mouseup)  = "onMouseUpOnResizable()"
-         >
-         </div>
-       </div>
-     </ng-container>
-
     </div>
 
     <!-- for detecting mouse events -->

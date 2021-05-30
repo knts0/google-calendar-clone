@@ -92,13 +92,13 @@
       background-color: lightblue;
       z-index:          2;
       user-select:      none;
+      cursor:           pointer;
     }
 
     &__event-click-area {
       position: absolute;
       z-index:  11;
       width:    100%;
-      cursor:   pointer;
     }
 
     &__event-clickable {
@@ -112,24 +112,6 @@
       bottom:           0;
       width:            100%;
       height:           8px;
-      cursor:           ns-resize;
-      background-color: red;
-      user-select:      none;
-    }
-
-    &__event-resize-preview {
-      width: 100%;
-      position: absolute;
-      z-index: 13;
-      background-color: blue;
-    }
-
-    &__event-resize-preview-adjustable {
-      position:         absolute;
-      z-index:          14;
-      bottom:           0;
-      width:            100%;
-      height:           60px;
       cursor:           ns-resize;
       background-color: red;
       user-select:      none;
