@@ -146,7 +146,7 @@ export class WeeklyCalendarComponent implements OnInit {
     if (startTimeWhenMouseDownOffsetY >= newOffsetY) {
       // new start time of event (round down mouse move position)
       const startTime = startTimeWhenMouseDown.hour(Math.floor(newOffsetY / HEIGHT_PX_PER_HOUR))
-      const endTime = endTimeWhenMouseDown
+      const endTime = startTimeWhenMouseDown.add(1, 'hour')
       return {
         startTime: startTime,
         endTime: endTime,
