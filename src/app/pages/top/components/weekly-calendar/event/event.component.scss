@@ -1,0 +1,14 @@
+:host {
+  .event {
+    &__size-adjustable {
+      position:         absolute;
+      z-index:          12;
+      bottom:           0;
+      width:            100%;
+      height:           8px;
+      cursor:           ns-resize;
+      background-color: red;
+      user-select:      none;
+    }
+  }
+}

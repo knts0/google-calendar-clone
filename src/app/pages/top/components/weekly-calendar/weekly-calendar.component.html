@@ -54,19 +54,10 @@
         [style] = "eventItem.style"
         (click) = "onClickEvent(eventItem.event)"
       >
-        <div class="grid-view__event-text">
-          <div class="grid-view__event-title">
-            {{ eventItem.event.title }}
-          </div>
-          <div class="grid-view__event-time">
-            {{ eventItem.event.startTime.hour() }}:00〜{{ eventItem.event.endTime.hour() }}:00
-          </div>
-        </div>
-        <div
-          class       = "grid-view__event-size-adjustable"
-          (mousedown) = "onMouseDownOnResizable($event, eventItem.event)"
-        >
-        </div>
+        <app-event
+          [event]                = "eventItem.event"
+          (mouseDownOnResizable) = "onMouseDownOnResizable($event)"
+        ></app-event>
       </div>
 
       <!-- new event -->

@@ -231,7 +231,7 @@ export class WeeklyCalendarComponent implements OnInit {
     this._mouseUp.next()
   }
 
-  onMouseDownOnResizable(event, targetEvent: Event): void {
+  onMouseDownOnResizable(targetEvent: Event): void {
     this._eventPreviewStart.next({
       startTime: targetEvent.startTime,
       endTime: targetEvent.endTime,

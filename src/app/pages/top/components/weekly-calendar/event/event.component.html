@@ -1,0 +1,15 @@
+<div class="event">
+  <div class="event__text">
+    <div class="event__title">
+      {{ event.title }}
+    </div>
+    <div class="event__time">
+      {{ event.startTime.hour() }}:00〜{{ event.endTime.hour() }}:00
+    </div>
+  </div>
+  <div
+    class       = "event__size-adjustable"
+    (mousedown) = "onMouseDownOnResizable(event)"
+  >
+  </div>
+</div>
