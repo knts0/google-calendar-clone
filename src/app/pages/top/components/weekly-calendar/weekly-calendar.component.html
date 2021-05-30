@@ -88,16 +88,16 @@
     </div>
 
     <!-- for detecting mouse events -->
-    <ng-container *ngIf="_newEventPreview$ | async as newEventPreview">
+    <ng-container *ngIf="_eventPreview$ | async as newEventPreview">
       <div class="detecting-mouse-events"
-        *ngIf       = "_isShowNewEventPreview"
+        *ngIf       = "_isShowEventPreview"
         (mousemove) = "onMouseMove($event)"
         (mouseup)   = "onMouseUp()"
       >
       </div>
       <!-- Preview event -->
       <div
-        *ngIf   = "_isShowNewEventPreview"
+        *ngIf   = "_isShowEventPreview"
         class   = "detecting-mouse-events__preview-event"
         [style] = "newEventPreview.style"
       >

@@ -82,12 +82,12 @@ export class WeeklyCalendarComponent implements OnInit {
 
   eventItems: EventItem[]
 
-  // new event preview
-  _eventMouseDown = new Subject<{ startTime: dayjs.Dayjs, endTime: dayjs.Dayjs, originalEvent?: Event }>()
-  _eventMouseMove = new Subject<{ offsetY: number }>()
-  _eventMouseUp = new Subject<void>()
-  _isShowNewEventPreview: boolean = false
-  _newEventPreview$: Observable<EventPreview>
+  // event preview
+  _eventPreviewStart = new Subject<{ startTime: dayjs.Dayjs, endTime: dayjs.Dayjs, originalEvent?: Event }>()
+  _mouseMove = new Subject<{ offsetY: number }>()
+  _mouseUp = new Subject<void>()
+  _isShowEventPreview: boolean = false
+  _eventPreview$: Observable<EventPreview>
 
   _newEvent = new Subject<EventPreview | null>()
 
@@ -98,33 +98,35 @@ export class WeeklyCalendarComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this._newEventPreview$ = merge(
-      // mouse down event
-      this._eventMouseDown.pipe(
+    this._eventPreview$ = merge(
+      this._eventPreviewStart.pipe(
+        tap(_ => this._isShowEventPreview = true),
         map(mouseDown => { return {
           startTime: mouseDown.startTime,
           endTime: mouseDown.endTime,
-          style: this.calcNewEventPreviewStyle(mouseDown.startTime, mouseDown.endTime)
+          style: this.calcEventStyle(mouseDown.startTime, mouseDown.endTime)
         }})
       ),
-      this._eventMouseMove.pipe(
-        filter(_ => this._isShowNewEventPreview),
-        withLatestFrom(this._eventMouseDown),
+      this._mouseMove.pipe(
+        filter(_ => this._isShowEventPreview),
+        withLatestFrom(this._eventPreviewStart),
         map(([mouseMove, mouseDown]) =>
           this.eventPreview(mouseDown.startTime, mouseDown.endTime, mouseMove.offsetY)
         ),
       )
     )
 
-    this._eventMouseUp.pipe(
-      filter(_ => this._isShowNewEventPreview),
+    this._mouseUp.pipe(
+      filter(_ => this._isShowEventPreview),
       takeUntil(this.onDestroy$),
-      withLatestFrom(this._eventMouseDown, this._newEventPreview$)
+      withLatestFrom(this._eventPreviewStart, this._eventPreview$)
     ).subscribe(([_, eventMouseDown, newEventPreview]) => {
+      this._isShowEventPreview = false
+
       this._newEvent.next({
         startTime: newEventPreview.startTime,
         endTime: newEventPreview.endTime,
-        style: this.calcNewEventPreviewStyle(newEventPreview.startTime, newEventPreview.endTime),
+        style: this.calcEventStyle(newEventPreview.startTime, newEventPreview.endTime),
       })
 
       if (eventMouseDown.originalEvent != null) {
@@ -154,7 +156,7 @@ export class WeeklyCalendarComponent implements OnInit {
       return {
         startTime: startTime,
         endTime: endTime,
-        style: this.calcNewEventPreviewStyle(startTime, endTime),
+        style: this.calcEventStyle(startTime, endTime),
       }
 
     // mouse move (down): only change end time
@@ -165,12 +167,12 @@ export class WeeklyCalendarComponent implements OnInit {
       return {
         startTime: startTime,
         endTime: endTime,
-        style: this.calcNewEventPreviewStyle(startTime, endTime),
+        style: this.calcEventStyle(startTime, endTime),
       }
     }
   }
 
-  private calcNewEventPreviewStyle(startTime: dayjs.Dayjs, endTime: dayjs.Dayjs): { top: string, height: string, left: string, width: string } {
+  private calcEventStyle(startTime: dayjs.Dayjs, endTime: dayjs.Dayjs): { top: string, height: string, left: string, width: string } {
     // calc preview event position
     const top    = startTime.hour() * HEIGHT_PX_PER_HOUR
     const bottom = endTime.hour() * HEIGHT_PX_PER_HOUR
@@ -194,7 +196,7 @@ export class WeeklyCalendarComponent implements OnInit {
     this.eventItems = events.map(e => {
       return {
         event: e,
-        style: this.calcNewEventPreviewStyle(e.startTime, e.endTime),
+        style: this.calcEventStyle(e.startTime, e.endTime),
       }
     })
 
@@ -215,40 +217,31 @@ export class WeeklyCalendarComponent implements OnInit {
     return hour * HEIGHT_PX_PER_HOUR
   }
 
-  // https://developer.mozilla.org/ja/docs/Web/API/Element/mouseup_event
   onMouseDown(event, dayItem: DayItem, hour: number): void {
-    // set start hour of event (round down mouse down position)
-
-    this._eventMouseDown.next({
+    this._eventPreviewStart.next({
       startTime: dayItem.day.hour(hour),
       endTime: dayItem.day.hour(hour + 1),
     })
 
     event.stopImmediatePropagation()
-
-    this._isShowNewEventPreview = true
   }
 
   onMouseMove(event): void {
-    console.log(event.offsetY)
-    this._eventMouseMove.next({ offsetY: event.offsetY })
+    this._mouseMove.next({ offsetY: event.offsetY })
   }
 
   onMouseUp(): void {
-    this._eventMouseUp.next()
-    this._isShowNewEventPreview = false
+    this._mouseUp.next()
   }
 
   onMouseDownOnResizable(event, targetEvent: Event): void {
-    this._eventMouseDown.next({
+    this._eventPreviewStart.next({
       startTime: targetEvent.startTime,
       endTime: targetEvent.endTime,
       originalEvent: targetEvent,
     })
 
     event.stopImmediatePropagation()
-
-    this._isShowNewEventPreview = true
   }
 
   onClickEvent(event: Event): void {
