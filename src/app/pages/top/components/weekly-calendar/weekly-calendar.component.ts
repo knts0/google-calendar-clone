@@ -28,16 +28,8 @@ type DayItem = {
   weekday:    string
 }
 
-type ResizingEvent ={
-  event: Event,
-  endTime: dayjs.Dayjs
-  style: {
-    top:    string
-    height: string
-  }
-}
-
 type EventPreview ={
+  originalEvent?: Event,
   startTime: dayjs.Dayjs
   endTime: dayjs.Dayjs
   style: {
@@ -102,6 +94,7 @@ export class WeeklyCalendarComponent implements OnInit {
       this._eventPreviewStart.pipe(
         tap(_ => this._isShowEventPreview = true),
         map(mouseDown => { return {
+          originalEvent: mouseDown.originalEvent,
           startTime: mouseDown.startTime,
           endTime: mouseDown.endTime,
           style: this.calcEventStyle(mouseDown.startTime, mouseDown.endTime)
@@ -110,9 +103,10 @@ export class WeeklyCalendarComponent implements OnInit {
       this._mouseMove.pipe(
         filter(_ => this._isShowEventPreview),
         withLatestFrom(this._eventPreviewStart),
-        map(([mouseMove, mouseDown]) =>
-          this.eventPreview(mouseDown.startTime, mouseDown.endTime, mouseMove.offsetY)
-        ),
+        map(([mouseMove, mouseDown]) => { return {
+          ...this.eventPreview(mouseDown.startTime, mouseDown.endTime, mouseMove.offsetY),
+          originalEvent: mouseDown.originalEvent,
+        }}),
       )
     )
 

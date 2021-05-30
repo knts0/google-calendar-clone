@@ -77,7 +77,7 @@
         >
           <div class="grid-view__event-text">
             <div class="grid-view__event-title">
-              タイトルなし
+              無題
             </div>
             <div class="grid-view__event-time">
               {{ newEvent.startTime.hour() }}:00〜{{ newEvent.endTime.hour() }}:00
@@ -88,7 +88,7 @@
     </div>
 
     <!-- for detecting mouse events -->
-    <ng-container *ngIf="_eventPreview$ | async as newEventPreview">
+    <ng-container *ngIf="_eventPreview$ | async as eventPreview">
       <div class="detecting-mouse-events"
         *ngIf       = "_isShowEventPreview"
         (mousemove) = "onMouseMove($event)"
@@ -99,11 +99,11 @@
       <div
         *ngIf   = "_isShowEventPreview"
         class   = "detecting-mouse-events__preview-event"
-        [style] = "newEventPreview.style"
+        [style] = "eventPreview.style"
       >
-        無題
+        {{ eventPreview.originalEvent?.title || '無題' }}
         <br>
-        {{ newEventPreview.startTime.hour() }}:00〜{{ newEventPreview.endTime.hour() }}:00
+        {{ eventPreview.startTime.hour() }}:00〜{{ eventPreview.endTime.hour() }}:00
 
       </div>
     </ng-container>
