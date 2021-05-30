@@ -37,110 +37,110 @@
         class="grid-view__day"
         *ngFor="let item of days"
       >
-        <!-- for detecting mouse events -->
-        <!-- <div class="grid-view__detecting-mouse-events"
-          (mousedown) = "onMouseDown($event, item)"
-          [class.cursor-move] = "_isShowNewEventPreview"
-        ></div> -->
-
         <!-- timeline frame -->
         <div
           class          = "grid-view__time-frame"
           *ngFor         = "let hour of hours"
           [style.top.px] = "getTopOfTimelineFrame(hour)"
-          (mousedown) = "onMouseDown($event, item, hour)"
+          (mousedown)    = "onMouseDown($event, item, hour)"
         >
         </div>
-
-        <div class="grid-view__events">
-          <!-- registered events -->
-          <div
-            *ngFor  = "let eventItem of item.eventItems"
-            class   = "grid-view__event"
-            [style] = "eventItem.style"
-          >
-            <div class="grid-view__event-text">
-              <div class="grid-view__event-title">
-                {{ eventItem.event.title }}
-              </div>
-              <div class="grid-view__event-time">
-                {{ eventItem.event.startTime.hour() }}:00〜{{ eventItem.event.endTime.hour() }}:00
-              </div>
-            </div>
-          </div>
-
-          <!-- new event -->
-          <ng-container *ngIf = "_newEvent | async as newEvent">
-            <div
-              *ngIf   = "newEvent.startTime.isSame(item.day, 'day')"
-              class   = "grid-view__event"
-              [style] = "newEvent.style"
-            >
-              <div class="grid-view__event-text">
-                <div class="grid-view__event-title">
-                  タイトルなし
-                </div>
-                <div class="grid-view__event-time">
-                  {{ newEvent.startTime.hour() }}:00〜{{ newEvent.endTime.hour() }}:00
-                </div>
-              </div>
-            </div>
-          </ng-container>
-
-          <!-- Preview event -->
-          <ng-container *ngIf="_newEventPreview$ | async as newEventPreview">
-            <div
-              *ngIf   = "_isShowNewEventPreview && item.day.isSame(newEventPreview.startTime, 'day')"
-              class   = "grid-view__preview-event"
-              [style] = "newEventPreview.style"
-            >
-              無題
-              <br>
-              {{ newEventPreview.startTime.hour() }}:00〜{{ newEventPreview.endTime.hour() }}:00
-
-              <div
-                class      = "grid-view__preview-event-adjustable"
-                (mouseout) = "onMouseOut($event, newEventPreview)"
-                (mouseup)  = "onMouseUp()"
-              >
-              </div>
-            </div>
-          </ng-container>
-
-          <!-- registered events click area (transparent) -->
-          <div
-            *ngFor  = "let eventItem of item.eventItems"
-            class   = "grid-view__event-click-area"
-            [style] = "eventItem.style"
-            (click) = "onClickEvent(eventItem.event)"
-          >
-            <div class="grid-view__event-clickable">
-            </div>
-            <div
-              class       = "grid-view__event-size-adjustable"
-              (mousedown) = "onMouseDownOnResizable($event, eventItem)"
-            >
-            </div>
-          </div>
-
-          <!-- resized event preview -->
-          <ng-container *ngIf="_resizingEvent$ | async as resizingEvent">
-            <div
-              *ngIf   = "_isResizingEvent && item.day.isSame(resizingEvent.event.startTime, 'day')"
-              class   = "grid-view__event-resize-preview"
-              [style] = "resizingEvent.style"
-            >
-              <div
-                class      = "grid-view__event-resize-preview-adjustable"
-                (mouseout) = "onMouseOutOnResizable($event, resizingEvent)"
-                (mouseup)  = "onMouseUpOnResizable()"
-              >
-              </div>
-            </div>
-          </ng-container>
-        </div>
-
       </div>
+
+      <!-- registered events -->
+      <div
+        *ngFor  = "let eventItem of eventItems"
+        class   = "grid-view__event"
+        [style] = "eventItem.style"
+      >
+        <div class="grid-view__event-text">
+          <div class="grid-view__event-title">
+            {{ eventItem.event.title }}
+          </div>
+          <div class="grid-view__event-time">
+            {{ eventItem.event.startTime.hour() }}:00〜{{ eventItem.event.endTime.hour() }}:00
+          </div>
+        </div>
+      </div>
+
+      <!-- registered events click area (transparent) -->
+      <div
+        *ngFor  = "let eventItem of eventItems"
+        class   = "grid-view__event-click-area"
+        [style] = "eventItem.style"
+        (click) = "onClickEvent(eventItem.event)"
+      >
+        <div class="grid-view__event-clickable">
+        </div>
+        <div
+          class       = "grid-view__event-size-adjustable"
+          (mousedown) = "onMouseDownOnResizable($event, eventItem)"
+        >
+        </div>
+      </div>
+
+      <!-- new event -->
+      <ng-container *ngIf = "_newEvent | async as newEvent">
+        <div
+          class   = "grid-view__event"
+          [style] = "newEvent.style"
+        >
+          <div class="grid-view__event-text">
+            <div class="grid-view__event-title">
+              タイトルなし
+            </div>
+            <div class="grid-view__event-time">
+              {{ newEvent.startTime.hour() }}:00〜{{ newEvent.endTime.hour() }}:00
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+     <!-- resized event preview -->
+     <ng-container *ngIf="_resizingEvent$ | async as resizingEvent">
+       <div
+         *ngIf   = "_isResizingEvent && item.day.isSame(resizingEvent.event.startTime, 'day')"
+         class   = "grid-view__event-resize-preview"
+         [style] = "resizingEvent.style"
+       >
+         <div
+           class      = "grid-view__event-resize-preview-adjustable"
+           (mouseout) = "onMouseOutOnResizable($event, resizingEvent)"
+           (mouseup)  = "onMouseUpOnResizable()"
+         >
+         </div>
+       </div>
+     </ng-container>
+
     </div>
+
+    <!-- for detecting mouse events -->
+    <ng-container *ngIf="_newEventPreview$ | async as newEventPreview">
+      <div class="detecting-mouse-events"
+        *ngIf="_isShowNewEventPreview"
+        [class.cursor-move] = "_isShowNewEventPreview"
+      >
+        <!-- Preview event -->
+          <div
+            *ngIf   = "_isShowNewEventPreview"
+            class   = "detecting-mouse-events__preview-event"
+            [style] = "newEventPreview.style"
+          >
+            無題
+            <br>
+            {{ newEventPreview.startTime.hour() }}:00〜{{ newEventPreview.endTime.hour() }}:00
+
+          </div>
+          <div
+            class          = "detecting-mouse-events__preview-event-adjustable"
+            [style.top]    = "newEventPreview.style.top"
+            [style.height] = "newEventPreview.style.height"
+            (mouseout)     = "onMouseOut($event, newEventPreview)"
+            (mouseup)      = "onMouseUp()"
+          >
+          </div>
+      </div>
+    </ng-container>
+
   </div>
 </div>

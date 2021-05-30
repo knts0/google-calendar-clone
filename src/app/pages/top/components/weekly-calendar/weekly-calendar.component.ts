@@ -26,7 +26,6 @@ type EventItem = {
 type DayItem = {
   day:        dayjs.Dayjs
   weekday:    string
-  eventItems: EventItem[]
 }
 
 type ResizingEvent ={
@@ -44,6 +43,8 @@ type EventPreview ={
   style: {
     top:    string
     height: string
+    left:   string
+    width:  string
   }
 }
 
@@ -78,6 +79,8 @@ export class WeeklyCalendarComponent implements OnInit {
   hours = Array.from({ length: 24 }, (v, i) => i )
   weekdays = [ '月', '火', '水', '木', '金', '土', '日' ]
   days: DayItem[] = []
+
+  eventItems: EventItem[]
 
   // new event preview
   _eventMouseDown = new Subject<{ startTime: dayjs.Dayjs, endTime: dayjs.Dayjs }>()
@@ -206,14 +209,19 @@ export class WeeklyCalendarComponent implements OnInit {
     })
   }
 
-  private calcNewEventPreviewStyle(startTime: dayjs.Dayjs, endTime: dayjs.Dayjs): { top: string, height: string } {
+  private calcNewEventPreviewStyle(startTime: dayjs.Dayjs, endTime: dayjs.Dayjs): { top: string, height: string, left: string, width: string } {
     // calc preview event position
     const top    = startTime.hour() * HEIGHT_PX_PER_HOUR
     const bottom = endTime.hour() * HEIGHT_PX_PER_HOUR
 
+    const orderOfWeek = (startTime.day() + DAYS_PER_WEEK - FIRST_DAY_OF_WEEK) % DAYS_PER_WEEK
+    const left   = 50 + orderOfWeek * 100
+
     return {
       top:    `${top}px`,
       height: `${bottom - top}px`,
+      left:   `${left}px`,
+      width:  `100px`,
     }
   }
 
@@ -222,7 +230,7 @@ export class WeeklyCalendarComponent implements OnInit {
   }
 
   private _initDays(events: Event[]): void {
-    const eventItems = events.map(e => {
+    this.eventItems = events.map(e => {
       return {
         event: e,
         style: this.calcNewEventPreviewStyle(e.startTime, e.endTime),
@@ -238,7 +246,6 @@ export class WeeklyCalendarComponent implements OnInit {
       this.days.push({
         day:        day,
         weekday:    this.weekdays[dayOfWeek],
-        eventItems: eventItems.filter(v => v.event.startTime.isSame(day, 'day') || v.event.endTime.isSame(day, 'day'))
       })
     }
   }
