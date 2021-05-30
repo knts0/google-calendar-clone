@@ -84,8 +84,7 @@ export class WeeklyCalendarComponent implements OnInit {
 
   // new event preview
   _eventMouseDown = new Subject<{ startTime: dayjs.Dayjs, endTime: dayjs.Dayjs }>()
-  // _eventMouseMove = new Subject<{ offsetY: number }>()
-  _eventMouseOut = new Subject<{ newEventPreview: EventPreview, offsetY: number }>()
+  _eventMouseMove = new Subject<{ offsetY: number }>()
   _eventMouseUp = new Subject<void>()
   _isShowNewEventPreview: boolean = false
   _newEventPreview$: Observable<EventPreview>
@@ -115,36 +114,12 @@ export class WeeklyCalendarComponent implements OnInit {
           style: this.calcNewEventPreviewStyle(mouseDown.startTime, mouseDown.endTime)
         }})
       ),
-      this._eventMouseOut.pipe(
+      this._eventMouseMove.pipe(
         filter(_ => this._isShowNewEventPreview),
         withLatestFrom(this._eventMouseDown),
-        map(([mouseOut, mouseDown]) => {
-          // startを更新
-          let newStartTime = mouseOut.newEventPreview.startTime
-          // if (mouseOut.changeTarget === 'start') {
-          //   // mouse move (up)
-          //   if (mouseOut.offsetY < 0) {
-          //     newStartTime = mouseOut.newEventPreview.startTime.subtract(1, 'hour')
-          //   } else {
-          //     newStartTime = mouseOut.newEventPreview.startTime.add(1, 'hour')
-          //   }
-          // }
-
-          // endを更新
-          let newEndTime = mouseOut.newEventPreview.endTime
-          // mouse move (up)
-          if (mouseOut.offsetY < 0) {
-            newEndTime = mouseOut.newEventPreview.endTime.subtract(1, 'hour')
-          } else {
-            newEndTime = mouseOut.newEventPreview.endTime.add(1, 'hour')
-          }
-
-          return {
-            startTime: newStartTime,
-            endTime: newEndTime,
-            style: this.calcNewEventPreviewStyle(newStartTime, newEndTime),
-          }
-        }),
+        map(([mouseMove, mouseDown]) =>
+          this.eventPreview(mouseDown.startTime, mouseDown.endTime, mouseMove.offsetY)
+        ),
       )
     )
 
@@ -209,6 +184,33 @@ export class WeeklyCalendarComponent implements OnInit {
     })
   }
 
+  private eventPreview(startTimeWhenMouseDown: dayjs.Dayjs, endTimeWhenMouseDown: dayjs.Dayjs, newOffsetY: number): EventPreview {
+    const startTimeWhenMouseDownOffsetY = startTimeWhenMouseDown.hour() * HEIGHT_PX_PER_HOUR
+
+    // mouse move (up): only change start time
+    if (startTimeWhenMouseDownOffsetY >= newOffsetY) {
+      // new start time of event (round down mouse move position)
+      const startTime = startTimeWhenMouseDown.hour(Math.floor(newOffsetY / HEIGHT_PX_PER_HOUR))
+      const endTime = endTimeWhenMouseDown
+      return {
+        startTime: startTime,
+        endTime: endTime,
+        style: this.calcNewEventPreviewStyle(startTime, endTime),
+      }
+
+    // mouse move (down): only change end time
+    } else {
+      const startTime = startTimeWhenMouseDown
+      // new end time of event (round up mouse move position)
+      const endTime = endTimeWhenMouseDown.hour(Math.ceil(newOffsetY / HEIGHT_PX_PER_HOUR))
+      return {
+        startTime: startTime,
+        endTime: endTime,
+        style: this.calcNewEventPreviewStyle(startTime, endTime),
+      }
+    }
+  }
+
   private calcNewEventPreviewStyle(startTime: dayjs.Dayjs, endTime: dayjs.Dayjs): { top: string, height: string, left: string, width: string } {
     // calc preview event position
     const top    = startTime.hour() * HEIGHT_PX_PER_HOUR
@@ -268,9 +270,9 @@ export class WeeklyCalendarComponent implements OnInit {
     this._isShowNewEventPreview = true
   }
 
-  onMouseOut(event, newEventPreview: EventPreview): void {
-    console.log('mouse out start')
-    this._eventMouseOut.next({ newEventPreview: newEventPreview, offsetY: event.offsetY })
+  onMouseMove(event): void {
+    console.log(event.offsetY)
+    this._eventMouseMove.next({ offsetY: event.offsetY })
   }
 
   onMouseUp(): void {

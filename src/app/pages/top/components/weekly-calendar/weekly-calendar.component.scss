@@ -140,12 +140,8 @@
     position: absolute;
     width:    100%;
     height:   100%;
-    cursor:   pointer;
+    cursor:   move;
     z-index:  100;
-
-    &.cursor-move {
-      cursor: move;
-    }
 
     &__preview-event {
       @include absolute(null, 5px, null, 5px);

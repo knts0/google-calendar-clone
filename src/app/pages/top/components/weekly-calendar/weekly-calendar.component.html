@@ -117,28 +117,21 @@
     <!-- for detecting mouse events -->
     <ng-container *ngIf="_newEventPreview$ | async as newEventPreview">
       <div class="detecting-mouse-events"
-        *ngIf="_isShowNewEventPreview"
-        [class.cursor-move] = "_isShowNewEventPreview"
+        *ngIf       = "_isShowNewEventPreview"
+        (mousemove) = "onMouseMove($event)"
+        (mouseup)   = "onMouseUp()"
       >
-        <!-- Preview event -->
-          <div
-            *ngIf   = "_isShowNewEventPreview"
-            class   = "detecting-mouse-events__preview-event"
-            [style] = "newEventPreview.style"
-          >
-            無題
-            <br>
-            {{ newEventPreview.startTime.hour() }}:00〜{{ newEventPreview.endTime.hour() }}:00
+      </div>
+      <!-- Preview event -->
+      <div
+        *ngIf   = "_isShowNewEventPreview"
+        class   = "detecting-mouse-events__preview-event"
+        [style] = "newEventPreview.style"
+      >
+        無題
+        <br>
+        {{ newEventPreview.startTime.hour() }}:00〜{{ newEventPreview.endTime.hour() }}:00
 
-          </div>
-          <div
-            class          = "detecting-mouse-events__preview-event-adjustable"
-            [style.top]    = "newEventPreview.style.top"
-            [style.height] = "newEventPreview.style.height"
-            (mouseout)     = "onMouseOut($event, newEventPreview)"
-            (mouseup)      = "onMouseUp()"
-          >
-          </div>
       </div>
     </ng-container>
 
