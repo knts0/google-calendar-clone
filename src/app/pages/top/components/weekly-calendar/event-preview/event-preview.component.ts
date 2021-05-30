@@ -11,7 +11,6 @@ export type EventPreview ={
     top:    string
     height: string
     left:   string
-    width:  string
   }
 }
 

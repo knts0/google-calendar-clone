@@ -157,7 +157,7 @@ export class WeeklyCalendarComponent implements OnInit {
     }
   }
 
-  private calcEventStyle(startTime: dayjs.Dayjs, endTime: dayjs.Dayjs): { top: string, height: string, left: string, width: string } {
+  private calcEventStyle(startTime: dayjs.Dayjs, endTime: dayjs.Dayjs): { top: string, height: string, left: string } {
     // calc preview event position
     const top    = startTime.hour() * HEIGHT_PX_PER_HOUR
     const bottom = endTime.hour() * HEIGHT_PX_PER_HOUR
@@ -170,7 +170,6 @@ export class WeeklyCalendarComponent implements OnInit {
       top:    `${top}px`,
       height: `${bottom - top}px`,
       left:   `${left}px`,
-      width:  `${width}px`,
     }
   }
 
