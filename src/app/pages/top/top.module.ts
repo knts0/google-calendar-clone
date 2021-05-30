@@ -32,6 +32,7 @@ import { EventModalBaseDirective } from './components/modal/common/event-modal-b
 import { ConfirmDeleteComponent } from './components/confirm-delete/confirm-delete.component';
 import { EventComponent } from './components/weekly-calendar/event/event.component';
 import { EventPreviewComponent } from './components/weekly-calendar/event-preview/event-preview.component'
+import { WeeklyCalendarPresenter } from './components/weekly-calendar/weekly-calendar.presenter'
 
 @NgModule({
   declarations: [
@@ -74,6 +75,8 @@ import { EventPreviewComponent } from './components/weekly-calendar/event-previe
 
     TopRoutingModule,
   ],
-  providers: [],
+  providers: [
+    WeeklyCalendarPresenter,
+  ],
 })
 export class TopModule { }

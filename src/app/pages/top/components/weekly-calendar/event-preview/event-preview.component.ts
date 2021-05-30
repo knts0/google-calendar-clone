@@ -1,20 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
-import * as dayjs from 'dayjs'
 
 import { Event } from 'src/app/models/event'
 import { getOrderOfWeek } from 'src/app/util/date'
-import { HEIGHT_PX_PER_HOUR, WIDTH_PX_PER_DAY } from '../weekly-calendar.component'
+import { EventPreview, HEIGHT_PX_PER_HOUR, WIDTH_PX_PER_DAY } from '../weekly-calendar.presenter'
 
-export type EventPreview ={
-  originalEvent?: Event,
-  startTime: dayjs.Dayjs
-  endTime: dayjs.Dayjs
-  style: {
-    top:    string
-    height: string
-    left:   string
-  }
-}
 
 @Component({
   selector: 'app-event-preview',

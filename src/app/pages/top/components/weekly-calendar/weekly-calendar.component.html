@@ -38,7 +38,7 @@
           class          = "grid__time-frame"
           *ngFor         = "let hour of hours"
           [style.top.px] = "getTopOfTimelineFrame(hour)"
-          (mousedown)    = "onMouseDown($event, item, hour)"
+          (mousedown)    = "onMouseDown($event, item.day, hour)"
         >
         </div>
       </div>
@@ -57,7 +57,7 @@
       </div>
 
       <!-- new event -->
-      <ng-container *ngIf = "_newEvent | async as newEvent">
+      <ng-container *ngIf = "newEvent$ | async as newEvent">
         <div
           class   = "grid__event"
           [style] = "newEvent.style"
@@ -74,9 +74,9 @@
       </ng-container>
 
       <!-- event preview -->
-      <ng-container *ngIf="_eventPreview$ | async as eventPreview">
+      <ng-container *ngIf="eventPreview$ | async as eventPreview">
         <app-event-preview
-          *ngIf          = "_isShowEventPreview"
+          *ngIf          = "isShowEventPreview"
           class          = "grid__event-preview"
           [eventPreview] = "eventPreview"
           (mouseMove)    = "onMouseMove($event)"
