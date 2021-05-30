@@ -14,9 +14,8 @@ import { EventEditComponent }   from '../modal/event-edit/event-edit.component'
 import { EventPreview } from './event-preview/event-preview.component'
 
 
-const HEIGHT_PX_PER_HOUR = 60
-const WIDTH_PX_PER_DAY = 100
-const WIDTH_HOURS = 50
+export const HEIGHT_PX_PER_HOUR = 60
+export const WIDTH_PX_PER_DAY = 100
 
 type EventItem = {
   event: Event
@@ -164,7 +163,6 @@ export class WeeklyCalendarComponent implements OnInit {
 
     const orderOfWeek = getOrderOfWeek(startTime)
     const left        = orderOfWeek * WIDTH_PX_PER_DAY
-    const width       = WIDTH_PX_PER_DAY
 
     return {
       top:    `${top}px`,
