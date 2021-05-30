@@ -4,7 +4,7 @@ import { MatDialog }                from '@angular/material/dialog'
 import * as dayjs                   from 'dayjs'
 import * as duration                from 'dayjs/plugin/duration'
 import { merge, Observable, Subject } from 'rxjs'
-import { filter, map, scan, share, takeUntil, tap, withLatestFrom } from 'rxjs/operators'
+import { filter, map, scan, share, takeUntil, tap, throwIfEmpty, withLatestFrom } from 'rxjs/operators'
 import { UpdatedEvent } from 'src/app/models/updated-event'
 import { DAYS_PER_WEEK, FIRST_DAY_OF_WEEK, getFirstDayOfWeek, getOrderOfWeek } from 'src/app/util/date'
 
@@ -52,6 +52,11 @@ export class WeeklyCalendarComponent implements OnInit {
   @Input()
   set events(events: Event[]) {
     this._initDays(events)
+  }
+
+  @Input()
+  set updateEventSuccess(updateEventSuccess: UpdatedEvent) {
+    this._newEvent.next(null)
   }
 
   @Output() eventUpdated = new EventEmitter<UpdatedEvent>();
@@ -121,8 +126,6 @@ export class WeeklyCalendarComponent implements OnInit {
           endTime: newEventPreview.endTime,
         }
         this.eventUpdated.emit(data)
-
-        this._newEvent.next(null)
       } else {
         this.openEventEditDialog(newEventPreview.startTime, newEventPreview.endTime)
       }
