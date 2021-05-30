@@ -4,7 +4,7 @@ import { MatDialog }                from '@angular/material/dialog'
 import * as dayjs                   from 'dayjs'
 import * as duration                from 'dayjs/plugin/duration'
 import { merge, Observable, Subject } from 'rxjs'
-import { filter, map, share, takeUntil, tap, withLatestFrom } from 'rxjs/operators'
+import { filter, map, scan, share, takeUntil, tap, withLatestFrom } from 'rxjs/operators'
 import { UpdatedEvent } from 'src/app/models/updated-event'
 import { DAYS_PER_WEEK, FIRST_DAY_OF_WEEK, getFirstDayOfWeek } from 'src/app/util/date'
 
@@ -87,8 +87,11 @@ export class WeeklyCalendarComponent implements OnInit {
   _newEventPreview$: Observable<EventPreview>
 
   // resized event preview
-  _resizingEvent: ResizingEvent
+  _eventMouseDownOnResizable = new Subject<{ event: Event }>()
+  _eventMouseOutOfResizable = new Subject<{ resizingEvent: ResizingEvent, offsetY: number }>()
+  _eventMouseUpOnResizable = new Subject<void>()
   _isResizingEvent: boolean = false
+  _resizingEvent$: Observable<ResizingEvent>
 
   private readonly onDestroy$ = new EventEmitter();
 
@@ -122,6 +125,52 @@ export class WeeklyCalendarComponent implements OnInit {
     ).subscribe(([_, { startTime, endTime }]) => {
       this.openEventEditDialog(startTime, endTime)}
     )
+
+
+    this._resizingEvent$ = merge(
+      // mouse down event
+      this._eventMouseDownOnResizable.pipe(
+        map(mouseDown => { return {
+          event: mouseDown.event,
+          endTime: mouseDown.event.endTime,
+          style: this.calcNewEventPreviewStyle(mouseDown.event.startTime, mouseDown.event.endTime)
+        }})
+      ),
+      this._eventMouseOutOfResizable.pipe(
+        filter(_ => this._isResizingEvent),
+        map(mouseOut => {
+          let newEndTime
+
+          if (mouseOut.offsetY > 0) {
+            newEndTime = mouseOut.resizingEvent.endTime.add(1, 'hour')
+          } else {
+            newEndTime = mouseOut.resizingEvent.endTime.subtract(1, 'hour')
+          }
+
+          return {
+            event: mouseOut.resizingEvent.event,
+            endTime: newEndTime,
+            style: this.calcNewEventPreviewStyle(mouseOut.resizingEvent.event.startTime, newEndTime),
+          }
+        })
+      )
+    )
+
+    this._eventMouseUpOnResizable.pipe(
+      filter(_ => this._isResizingEvent),
+      takeUntil(this.onDestroy$),
+      withLatestFrom(this._resizingEvent$)
+    ).subscribe(([_, resizingEvent]) => {
+      this._isResizingEvent = true
+
+      const data: UpdatedEvent = {
+        id: resizingEvent.event.id,
+        title: resizingEvent.event.title,
+        startTime: resizingEvent.event.startTime,
+        endTime: resizingEvent.endTime,
+      }
+      this.eventUpdated.emit(data)
+    })
   }
 
   private calcNewEventPreviewStyle(startTime: dayjs.Dayjs, endTime: dayjs.Dayjs): { top: string, height: string } {
@@ -132,17 +181,6 @@ export class WeeklyCalendarComponent implements OnInit {
     return {
       top:    `${top}px`,
       height: `${bottom - top}px`,
-    }
-  }
-
-  private event(event: Event, newOffsetY: number): ResizingEvent {
-    // mouse move (up&down): only change end time
-    // new start time of event (round down mouse move position)
-    const endTime = event.endTime.hour(Math.ceil(newOffsetY / HEIGHT_PX_PER_HOUR))
-    return {
-      event: event,
-      endTime: endTime,
-      style: this.calcNewEventPreviewStyle(event.startTime, endTime),
     }
   }
 
@@ -227,42 +265,17 @@ export class WeeklyCalendarComponent implements OnInit {
   }
 
   onMouseDownOnResizable(event, eventItem: EventItem): void {
-    this._resizingEvent = {
-      event: eventItem.event,
-      endTime: eventItem.event.endTime,
-      style: this.calcNewEventPreviewStyle(eventItem.event.startTime, eventItem.event.endTime),
-    }
-    this._isResizingEvent = true
+    this._eventMouseDownOnResizable.next({ event: eventItem.event })
 
     event.stopImmediatePropagation()
   }
 
-  onMouseOutOnResizable(event): void {
-    if (this._isResizingEvent) {
-      let newEndTime
-
-      if (event.offsetY > 0) {
-        newEndTime = this._resizingEvent.endTime.add(1, 'hour')
-      } else {
-        newEndTime = this._resizingEvent.endTime.subtract(1, 'hour')
-      }
-
-      this._resizingEvent = {
-        event: this._resizingEvent.event,
-        endTime: newEndTime,
-        style: this.calcNewEventPreviewStyle(this._resizingEvent.event.startTime, newEndTime),
-      }
-    }
+  onMouseOutOnResizable(event, resizingEvent: ResizingEvent): void {
+    this._eventMouseOutOfResizable.next({ resizingEvent: resizingEvent, offsetY: event.offsetY })
   }
 
   onMouseUpOnResizable(): void {
-    const data: UpdatedEvent = {
-      id: this._resizingEvent.event.id,
-      title: this._resizingEvent.event.title,
-      startTime: this._resizingEvent.event.startTime,
-      endTime: this._resizingEvent.endTime,
-    }
-    this.eventUpdated.emit(data)
+    this._eventMouseUpOnResizable.next()
 
     this._isResizingEvent = false
   }
