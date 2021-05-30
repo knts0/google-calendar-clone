@@ -1,14 +1,21 @@
 :host {
+  display: block;
+  width:   100%;
+  height:  100%;
+
   .event {
+    width:    100%;
+    height:   100%;
+    position: relative;
+
     &__size-adjustable {
-      position:         absolute;
-      z-index:          12;
-      bottom:           0;
-      width:            100%;
-      height:           8px;
-      cursor:           ns-resize;
-      background-color: red;
-      user-select:      none;
+      position:    absolute;
+      z-index:     12;
+      bottom:      0;
+      width:       100%;
+      height:      8px;
+      cursor:      ns-resize;
+      user-select: none;
     }
   }
 }
