@@ -101,8 +101,8 @@ export class WeeklyCalendarComponent implements OnInit {
     )
 
     this._mouseUp.pipe(
-      filter(_ => this._isShowEventPreview),
       takeUntil(this.onDestroy$),
+      filter(_ => this._isShowEventPreview),
       withLatestFrom(this._eventPreviewStart, this._eventPreview$)
     ).subscribe(([_, eventMouseDown, newEventPreview]) => {
       this._isShowEventPreview = false
@@ -247,7 +247,9 @@ export class WeeklyCalendarComponent implements OnInit {
     this.dialog.open(EventCreateComponent, {
       panelClass: 'transition',
       data: data,
-    }).afterClosed().subscribe( _ => {
+    }).afterClosed().pipe(
+      takeUntil(this.onDestroy$)
+    ).subscribe( _ => {
       this._newEvent.next(null)
     })
   }
