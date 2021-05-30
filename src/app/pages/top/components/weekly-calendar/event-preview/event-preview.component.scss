@@ -34,6 +34,7 @@
       background-color: map-get($mat-purple, 500);
       color:            white;
       user-select:      none;
+      box-shadow:       0 0 10px map-get($mat-gray, 500);
     }
   }
 }
