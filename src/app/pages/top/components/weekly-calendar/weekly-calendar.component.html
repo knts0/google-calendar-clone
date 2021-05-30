@@ -38,18 +38,17 @@
         *ngFor="let item of days"
       >
         <!-- for detecting mouse events -->
-        <div class="grid-view__detecting-mouse-events"
+        <!-- <div class="grid-view__detecting-mouse-events"
           (mousedown) = "onMouseDown($event, item)"
-          (mousemove) = "onMouseMove($event)"
-          (mouseup)   = "onMouseUp()"
           [class.cursor-move] = "_isShowNewEventPreview"
-        ></div>
+        ></div> -->
 
         <!-- timeline frame -->
         <div
           class          = "grid-view__time-frame"
           *ngFor         = "let hour of hours"
           [style.top.px] = "getTopOfTimelineFrame(hour)"
+          (mousedown) = "onMouseDown($event, item, hour)"
         >
         </div>
 
@@ -81,6 +80,13 @@
               無題
               <br>
               {{ newEventPreview.startTime.hour() }}:00〜{{ newEventPreview.endTime.hour() }}:00
+
+              <div
+                class      = "grid-view__preview-event-adjustable"
+                (mouseout) = "onMouseOut($event, newEventPreview)"
+                (mouseup)  = "onMouseUp()"
+              >
+              </div>
             </div>
           </ng-container>
 
