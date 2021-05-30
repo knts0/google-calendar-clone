@@ -87,6 +87,8 @@ export class WeeklyCalendarComponent implements OnInit {
   _isShowNewEventPreview: boolean = false
   _newEventPreview$: Observable<EventPreview>
 
+  _newEvent = new Subject<EventPreview | null>()
+
   // resized event preview
   _eventMouseDownOnResizable = new Subject<{ event: Event }>()
   _eventMouseOutOfResizable = new Subject<{ resizingEvent: ResizingEvent, offsetY: number }>()
@@ -148,8 +150,14 @@ export class WeeklyCalendarComponent implements OnInit {
       takeUntil(this.onDestroy$),
       withLatestFrom(this._newEventPreview$)
     ).subscribe(([_, { startTime, endTime }]) => {
-      this.openEventEditDialog(startTime, endTime)}
-    )
+      this._newEvent.next({
+        startTime: startTime,
+        endTime: endTime,
+        style: this.calcNewEventPreviewStyle(startTime, endTime),
+      })
+
+      this.openEventEditDialog(startTime, endTime)
+    })
 
 
     this._resizingEvent$ = merge(
@@ -300,7 +308,7 @@ export class WeeklyCalendarComponent implements OnInit {
       panelClass: 'transition',
       data: data,
     }).afterClosed().subscribe( _ => {
-      this._isShowNewEventPreview = false
+      this._newEvent.next(null)
     })
   }
 

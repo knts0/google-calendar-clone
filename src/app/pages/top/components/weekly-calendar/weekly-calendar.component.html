@@ -67,8 +67,25 @@
                 {{ eventItem.event.startTime.hour() }}:00〜{{ eventItem.event.endTime.hour() }}:00
               </div>
             </div>
-
           </div>
+
+          <!-- new event -->
+          <ng-container *ngIf = "_newEvent | async as newEvent">
+            <div
+              *ngIf   = "newEvent.startTime.isSame(item.day, 'day')"
+              class   = "grid-view__event"
+              [style] = "newEvent.style"
+            >
+              <div class="grid-view__event-text">
+                <div class="grid-view__event-title">
+                  タイトルなし
+                </div>
+                <div class="grid-view__event-time">
+                  {{ newEvent.startTime.hour() }}:00〜{{ newEvent.endTime.hour() }}:00
+                </div>
+              </div>
+            </div>
+          </ng-container>
 
           <!-- Preview event -->
           <ng-container *ngIf="_newEventPreview$ | async as newEventPreview">
