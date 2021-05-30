@@ -6,7 +6,7 @@ import * as duration                from 'dayjs/plugin/duration'
 import { merge, Observable, Subject } from 'rxjs'
 import { filter, map, scan, share, takeUntil, tap, withLatestFrom } from 'rxjs/operators'
 import { UpdatedEvent } from 'src/app/models/updated-event'
-import { DAYS_PER_WEEK, FIRST_DAY_OF_WEEK, getFirstDayOfWeek } from 'src/app/util/date'
+import { DAYS_PER_WEEK, FIRST_DAY_OF_WEEK, getFirstDayOfWeek, getOrderOfWeek } from 'src/app/util/date'
 
 import { Event }                from '../../../../models/event'
 import { EventCreateComponent } from '../modal/event-create/event-create.component'
@@ -14,6 +14,8 @@ import { EventEditComponent }   from '../modal/event-edit/event-edit.component'
 
 
 const HEIGHT_PX_PER_HOUR = 60
+const WIDTH_PX_PER_DAY = 100
+const WIDTH_HOURS = 50
 
 type EventItem = {
   event: Event
@@ -171,14 +173,15 @@ export class WeeklyCalendarComponent implements OnInit {
     const top    = startTime.hour() * HEIGHT_PX_PER_HOUR
     const bottom = endTime.hour() * HEIGHT_PX_PER_HOUR
 
-    const orderOfWeek = (startTime.day() + DAYS_PER_WEEK - FIRST_DAY_OF_WEEK) % DAYS_PER_WEEK
-    const left   = 50 + orderOfWeek * 100
+    const orderOfWeek = getOrderOfWeek(startTime)
+    const left        = WIDTH_HOURS + orderOfWeek * WIDTH_PX_PER_DAY
+    const width       = WIDTH_PX_PER_DAY
 
     return {
       top:    `${top}px`,
       height: `${bottom - top}px`,
       left:   `${left}px`,
-      width:  `100px`,
+      width:  `${width}px`,
     }
   }
 
