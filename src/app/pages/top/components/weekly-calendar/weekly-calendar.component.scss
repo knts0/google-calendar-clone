@@ -65,18 +65,14 @@
       text-align: center;
     }
 
-    &__event-preview {
-      position: absolute;
-      width:    100%;
-      height:   100%;
-      cursor:   move;
-      z-index:  100;
+    &__grid {
     }
 
   }
 
-  .grid-view {
-    display: flex;
+  .grid {
+    display:  flex;
+    position: relative;
 
     &__day {
       width:    100px;
@@ -101,6 +97,14 @@
       z-index:          2;
       user-select:      none;
       cursor:           pointer;
+    }
+
+    &__event-preview {
+      position: absolute;
+      width:    100%;
+      height:   100%;
+      cursor:   move;
+      z-index:  100;
     }
   }
 }

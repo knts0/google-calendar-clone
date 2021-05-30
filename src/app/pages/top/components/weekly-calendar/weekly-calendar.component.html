@@ -1,5 +1,4 @@
 <div class="weekly-calendar-table">
-  <!--  week days-->
   <div class="header">
     <div class="header__blank-cell">
     </div>
@@ -17,7 +16,6 @@
     </div>
   </div>
 
-  <!-- days -->
   <div class="body">
     <div class="body__hours">
       <div
@@ -30,16 +28,14 @@
       </div>
     </div>
 
-    <div
-      class="grid-view"
-    >
+    <div class="body__grid grid">
       <div
-        class="grid-view__day"
-        *ngFor="let item of days"
+        *ngFor = "let item of days"
+        class  = "grid__day"
       >
         <!-- timeline frame -->
         <div
-          class          = "grid-view__time-frame"
+          class          = "grid__time-frame"
           *ngFor         = "let hour of hours"
           [style.top.px] = "getTopOfTimelineFrame(hour)"
           (mousedown)    = "onMouseDown($event, item, hour)"
@@ -50,7 +46,7 @@
       <!-- registered events -->
       <div
         *ngFor  = "let eventItem of eventItems"
-        class   = "grid-view__event"
+        class   = "grid__event"
         [style] = "eventItem.style"
         (click) = "onClickEvent(eventItem.event)"
       >
@@ -63,7 +59,7 @@
       <!-- new event -->
       <ng-container *ngIf = "_newEvent | async as newEvent">
         <div
-          class   = "grid-view__event"
+          class   = "grid__event"
           [style] = "newEvent.style"
         >
           <div class="grid-view__event-text">
@@ -76,19 +72,18 @@
           </div>
         </div>
       </ng-container>
+
+      <!-- event preview -->
+      <ng-container *ngIf="_eventPreview$ | async as eventPreview">
+        <app-event-preview
+          *ngIf          = "_isShowEventPreview"
+          class          = "grid__event-preview"
+          [eventPreview] = "eventPreview"
+          (mouseMove)    = "onMouseMove($event)"
+          (mouseUp)      = "onMouseUp()"
+        >
+        </app-event-preview>
+      </ng-container>
     </div>
-
-    <!-- for detecting mouse events -->
-    <ng-container *ngIf="_eventPreview$ | async as eventPreview">
-      <app-event-preview
-        *ngIf          = "_isShowEventPreview"
-        class          = "body__event-preview"
-        [eventPreview] = "eventPreview"
-        (mouseMove)    = "onMouseMove($event)"
-        (mouseUp)      = "onMouseUp()"
-      >
-      </app-event-preview>
-    </ng-container>
-
   </div>
 </div>

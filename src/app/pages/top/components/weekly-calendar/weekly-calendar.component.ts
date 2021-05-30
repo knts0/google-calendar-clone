@@ -163,7 +163,7 @@ export class WeeklyCalendarComponent implements OnInit {
     const bottom = endTime.hour() * HEIGHT_PX_PER_HOUR
 
     const orderOfWeek = getOrderOfWeek(startTime)
-    const left        = WIDTH_HOURS + orderOfWeek * WIDTH_PX_PER_DAY
+    const left        = orderOfWeek * WIDTH_PX_PER_DAY
     const width       = WIDTH_PX_PER_DAY
 
     return {
