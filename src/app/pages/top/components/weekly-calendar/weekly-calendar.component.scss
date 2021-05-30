@@ -92,7 +92,10 @@
     &__event {
       position:         absolute;
       width:            90px;
-      background-color: lightblue;
+      padding:          4px;
+      box-sizing:       border-box;
+      background-color: map-get($mat-purple, 200);
+      border-radius:    4px;
       z-index:          2;
       user-select:      none;
       cursor:           pointer;
