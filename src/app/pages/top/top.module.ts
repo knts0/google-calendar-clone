@@ -30,7 +30,8 @@ import { CalendarComponent } from './components/side-menu/calendar/calendar.comp
 import { WeeklyCalendarComponent } from './components/weekly-calendar/weekly-calendar.component'
 import { EventModalBaseDirective } from './components/modal/common/event-modal-base.directive'
 import { ConfirmDeleteComponent } from './components/confirm-delete/confirm-delete.component';
-import { EventComponent } from './components/weekly-calendar/event/event.component'
+import { EventComponent } from './components/weekly-calendar/event/event.component';
+import { EventPreviewComponent } from './components/weekly-calendar/event-preview/event-preview.component'
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { EventComponent } from './components/weekly-calendar/event/event.compone
     EventModalBaseDirective,
     ConfirmDeleteComponent,
     EventComponent,
+    EventPreviewComponent,
   ],
   imports: [
     CommonModule,

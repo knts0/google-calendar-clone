@@ -11,6 +11,7 @@ import { DAYS_PER_WEEK, FIRST_DAY_OF_WEEK, getFirstDayOfWeek, getOrderOfWeek } f
 import { Event }                from '../../../../models/event'
 import { EventCreateComponent } from '../modal/event-create/event-create.component'
 import { EventEditComponent }   from '../modal/event-edit/event-edit.component'
+import { EventPreview } from './event-preview/event-preview.component'
 
 
 const HEIGHT_PX_PER_HOUR = 60
@@ -28,18 +29,6 @@ type EventItem = {
 type DayItem = {
   day:        dayjs.Dayjs
   weekday:    string
-}
-
-type EventPreview ={
-  originalEvent?: Event,
-  startTime: dayjs.Dayjs
-  endTime: dayjs.Dayjs
-  style: {
-    top:    string
-    height: string
-    left:   string
-    width:  string
-  }
 }
 
 @Component({
