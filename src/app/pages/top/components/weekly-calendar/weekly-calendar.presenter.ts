@@ -28,6 +28,17 @@ export type TemporalNewEvent = {
   },
 }
 
+export type EventDrag ={
+  startTime: dayjs.Dayjs,
+  endTime: dayjs.Dayjs
+  originalEvent?: Event,
+  style: {
+    top:    string
+    height: string
+    left:   string
+  }
+}
+
 export type DayItem = {
   day:        dayjs.Dayjs
   weekday:    string
@@ -63,6 +74,14 @@ export class WeeklyCalendarPresenter implements OnDestroy {
   // new event
   private newEvent = new Subject<TemporalNewEvent | null>()
 
+  // event drag
+  private eventDragStart = new Subject<{ originalEvent: Event }>()
+  private mouseMoveDrag = new Subject<{ offsetY: number }>()
+  private mouseUpDrag = new Subject<void>()
+  isShowEventDrag: boolean = false
+  private _eventDrag$: Observable<EventDrag>
+  private _eventDragComplete$: Observable<{ startTime: dayjs.Dayjs, endTime: dayjs.Dayjs, originalEvent: Event }>
+
   constructor(private readonly fb: FormBuilder) {
     this._eventPreview$ = merge(
       this.eventPreviewStart.pipe(
@@ -94,6 +113,37 @@ export class WeeklyCalendarPresenter implements OnDestroy {
         return { startTime: eventPreview.startTime, endTime: eventPreview.endTime, originalEvent: eventMouseDown.originalEvent }
       }),
     )
+
+    this._eventDrag$ = merge(
+      this.eventDragStart.pipe(
+        tap(_ => this.isShowEventDrag = true),
+        map(mouseDown => { return {
+          startTime: mouseDown.originalEvent.startTime,
+          endTime: mouseDown.originalEvent.endTime,
+          originalEvent: mouseDown.originalEvent,
+          style: this.calcEventStyle(mouseDown.originalEvent.startTime, mouseDown.originalEvent.endTime)
+        }})
+      ),
+      this.mouseMoveDrag.pipe(
+        filter(_ => this.isShowEventDrag),
+        withLatestFrom(this.eventDragStart),
+        map(([mouseMove, mouseDown]) => { return {
+          ...this.eventDrag(mouseDown.originalEvent.startTime, mouseDown.originalEvent.endTime, mouseMove.offsetY),
+          originalEvent: mouseDown.originalEvent,
+        }}),
+      )
+    )
+
+    this._eventDragComplete$ = this.mouseUpDrag.pipe(
+      filter(_ => this.isShowEventDrag),
+      withLatestFrom(this.eventDragStart, this.eventDrag$),
+      tap(([_, eventMouseDown, eventDrag]) => {
+        this.isShowEventDrag = false
+      }),
+      map(([_, eventMouseDown, eventDrag]) => {
+        return { startTime: eventDrag.startTime, endTime: eventDrag.endTime, originalEvent: eventMouseDown.originalEvent }
+      }),
+    )
   }
 
   ngOnDestroy(): void {
@@ -109,6 +159,14 @@ export class WeeklyCalendarPresenter implements OnDestroy {
 
   get newEvent$(): Observable<TemporalNewEvent | null> {
     return this.newEvent.asObservable()
+  }
+
+  get eventDrag$(): Observable<EventDrag> {
+    return this._eventDrag$
+  }
+
+  get eventDragComplete$(): Observable<{ startTime: dayjs.Dayjs, endTime: dayjs.Dayjs, originalEvent: Event }> {
+    return this._eventDragComplete$
   }
 
   private eventPreview(startTimeWhenMouseDown: dayjs.Dayjs, endTimeWhenMouseDown: dayjs.Dayjs, newOffsetY: number): EventPreview {
@@ -135,6 +193,17 @@ export class WeeklyCalendarPresenter implements OnDestroy {
         endTime: endTime,
         style: this.calcEventStyle(startTime, endTime),
       }
+    }
+  }
+
+  private eventDrag(startTimeWhenMouseDown: dayjs.Dayjs, endTimeWhenMouseDown: dayjs.Dayjs, newOffsetY: number): EventDrag {
+    const startTime = startTimeWhenMouseDown.hour(Math.floor(newOffsetY / HEIGHT_PX_PER_HOUR))
+    console.log(startTime)
+    const endTime = startTime.add(1, 'hour')
+    return {
+      startTime: startTime,
+      endTime: endTime,
+      style: this.calcEventStyle(startTime, endTime),
     }
   }
 
@@ -192,6 +261,22 @@ export class WeeklyCalendarPresenter implements OnDestroy {
 
   onMouseUp(): void {
     this.mouseUp.next()
+  }
+
+  onEventDragStart(originalEvent: Event): void {
+    console.log('event drag start')
+    this.isShowEventDrag = true
+    this.eventDragStart.next({
+      originalEvent: originalEvent,
+    })
+  }
+
+  onMouseMoveDrag(offsetY: number): void {
+    this.mouseMoveDrag.next({ offsetY: offsetY })
+  }
+
+  onMouseUpDrag(): void {
+    this.mouseUpDrag.next()
   }
 
   onSetNewEvent(startTime: dayjs.Dayjs, endTime: dayjs.Dayjs): void {

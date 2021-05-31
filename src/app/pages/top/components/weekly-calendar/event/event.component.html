@@ -1,5 +1,8 @@
 <div class="event">
-  <div class="event__text">
+  <div
+    class       = "event__text"
+    (mousedown) = "onMouseDownOnDraggable()"
+  >
     <div class="event__title">
       {{ event.title }}
     </div>

@@ -53,6 +53,7 @@
         <app-event
           [event]                = "eventItem.event"
           (mouseDownOnResizable) = "onMouseDownOnResizable($event)"
+          (mouseDownOnDraggable) = "onMouseDownOnDraggable($event)"
         ></app-event>
       </div>
 
@@ -83,6 +84,26 @@
           (mouseUp)      = "onMouseUp()"
         >
         </app-event-preview>
+      </ng-container>
+
+      <!-- draggable event -->
+      <ng-container *ngIf="eventDrag$ | async as eventDrag">
+        <div
+          *ngIf       = "isShowEventDrag"
+          class       = "grid__event-drag"
+          (mousemove) = "onMouseMoveDrag($event)"
+          (mouseup)   = "onMouseUpDrag()"
+        >
+        </div>
+
+        <div
+          *ngIf   = "isShowEventDrag"
+          class   = "grid__event-draggable"
+          [style] = "eventDrag.style"
+        >
+          <!-- [cdkDragDisabled]="isDragDisabled" -->
+          aaaa
+        </div>
       </ng-container>
     </div>
   </div>

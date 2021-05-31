@@ -8,6 +8,12 @@
     height:   100%;
     position: relative;
 
+    &__text {
+      height:     100%;
+      padding:    4px;
+      box-sizing: border-box;
+    }
+
     &__size-adjustable {
       position:    absolute;
       z-index:     12;

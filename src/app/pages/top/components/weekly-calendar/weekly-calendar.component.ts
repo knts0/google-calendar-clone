@@ -10,7 +10,7 @@ import { UpdatedEvent } from 'src/app/models/updated-event'
 import { Event }                from '../../../../models/event'
 import { EventCreateComponent } from '../modal/event-create/event-create.component'
 import { EventEditComponent }   from '../modal/event-edit/event-edit.component'
-import { DayItem, EventItem, EventPreview, HEIGHT_PX_PER_HOUR, TemporalNewEvent, WeeklyCalendarPresenter } from './weekly-calendar.presenter'
+import { DayItem, EventDrag, EventItem, EventPreview, HEIGHT_PX_PER_HOUR, TemporalNewEvent, WeeklyCalendarPresenter } from './weekly-calendar.presenter'
 
 
 
@@ -65,6 +65,14 @@ export class WeeklyCalendarComponent implements OnInit {
     return this.presenter.newEvent$
   }
 
+  get isShowEventDrag(): boolean {
+    return this.presenter.isShowEventDrag
+  }
+
+  get eventDrag$(): Observable<EventDrag> {
+    return this.presenter.eventDrag$
+  }
+
   hours = Array.from({ length: 24 }, (v, i) => i )
 
   private readonly onDestroy$ = new EventEmitter();
@@ -91,6 +99,18 @@ export class WeeklyCalendarComponent implements OnInit {
         }
         this.eventUpdated.emit(updatedEvent)
       }
+    })
+
+    this.presenter.eventDragComplete$.pipe(
+      takeUntil(this.onDestroy$)
+    ).subscribe(data => {
+      const updatedEvent = {
+        id: data.originalEvent.id,
+        title: data.originalEvent.title,
+        startTime: data.startTime,
+        endTime: data.endTime,
+      }
+      this.eventUpdated.emit(updatedEvent)
     })
   }
 
@@ -128,6 +148,22 @@ export class WeeklyCalendarComponent implements OnInit {
     )
 
     event.stopImmediatePropagation()
+  }
+
+  onMouseDownOnDraggable(targetEvent: Event): void {
+    this.presenter.onEventDragStart(
+      targetEvent,
+    )
+
+    event.stopImmediatePropagation()
+  }
+
+  onMouseMoveDrag(event): void {
+    this.presenter.onMouseMoveDrag(event.offsetY)
+  }
+
+  onMouseUpDrag(): void {
+    this.presenter.onMouseUpDrag()
   }
 
   onClickEvent(event: Event): void {

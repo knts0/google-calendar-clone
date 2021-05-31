@@ -14,6 +14,7 @@ import { MatIconModule }                    from '@angular/material/icon'
 import { MatInputModule }                   from '@angular/material/input'
 import { MatSelectModule }                  from '@angular/material/select'
 import { MatSnackBarModule }                from '@angular/material/snack-bar'
+import { DragDropModule }                   from '@angular/cdk/drag-drop'
 import { OverlayModule }                    from '@angular/cdk/overlay'
 
 import { TopRoutingModule } from './top-routing.module'
@@ -71,6 +72,7 @@ import { WeeklyCalendarPresenter } from './components/weekly-calendar/weekly-cal
     MatMomentDateModule,
     MatSelectModule,
     MatSnackBarModule,
+    DragDropModule,
     OverlayModule,
 
     TopRoutingModule,
