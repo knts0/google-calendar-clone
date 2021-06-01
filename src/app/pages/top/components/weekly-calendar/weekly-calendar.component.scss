@@ -116,9 +116,17 @@
       z-index:  100;
     }
 
+    &__event-drag-original-event {
+      position:         absolute;
+      z-index :         3;
+      width:            90px;
+      background-color: white;
+      opacity:          .5;
+    }
+
     &__event-draggable {
       position:         absolute;
-      z-index:          2;
+      z-index:          4;
 
       width:            100px;
       height:           60px;

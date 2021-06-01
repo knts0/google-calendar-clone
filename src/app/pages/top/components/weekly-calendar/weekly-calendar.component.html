@@ -96,6 +96,14 @@
         >
         </div>
 
+        <!-- original event -->
+        <div
+          *ngIf   = "isShowEventDrag"
+          class   = "grid__event-drag-original-event"
+          [style] = "calcEventStyle(eventDrag.originalEvent)"
+        >
+        </div>
+
         <div
           *ngIf   = "isShowEventDrag"
           class   = "grid__event-draggable"

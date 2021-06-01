@@ -174,6 +174,10 @@ export class WeeklyCalendarComponent implements OnInit {
     this.openEventEditDialog(event)
   }
 
+  calcEventStyle(event: Event): { top: string, height: string, left: string} {
+    return this.presenter.calcEventStyle(event.startTime, event.endTime)
+  }
+
   private openEventCreateDialog(startTime: dayjs.Dayjs, endTime: dayjs.Dayjs): void {
     dayjs.extend(duration)
 
