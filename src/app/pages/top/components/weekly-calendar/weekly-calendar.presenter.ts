@@ -200,7 +200,7 @@ export class WeeklyCalendarPresenter implements OnDestroy {
   private eventDrag(startTimeWhenMouseDown: dayjs.Dayjs, endTimeWhenMouseDown: dayjs.Dayjs, newOffsetY: number): EventDrag {
     dayjs.extend(duration)
     const startTime = startTimeWhenMouseDown.hour(Math.floor(newOffsetY / HEIGHT_PX_PER_HOUR))
-    const endTime = startTime.add(dayjs.duration(startTimeWhenMouseDown.diff(endTimeWhenMouseDown)))
+    const endTime = startTime.add(dayjs.duration(endTimeWhenMouseDown.diff(startTimeWhenMouseDown)))
     return {
       startTime: startTime,
       endTime: endTime,
