@@ -1,6 +1,7 @@
 import { EventEmitter, Injectable, OnDestroy } from '@angular/core'
 import { FormBuilder, Validators } from '@angular/forms'
 import * as dayjs from 'dayjs'
+import * as duration from 'dayjs/plugin/duration'
 import { merge, Observable, Subject } from 'rxjs'
 import { filter, map, share, takeUntil, tap, withLatestFrom } from 'rxjs/operators'
 import { Event } from 'src/app/models/event'
@@ -197,9 +198,9 @@ export class WeeklyCalendarPresenter implements OnDestroy {
   }
 
   private eventDrag(startTimeWhenMouseDown: dayjs.Dayjs, endTimeWhenMouseDown: dayjs.Dayjs, newOffsetY: number): EventDrag {
+    dayjs.extend(duration)
     const startTime = startTimeWhenMouseDown.hour(Math.floor(newOffsetY / HEIGHT_PX_PER_HOUR))
-    console.log(startTime)
-    const endTime = startTime.add(1, 'hour')
+    const endTime = startTime.add(dayjs.duration(startTimeWhenMouseDown.diff(endTimeWhenMouseDown)))
     return {
       startTime: startTime,
       endTime: endTime,
