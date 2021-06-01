@@ -159,7 +159,7 @@ export class WeeklyCalendarComponent implements OnInit {
   }
 
   onMouseMoveDrag(event): void {
-    this.presenter.onMouseMoveDrag(event.offsetY)
+    this.presenter.onMouseMoveDrag(event.offsetX, event.offsetY)
   }
 
   onMouseUpDrag(): void {

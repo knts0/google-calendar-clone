@@ -77,7 +77,7 @@ export class WeeklyCalendarPresenter implements OnDestroy {
 
   // event drag
   private eventDragStart = new Subject<{ originalEvent: Event }>()
-  private mouseMoveDrag = new Subject<{ offsetY: number }>()
+  private mouseMoveDrag = new Subject<{ offsetX: number, offsetY: number }>()
   private mouseUpDrag = new Subject<void>()
   isShowEventDrag: boolean = false
   private _eventDrag$: Observable<EventDrag>
@@ -129,7 +129,7 @@ export class WeeklyCalendarPresenter implements OnDestroy {
         filter(_ => this.isShowEventDrag),
         withLatestFrom(this.eventDragStart),
         map(([mouseMove, mouseDown]) => { return {
-          ...this.eventDrag(mouseDown.originalEvent.startTime, mouseDown.originalEvent.endTime, mouseMove.offsetY),
+          ...this.eventDrag(mouseDown.originalEvent.startTime, mouseDown.originalEvent.endTime, mouseMove.offsetX, mouseMove.offsetY),
           originalEvent: mouseDown.originalEvent,
         }}),
       )
@@ -197,9 +197,12 @@ export class WeeklyCalendarPresenter implements OnDestroy {
     }
   }
 
-  private eventDrag(startTimeWhenMouseDown: dayjs.Dayjs, endTimeWhenMouseDown: dayjs.Dayjs, newOffsetY: number): EventDrag {
+  private eventDrag(startTimeWhenMouseDown: dayjs.Dayjs, endTimeWhenMouseDown: dayjs.Dayjs, newOffsetX: number, newOffsetY: number): EventDrag {
     dayjs.extend(duration)
-    const startTime = startTimeWhenMouseDown.hour(Math.floor(newOffsetY / HEIGHT_PX_PER_HOUR))
+    const firstDayOfWeek = getFirstDayOfWeek(startTimeWhenMouseDown)
+    const newDate = firstDayOfWeek.add(Math.floor(newOffsetX / WIDTH_PX_PER_DAY), 'day')
+
+    const startTime = newDate.hour(Math.floor(newOffsetY / HEIGHT_PX_PER_HOUR))
     const endTime = startTime.add(dayjs.duration(endTimeWhenMouseDown.diff(startTimeWhenMouseDown)))
     return {
       startTime: startTime,
@@ -270,8 +273,8 @@ export class WeeklyCalendarPresenter implements OnDestroy {
     })
   }
 
-  onMouseMoveDrag(offsetY: number): void {
-    this.mouseMoveDrag.next({ offsetY: offsetY })
+  onMouseMoveDrag(offsetX: number, offsetY: number): void {
+    this.mouseMoveDrag.next({ offsetX: offsetX, offsetY: offsetY })
   }
 
   onMouseUpDrag(): void {
