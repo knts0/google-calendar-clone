@@ -265,8 +265,6 @@ export class WeeklyCalendarPresenter implements OnDestroy {
   }
 
   onEventDragStart(originalEvent: Event): void {
-    console.log('event drag start')
-    this.isShowEventDrag = true
     this.eventDragStart.next({
       originalEvent: originalEvent,
     })
