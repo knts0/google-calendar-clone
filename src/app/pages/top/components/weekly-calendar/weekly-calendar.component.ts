@@ -4,7 +4,7 @@ import { MatDialog }                from '@angular/material/dialog'
 import * as dayjs                   from 'dayjs'
 import * as duration                from 'dayjs/plugin/duration'
 import { Observable } from 'rxjs'
-import { takeUntil } from 'rxjs/operators'
+import { filter, takeUntil } from 'rxjs/operators'
 import { UpdatedEvent } from 'src/app/models/updated-event'
 
 import { Event }                from '../../../../models/event'
@@ -89,7 +89,7 @@ export class WeeklyCalendarComponent implements OnInit {
       this.presenter.onSetNewEvent(data.startTime, data.endTime)
 
       if (data.originalEvent == null) {
-        this.openEventEditDialog(data.startTime, data.endTime)
+        this.openEventCreateDialog(data.startTime, data.endTime)
       } else {
         const updatedEvent = {
           id: data.originalEvent.id,
@@ -102,15 +102,19 @@ export class WeeklyCalendarComponent implements OnInit {
     })
 
     this.presenter.eventDragComplete$.pipe(
-      takeUntil(this.onDestroy$)
+      takeUntil(this.onDestroy$),
     ).subscribe(data => {
-      const updatedEvent = {
-        id: data.originalEvent.id,
-        title: data.originalEvent.title,
-        startTime: data.startTime,
-        endTime: data.endTime,
+      if (data.startTime.isSame(data.originalEvent.startTime) && data.endTime.isSame(data.originalEvent.endTime)) {
+        this.openEventEditDialog(data.originalEvent)
+      } else {
+        const updatedEvent = {
+          id: data.originalEvent.id,
+          title: data.originalEvent.title,
+          startTime: data.startTime,
+          endTime: data.endTime,
+        }
+        this.eventUpdated.emit(updatedEvent)
       }
-      this.eventUpdated.emit(updatedEvent)
     })
   }
 
@@ -167,14 +171,10 @@ export class WeeklyCalendarComponent implements OnInit {
   }
 
   onClickEvent(event: Event): void {
-    this.dialog.open(EventEditComponent, {
-      data: {
-        event: event,
-      }
-    })
+    this.openEventEditDialog(event)
   }
 
-  private openEventEditDialog(startTime: dayjs.Dayjs, endTime: dayjs.Dayjs): void {
+  private openEventCreateDialog(startTime: dayjs.Dayjs, endTime: dayjs.Dayjs): void {
     dayjs.extend(duration)
 
     const data = {
@@ -193,4 +193,11 @@ export class WeeklyCalendarComponent implements OnInit {
     })
   }
 
+  private openEventEditDialog(event: Event): void {
+    this.dialog.open(EventEditComponent, {
+      data: {
+        event: event,
+      }
+    })
+  }
 }
