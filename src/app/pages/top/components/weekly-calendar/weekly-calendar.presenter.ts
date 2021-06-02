@@ -212,11 +212,13 @@ export class WeeklyCalendarPresenter implements OnDestroy {
   }
 
   calcEventStyle(startTime: dayjs.Dayjs, endTime: dayjs.Dayjs): { top: string, height: string, left: string } {
+    dayjs.extend(duration)
+    const startOfDay = startTime.startOf('day')
     // calc preview event position
-    const top    = startTime.hour() * HEIGHT_PX_PER_HOUR
-    const bottom = endTime.hour() * HEIGHT_PX_PER_HOUR
+    const top    = dayjs.duration(startTime.diff(startOfDay)).as('hours') * HEIGHT_PX_PER_HOUR
+    const bottom = dayjs.duration(endTime.diff(startOfDay)).as('hours') * HEIGHT_PX_PER_HOUR
 
-    const orderOfWeek = getOrderOfWeek(startTime)
+    const orderOfWeek = getOrderOfWeek(startOfDay)
     const left        = orderOfWeek * WIDTH_PX_PER_DAY
 
     return {
