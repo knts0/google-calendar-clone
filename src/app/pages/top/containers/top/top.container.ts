@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit }  from '@angular/core'
+import { MatDialog }                     from '@angular/material/dialog'
 import { MatSnackBar }                   from '@angular/material/snack-bar'
 import * as dayjs                        from 'dayjs'
 import { Observable, Subject }           from 'rxjs'
@@ -10,6 +11,7 @@ import { CalendarFacade } from '../../../../store/calendar/calendar.facade'
 import { getFirstDayOfWeek } from 'src/app/util/date'
 import { UpdatedEvent } from 'src/app/models/updated-event'
 import { NewEvent } from 'src/app/models/new-event'
+import { EventCreateComponent } from '../../components/modal/event-create/event-create.component'
 
 
 @Component({
@@ -31,6 +33,7 @@ export class TopContainerComponent implements OnInit, OnDestroy {
 
   constructor(
     private calendarFacade: CalendarFacade,
+    private dialog: MatDialog,
     private snackBar: MatSnackBar,
   ) { }
 
@@ -94,6 +97,21 @@ export class TopContainerComponent implements OnInit, OnDestroy {
 
   onChangeActiveDate(date: dayjs.Dayjs) {
     this.calendarFacade.setActiveDate(date)
+  }
+
+  onCreateEvent(): void {
+    const startDateTime = dayjs().startOf('hour').add(1, 'hour')
+    const data = {
+      start:    startDateTime,
+      end:      startDateTime.add(1, 'hour'),
+      isAllDay: false,
+    }
+    console.log(data)
+
+    this.dialog.open(EventCreateComponent, {
+      panelClass: 'transition',
+      data: data,
+    })
   }
 
   changeActiveDatePrev(): void {

@@ -9,6 +9,7 @@
   <app-side-menu
     [activeDate]          = "activeDate$ | async"
     (onActiveDateChanged) = "onChangeActiveDate($event)"
+    (onCreateEvent)       = "onCreateEvent()"
   ></app-side-menu>
 
   <!-- calendar view -->

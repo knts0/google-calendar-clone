@@ -12,11 +12,16 @@ export class SideMenuComponent implements OnInit {
 
   @Input() activeDate: dayjs.Dayjs
   @Output() onActiveDateChanged = new EventEmitter<dayjs.Dayjs>()
+  @Output() onCreateEvent = new EventEmitter<void>();
 
   constructor(
   ) { }
 
   ngOnInit(): void {
+  }
+
+  onClickCreateEventButton(): void {
+    this.onCreateEvent.emit()
   }
 
   onChangeActiveDate(date: dayjs.Dayjs) {
