@@ -1387,6 +1387,13 @@
     semver "7.3.4"
     semver-intersect "1.4.0"
 
+"@tabuckner/material-dayjs-adapter@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@tabuckner/material-dayjs-adapter/-/material-dayjs-adapter-1.1.0.tgz#7de8f033ab546afb9d80e9acf4eeb401eb2a2872"
+  integrity sha512-tf6GzNshRfqt0WOeuzMGqkdGYyhIA7Q9yQIPOOmtLTxDzrMi2qA8JC1/+F8LAft81wBYo0LEpcLYPeSdepjjjQ==
+  dependencies:
+    tslib "^1.9.0"
+
 "@tootallnate/once@1":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-1.1.2.tgz#ccb91445360179a04e7fe6aff78c00ffc1eeaf82"

@@ -25,6 +25,7 @@
     "@ngneat/reactive-forms": "^1.7.2",
     "@ngxs-labs/emitter": "^2.0.0",
     "@ngxs/store": "^3.7.1",
+    "@tabuckner/material-dayjs-adapter": "^1.1.0",
     "dayjs": "^1.10.4",
     "moment": "^2.29.1",
     "rxjs": "~6.5.5",
