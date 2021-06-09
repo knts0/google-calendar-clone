@@ -6,7 +6,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { MatBottomSheetModule }             from '@angular/material/bottom-sheet'
 import { MatButtonModule }                  from '@angular/material/button'
 import { MatCheckboxModule }                from '@angular/material/checkbox'
-import { MatMomentDateModule }              from '@angular/material-moment-adapter'
 import { MatDatepickerModule }              from '@angular/material/datepicker'
 import { MatDialogModule }                  from '@angular/material/dialog'
 import { MatFormFieldModule }               from '@angular/material/form-field'
@@ -69,7 +68,6 @@ import { WeeklyCalendarPresenter } from './components/weekly-calendar/weekly-cal
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
-    MatMomentDateModule,
     MatSelectModule,
     MatSnackBarModule,
     DragDropModule,
