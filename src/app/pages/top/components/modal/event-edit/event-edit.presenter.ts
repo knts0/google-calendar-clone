@@ -53,7 +53,7 @@ export class EventEditPresenter implements OnDestroy {
       startTime: event.startTime.format('HH:mm'),
       endDate: event.endTime.format('YYYY-MM-DD'),
       endTime: event.endTime.format('HH:mm'),
-      isAllDay: false,
+      isAllDay: event.isAllDay,
     })
   }
 
