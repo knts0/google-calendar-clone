@@ -261,13 +261,6 @@
   dependencies:
     tslib "^2.0.0"
 
-"@angular/material-moment-adapter@^11.2.3":
-  version "11.2.5"
-  resolved "https://registry.yarnpkg.com/@angular/material-moment-adapter/-/material-moment-adapter-11.2.5.tgz#2600bc99b30871dabb7d66c4b80b25098daf1c9f"
-  integrity sha512-0+V4jZUYkklB9QqDzQDue2UVUa5pPpCFLUDiwqgMwEtSErffEvZ93FDncvSqqWzlxCFggHMHNWMONJsUMR0+jg==
-  dependencies:
-    tslib "^2.0.0"
-
 "@angular/material@^11.2.3":
   version "11.2.5"
   resolved "https://registry.yarnpkg.com/@angular/material/-/material-11.2.5.tgz#33145101816cd88a74c8f14073a218cb4d4f5bba"
@@ -1386,13 +1379,6 @@
     pacote "11.2.4"
     semver "7.3.4"
     semver-intersect "1.4.0"
-
-"@tabuckner/material-dayjs-adapter@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@tabuckner/material-dayjs-adapter/-/material-dayjs-adapter-1.1.0.tgz#7de8f033ab546afb9d80e9acf4eeb401eb2a2872"
-  integrity sha512-tf6GzNshRfqt0WOeuzMGqkdGYyhIA7Q9yQIPOOmtLTxDzrMi2qA8JC1/+F8LAft81wBYo0LEpcLYPeSdepjjjQ==
-  dependencies:
-    tslib "^1.9.0"
 
 "@tootallnate/once@1":
   version "1.1.2"
@@ -3333,10 +3319,10 @@ date-format@^3.0.0:
   resolved "https://registry.yarnpkg.com/date-format/-/date-format-3.0.0.tgz#eb8780365c7d2b1511078fb491e6479780f3ad95"
   integrity sha512-eyTcpKOcamdhWJXj56DpQMo1ylSQpcGtGKXcU0Tb97+K56/CF5amAqqqNj0+KvA0iw2ynxtHWFsPDSClCxe48w==
 
-dayjs@^1.10.4:
-  version "1.10.4"
-  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.10.4.tgz#8e544a9b8683f61783f570980a8a80eaf54ab1e2"
-  integrity sha512-RI/Hh4kqRc1UKLOAf/T5zdMMX5DQIlDxwUe3wSyMMnEbGunnpENCdbUgM+dW7kXidZqCttBrmw7BhN4TMddkCw==
+dayjs@^1.10.5:
+  version "1.10.5"
+  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.10.5.tgz#5600df4548fc2453b3f163ebb2abbe965ccfb986"
+  integrity sha512-BUFis41ikLz+65iH6LHQCDm4YPMj5r1YFLdupPIyM4SGcXMmtiLQ7U37i+hGS8urIuqe7I/ou3IS1jVc4nbN4g==
 
 debug@2.6.9, debug@^2.2.0, debug@^2.3.3, debug@^2.6.9:
   version "2.6.9"
