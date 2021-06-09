@@ -96,6 +96,7 @@ export class WeeklyCalendarComponent implements OnInit {
           title: data.originalEvent.title,
           startTime: data.startTime,
           endTime: data.endTime,
+          isAllDay: data.originalEvent.isAllDay,
         }
         this.eventUpdated.emit(updatedEvent)
       }
@@ -112,6 +113,7 @@ export class WeeklyCalendarComponent implements OnInit {
           title: data.originalEvent.title,
           startTime: data.startTime,
           endTime: data.endTime,
+          isAllDay: data.originalEvent.isAllDay,
         }
         this.eventUpdated.emit(updatedEvent)
       }

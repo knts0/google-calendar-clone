@@ -69,7 +69,8 @@ export class EventEditPresenter implements OnDestroy {
         endTime: dayjs(
           this.form.value.endDate + this.form.value.endTime,
           'YYYY-MM-DD HH:mm'
-        )
+        ),
+        isAllDay: this.form.value.isAllDay,
       }
 
       this.subject.next(data)

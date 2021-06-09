@@ -5,6 +5,7 @@ export type Event = {
   title: string
   startTime: dayjs.Dayjs
   endTime: dayjs.Dayjs
+  isAllDay: boolean
 }
 
 export type EventLoadDto = Array<{
@@ -12,6 +13,7 @@ export type EventLoadDto = Array<{
   title: string
   startTime: string
   endTime: string
+  isAllDay: boolean
 }>
 
 export function toModel(res: EventLoadDto): Event[] {
@@ -21,6 +23,7 @@ export function toModel(res: EventLoadDto): Event[] {
       title: v.title,
       startTime: dayjs(v.startTime),
       endTime: dayjs(v.endTime),
+      isAllDay: v.isAllDay,
     }
     return model
   })
