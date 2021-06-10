@@ -109,8 +109,8 @@ export class TopContainerComponent implements OnInit, OnDestroy {
     console.log(data)
 
     this.dialog.open(EventCreateComponent, {
-      panelClass: 'transition',
       data: data,
+      panelClass: 'dialog-overlay',
     })
   }
 

@@ -190,8 +190,8 @@ export class WeeklyCalendarComponent implements OnInit {
     }
 
     this.dialog.open(EventCreateComponent, {
-      panelClass: 'transition',
       data: data,
+      panelClass: 'dialog-overlay',
     }).afterClosed().pipe(
       takeUntil(this.onDestroy$)
     ).subscribe( _ => {
@@ -203,7 +203,8 @@ export class WeeklyCalendarComponent implements OnInit {
     this.dialog.open(EventEditComponent, {
       data: {
         event: event,
-      }
+      },
+      panelClass: 'dialog-overlay',
     })
   }
 }
