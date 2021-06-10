@@ -19,7 +19,10 @@
         formControlName = "startDate"
       >
     </div>
-    <div class="form__item--in-group">
+    <div
+      *ngIf = "!form.value.isAllDay"
+      class = "form__item--in-group"
+    >
       <input
         type            = "time"
         formControlName = "startTime"
@@ -28,7 +31,10 @@
     <div class="form__item--in-group">
       -
     </div>
-    <div class="form__item--in-group">
+    <div
+      *ngIf = "!form.value.isAllDay"
+      class = "form__item--in-group"
+    >
       <input
         type            = "time"
         formControlName = "endTime"
