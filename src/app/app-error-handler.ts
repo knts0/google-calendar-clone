@@ -5,9 +5,9 @@ import { ErrorHandler, Injectable } from '@angular/core'
 export class AppErrorHandler implements ErrorHandler {
   handleError(error: unknown): void {
     if (error instanceof HttpErrorResponse) {
+      const responseBody: { message: string } | null = error.error
       window.alert([
-        'エラーが発生しました',
-        error,
+        responseBody?.message,
       ])
     }
 
