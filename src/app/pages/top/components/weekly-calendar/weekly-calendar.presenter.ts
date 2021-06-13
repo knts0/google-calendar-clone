@@ -53,6 +53,18 @@ export type EventItem = {
   }
 }
 
+export type AllDayEventItem = {
+  event: Event
+  style: {
+    left: string
+    width: string
+  }
+}
+
+export type AllDayEventRow = {
+  eventItems: AllDayEventItem[]
+}
+
 export const HEIGHT_PX_PER_HOUR = 60
 export const WIDTH_PX_PER_DAY = 100
 
@@ -63,6 +75,7 @@ export class WeeklyCalendarPresenter implements OnDestroy {
 
   days: DayItem[] = []
   eventItems: EventItem[]
+  allDayEventRows: AllDayEventRow[]
 
   // event preview
   private eventPreviewStart = new Subject<{ startTime: dayjs.Dayjs, endTime: dayjs.Dayjs, originalEvent?: Event }>()
@@ -228,27 +241,67 @@ export class WeeklyCalendarPresenter implements OnDestroy {
     }
   }
 
+  private calcAllDayEventStyle(startDate: dayjs.Dayjs, endDate: dayjs.Dayjs): { left: string, width: string } {
+    dayjs.extend(duration)
+    const orderOfWeek = getOrderOfWeek(startDate)
+    const left        = orderOfWeek * WIDTH_PX_PER_DAY
+
+    const width       = WIDTH_PX_PER_DAY * (endDate.diff(startDate, 'day') + 1) - 8
+
+    return {
+      left:  `${left}px`,
+      width: `${width}px`
+    }
+  }
+
   init(): void {
   }
 
   initDays(events: Event[]): void {
-    this.eventItems = events.map(e => {
+    this.eventItems = events.filter(e => !e.isAllDay).map(e => {
       return {
         event: e,
         style: this.calcEventStyle(e.startTime, e.endTime),
       }
     })
 
+    const firstDayOfWeek = getFirstDayOfWeek(this.activeDate)
+
+    dayjs.extend(duration)
+    const allDayEvents = events.filter(e => e.isAllDay)
+    allDayEvents.sort((a, b) => dayjs.duration(a.startTime.diff(b.startTime)).asMinutes())
+
+    this.allDayEventRows = []
+    while (allDayEvents.length > 0) {
+      let date = firstDayOfWeek.clone()
+      const row: AllDayEventRow = { eventItems: [] }
+      while (date.isBefore(firstDayOfWeek.add(1, 'week'))) {
+        const eventIndex = allDayEvents.findIndex(e => e.startTime.isSame(date, 'day'))
+        if (eventIndex != -1) {
+          const event = allDayEvents[eventIndex]
+          row.eventItems.push({
+            event: event,
+            style: this.calcAllDayEventStyle(event.startTime.startOf('day'), event.endTime.startOf('day')),
+          })
+
+          date = event.endTime.startOf('day').add(1, 'day')
+          allDayEvents.splice(eventIndex, 1)
+        } else {
+          date = date.add(1, 'day')
+        }
+      }
+      this.allDayEventRows.push(row)
+    }
+
     this.days = []
 
-    const firstDayOfWeek = getFirstDayOfWeek(this.activeDate)
     const weekdays = [ '月', '火', '水', '木', '金', '土', '日' ]
 
     for (let dayOfWeek = 0; dayOfWeek < DAYS_PER_WEEK; dayOfWeek++) {
       const day = firstDayOfWeek.day(dayOfWeek + FIRST_DAY_OF_WEEK)
       this.days.push({
-        day:        day,
-        weekday:    weekdays[dayOfWeek],
+        day:     day,
+        weekday: weekdays[dayOfWeek],
       })
     }
   }

@@ -10,7 +10,7 @@ import { UpdatedEvent } from 'src/app/models/updated-event'
 import { Event }                from '../../../../models/event'
 import { EventCreateComponent } from '../modal/event-create/event-create.component'
 import { EventEditComponent }   from '../modal/event-edit/event-edit.component'
-import { DayItem, EventDrag, EventItem, EventPreview, HEIGHT_PX_PER_HOUR, TemporalNewEvent, WeeklyCalendarPresenter } from './weekly-calendar.presenter'
+import { AllDayEventRow, DayItem, EventDrag, EventItem, EventPreview, HEIGHT_PX_PER_HOUR, TemporalNewEvent, WeeklyCalendarPresenter } from './weekly-calendar.presenter'
 
 
 
@@ -51,6 +51,10 @@ export class WeeklyCalendarComponent implements OnInit {
 
   get eventItems(): EventItem[] {
     return this.presenter.eventItems
+  }
+
+  get allDayEventRows(): AllDayEventRow[] {
+    return this.presenter.allDayEventRows
   }
 
   get isShowEventPreview(): boolean {
