@@ -1,7 +1,7 @@
 import { BrowserModule }           from '@angular/platform-browser'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { HttpClientModule }        from '@angular/common/http'
-import { NgModule }                from '@angular/core'
+import { ErrorHandler, NgModule }  from '@angular/core'
 import { NgxsModule }              from '@ngxs/store'
 import { NgxsEmitPluginModule }    from '@ngxs-labs/emitter'
 import { NgxsLoggerPluginModule }  from '@ngxs/logger-plugin'
@@ -9,6 +9,7 @@ import { NgxsLoggerPluginModule }  from '@ngxs/logger-plugin'
 import { AppComponent }     from './app.component'
 import { AngularComponent } from './angular.component'
 
+import { AppErrorHandler } from './app-error-handler'
 import { AppRoutingModule } from './app-routing.module'
 import { CalendarState } from './store/calendar/calendar.state'
 
@@ -30,7 +31,9 @@ import { CalendarState } from './store/calendar/calendar.state'
     AppRoutingModule,
 
   ],
-  providers: [],
+  providers: [
+    { provide: ErrorHandler, useClass: AppErrorHandler },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
