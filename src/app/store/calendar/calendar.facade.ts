@@ -20,6 +20,11 @@ export class CalendarFacade {
   @Select(CalendarState.calendarViewMode) calendarViewMode$: Observable<CalendarViewMode>
   @Select(CalendarState.events) events$: Observable<Event[]>
 
+  setActiveDateSuccess$: Observable<dayjs.Dayjs> = this.actions$.pipe(
+    ofActionSuccessful(CalendarActions.SetActiveDate),
+    map((action: CalendarActions.SetActiveDate) => action.payload)
+  )
+
   createEventSuccess$: Observable<NewEvent> = this.actions$.pipe(
     ofActionSuccessful(CalendarActions.CreateEvent),
     map((action: CalendarActions.CreateEvent) => action.payload)
