@@ -1,6 +1,12 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core'
-import { EventEmitter, Output }     from '@angular/core'
-import * as dayjs                   from 'dayjs'
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output
+} from '@angular/core'
+import * as dayjs from 'dayjs'
 
 @Component({
   selector: 'app-header',
@@ -12,8 +18,8 @@ export class HeaderComponent implements OnInit {
 
   @Input() activeDate: dayjs.Dayjs
 
-  @Output() onPrevClicked: EventEmitter<void> = new EventEmitter()
-  @Output() onNextClicked: EventEmitter<void> = new EventEmitter()
+  @Output() onPrevClicked:  EventEmitter<void> = new EventEmitter()
+  @Output() onNextClicked:  EventEmitter<void> = new EventEmitter()
   @Output() onTodayClicked: EventEmitter<void> = new EventEmitter()
 
   constructor(
