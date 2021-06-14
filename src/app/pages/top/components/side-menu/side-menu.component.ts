@@ -1,5 +1,12 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
-import * as dayjs                                         from 'dayjs'
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output
+} from '@angular/core'
+import * as dayjs from 'dayjs'
 
 
 @Component({
@@ -11,8 +18,9 @@ import * as dayjs                                         from 'dayjs'
 export class SideMenuComponent implements OnInit {
 
   @Input() activeDate: dayjs.Dayjs
+
   @Output() onActiveDateChanged = new EventEmitter<dayjs.Dayjs>()
-  @Output() onCreateEvent = new EventEmitter<void>();
+  @Output() onCreateEvent       = new EventEmitter<void>();
 
   constructor(
   ) { }
