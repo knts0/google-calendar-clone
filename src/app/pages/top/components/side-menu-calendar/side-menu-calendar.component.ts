@@ -1,5 +1,12 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
-import * as dayjs                                         from 'dayjs'
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output
+} from '@angular/core'
+import * as dayjs from 'dayjs'
 
 import { DAYS_PER_WEEK, FIRST_DAY_OF_WEEK } from 'src/app/util/date'
 
@@ -17,7 +24,6 @@ export class SideMenuCalendarComponent implements OnInit {
   get activeDate(): dayjs.Dayjs {
     return this._activeDate
   }
-
   set activeDate(date: dayjs.Dayjs) {
     this._today = dayjs()
 
