@@ -44,9 +44,4 @@ export namespace CalendarActions {
 
   }
 
-  export class SetActiveDateToToday {
-
-    static readonly type = '[CalendarState] SetActiveDateToToday'
-
-  }
 }

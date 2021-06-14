@@ -70,8 +70,4 @@ export class CalendarFacade {
     this.store.dispatch(new CalendarActions.SetActiveDate(date))
   }
 
-  setActiveDateToToday(): void {
-    this.store.dispatch(new CalendarActions.SetActiveDateToToday())
-  }
-
 }

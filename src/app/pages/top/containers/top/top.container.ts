@@ -142,7 +142,7 @@ export class TopContainerComponent implements OnInit, OnDestroy {
   }
 
   changeActiveDateToToday(): void {
-    this.calendarFacade.setActiveDateToToday()
+    this.calendarFacade.setActiveDate(dayjs().startOf('day'))
   }
 
   onUpdateEvent(event: UpdatedEvent): void {

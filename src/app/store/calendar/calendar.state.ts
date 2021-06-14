@@ -93,13 +93,4 @@ export class CalendarState {
     })
   }
 
-  @Action(CalendarActions.SetActiveDateToToday)
-  setActiveDateToToday(
-    ctx: StateContext<CalendarStateModel>,
-  ) {
-    ctx.patchState({
-      activeDate: dayjs().startOf('day')
-    })
-  }
-
 }
