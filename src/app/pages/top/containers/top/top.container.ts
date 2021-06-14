@@ -38,8 +38,8 @@ export class TopContainerComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.activeDate$.pipe(
-      takeUntil(this.unsubscribe$)
+    this.calendarFacade.setActiveDateSuccess$.pipe(
+      takeUntil(this.unsubscribe$),
     ).subscribe(_ => {
       this.loadEvent()
     })
