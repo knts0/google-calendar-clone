@@ -2,19 +2,19 @@
 :host {
   background-color: white;
 
-  .side-menu-calendar-header {
+  .navigation {
     padding:         0 10px;
     display:         flex;
     align-items:     center;
     justify-content: space-between;
 
-    &__nav {
+    &__button {
       font-size: 24px;
       cursor:    pointer;
     }
   }
 
-  .side-menu-calendar-table {
+  .calendar-table {
     &__header {
       display:         flex;
       justify-content: right;
@@ -26,6 +26,11 @@
       &.first-week {
         justify-content: flex-end;
       }
+    }
+
+    &__header-cell {
+      width:      20px;
+      text-align: center;
     }
 
     &__cell {

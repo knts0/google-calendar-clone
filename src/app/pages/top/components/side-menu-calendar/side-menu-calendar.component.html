@@ -1,38 +1,51 @@
-<div class="side-menu-calendar-header">
-  <div class="side-menu-calendar-header__nav">
-    <i class="fas fa-caret-left" (click)="onClickPrevButton()"></i>
+<div class="navigation">
+  <div class="navigation__button">
+    <i
+      class   = "fas fa-caret-left"
+      (click) = "onClickPrevButton()"
+    ></i>
   </div>
 
-  <div class="side-menu-calendar-header__label">{{ _headerLabel }}</div>
+  <div class="navigation__label">
+    {{ _headerLabel }}
+  </div>
 
-  <div class="side-menu-calendar-header__nav">
-    <i class="fas fa-caret-right" (click)="onClickNextButton()"></i>
+  <div class="navigation__button">
+    <i
+      class   = "fas fa-caret-right"
+      (click) = "onClickNextButton()"
+    ></i>
   </div>
 </div>
-<div class="side-menu-calendar-table">
-  <!--  week days-->
-  <div class="side-menu-calendar-table__header">
-    <div
-      *ngFor = "let day of weekdays"
-      class  = "side-menu-calendar-table__cell"
-    >
-      {{ day }}
-    </div>
+
+<div class="calendar-table">
+  <!-- week days-->
+  <div class="calendar-table__header">
+    <div class="calendar-table__header-cell">月</div>
+    <div class="calendar-table__header-cell">火</div>
+    <div class="calendar-table__header-cell">水</div>
+    <div class="calendar-table__header-cell">木</div>
+    <div class="calendar-table__header-cell">金</div>
+    <div class="calendar-table__header-cell">土</div>
+    <div class="calendar-table__header-cell">日</div>
   </div>
 
   <!-- days -->
   <div
     *ngFor             = "let row of rows; let rowIndex = index"
-    class              = "side-menu-calendar-table__row"
+    class              = "calendar-table__row"
     [class.first-week] = "rowIndex === 0"
   >
     <div
       *ngFor         = "let item of row; let colIndx = index"
-      class          = "side-menu-calendar-table__cell"
+      class          = "calendar-table__cell"
       [class.today]  = "item?.isSame(_today, 'day')"
       [class.active] = "item?.isSame(_activeDate, 'day')"
-      (click)        = "onClickCell(item)">
-      <span *ngIf="item">{{ item.date() }}</span>
+      (click)        = "onClickCell(item)"
+    >
+      <span *ngIf="item">
+        {{ item.date() }}
+      </span>
     </div>
   </div>
 </div>

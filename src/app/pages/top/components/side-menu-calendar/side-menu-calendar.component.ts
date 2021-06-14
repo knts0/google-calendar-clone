@@ -41,8 +41,6 @@ export class SideMenuCalendarComponent implements OnInit {
 
   _today: dayjs.Dayjs
 
-  weekdays = [ '月', '火', '水', '木', '金', '土', '日' ]
-
   rows: Array<Array<dayjs.Dayjs | null>> = [[]]
 
   constructor() {
