@@ -112,7 +112,6 @@ export class TopContainerComponent implements OnInit, OnDestroy {
       end:      startDateTime.add(1, 'hour'),
       isAllDay: false,
     }
-    console.log(data)
 
     this.dialog.open(EventCreateComponent, {
       data: data,
