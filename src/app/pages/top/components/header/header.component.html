@@ -3,23 +3,25 @@
     カレンダー
   </div>
 
-  <div class="header__date-navigation date-navigation">
-    <div class="date-navigation__button-today">
+  <div class="header__navigation navigation">
+    <div class="navigation__button-today">
       <button
         class   = "icon-button"
         (click) = "onClickTodayButton()"
-      >今日</button>
+      >
+        今日
+      </button>
     </div>
 
     <div
-      class   = "date-navigation__button-chevron"
+      class   = "navigation__button-chevron"
       (click) = "onClickPrevButton()"
     >
       <i class="fas fa-chevron-left"></i>
     </div>
 
     <div
-      class   = "date-navigation__button-chevron"
+      class   = "navigation__button-chevron"
       (click) = "onClickNextButton()"
     >
       <i class="fas fa-chevron-right"></i>
@@ -30,6 +32,7 @@
     {{ activeDate | date: 'yyyy年M月d日' }}
   </div>
 
+  <!-- TODO: 表示切り替え -->
   <div class="display-mode-switcher">
 
   </div>
