@@ -6,7 +6,6 @@ import { map } from 'rxjs/operators'
 import { NewEvent } from 'src/app/models/new-event'
 import { UpdatedEvent } from 'src/app/models/updated-event'
 
-import { CalendarViewMode } from '../../models/calendar-view-mode'
 import { Event } from '../../models/event'
 import { CalendarActions } from './calendar.actions'
 import { CalendarState } from './calendar.state'
@@ -17,7 +16,6 @@ import { CalendarState } from './calendar.state'
 export class CalendarFacade {
 
   @Select(CalendarState.activeDate) activeDate$: Observable<dayjs.Dayjs>
-  @Select(CalendarState.calendarViewMode) calendarViewMode$: Observable<CalendarViewMode>
   @Select(CalendarState.events) events$: Observable<Event[]>
 
   setActiveDateSuccess$: Observable<dayjs.Dayjs> = this.actions$.pipe(

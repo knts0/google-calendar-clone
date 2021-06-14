@@ -1,18 +1,24 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit }  from '@angular/core'
-import { MatDialog }                     from '@angular/material/dialog'
-import { MatSnackBar }                   from '@angular/material/snack-bar'
-import * as dayjs                        from 'dayjs'
-import { Observable, Subject }           from 'rxjs'
-import { takeUntil }                     from 'rxjs/operators'
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit
+}  from '@angular/core'
+import { MatDialog }           from '@angular/material/dialog'
+import { MatSnackBar }         from '@angular/material/snack-bar'
+import * as dayjs              from 'dayjs'
+import { Observable, Subject } from 'rxjs'
+import { takeUntil }           from 'rxjs/operators'
 
-import { Event } from '../../../../models/event'
-import { CalendarViewMode } from '../../../../models/calendar-view-mode'
-import { CalendarFacade } from '../../../../store/calendar/calendar.facade'
-import { getFirstDayOfWeek } from 'src/app/util/date'
-import { UpdatedEvent } from 'src/app/models/updated-event'
-import { NewEvent } from 'src/app/models/new-event'
+import { Event }                from 'src/app/models/event'
+import { UpdatedEvent }         from 'src/app/models/updated-event'
+import { NewEvent }             from 'src/app/models/new-event'
+import { CalendarFacade }       from 'src/app/store/calendar/calendar.facade'
+import { getFirstDayOfWeek }    from 'src/app/util/date'
 import { EventCreateComponent } from '../../components/modal/event-create/event-create.component'
 
+
+type CalendarViewMode = 'month' | 'week'
 
 @Component({
   selector: 'app-top-container',

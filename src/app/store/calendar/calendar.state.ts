@@ -5,14 +5,12 @@ import { tap } from 'rxjs/operators'
 import { Event } from '../../models/event'
 import { EventService } from 'src/app/services/event.service'
 import { CalendarActions } from './calendar.actions'
-import { CalendarViewMode } from '../../models/calendar-view-mode'
 import * as newEvent from 'src/app/models/new-event'
 import * as updatedEvent from 'src/app/models/updated-event'
 
 
 export interface CalendarStateModel {
   activeDate: dayjs.Dayjs
-  calendarViewMode: CalendarViewMode
   events: Event[]
 }
 
@@ -21,7 +19,6 @@ export interface CalendarStateModel {
   name: 'calendar',
   defaults: {
     activeDate: dayjs().startOf('day'),
-    calendarViewMode: 'week',
     events: [],
   }
 })
@@ -35,11 +32,6 @@ export class CalendarState {
   @Selector()
   static activeDate(state: CalendarStateModel): dayjs.Dayjs {
     return state.activeDate
-  }
-
-  @Selector()
-  static calendarViewMode(state: CalendarStateModel): CalendarViewMode {
-    return state.calendarViewMode
   }
 
   @Selector()
