@@ -120,25 +120,23 @@ export class TopContainerComponent implements OnInit, OnDestroy {
   }
 
   changeActiveDatePrev(): void {
-    let newDate
     switch (this.calendarViewMode) {
       case 'week': {
-        newDate = this.calendarFacade.getActiveDate().subtract(1, 'week')
+        const newDate = this.calendarFacade.getActiveDate().subtract(1, 'week')
+        this.calendarFacade.setActiveDate(newDate)
         break
       }
     }
-    this.calendarFacade.setActiveDate(newDate)
   }
 
   changeActiveDateNext(): void {
-    let newDate
     switch (this.calendarViewMode) {
       case 'week': {
-        newDate = this.calendarFacade.getActiveDate().add(1, 'week')
+        const newDate = this.calendarFacade.getActiveDate().add(1, 'week')
+        this.calendarFacade.setActiveDate(newDate)
         break
       }
     }
-    this.calendarFacade.setActiveDate(newDate)
   }
 
   changeActiveDateToToday(): void {
