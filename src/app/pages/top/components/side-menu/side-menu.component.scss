@@ -18,7 +18,7 @@
     max-width:        100%;
     padding:          5px;
     background-color: map-get($mat-purple, 500);
-    color:          white;
+    color:           white;
     font-size:        14px;
     border:           2px solid transparent;
     border-radius:    4px;
@@ -29,8 +29,8 @@
     &:focus,
     &:hover {
       background-color: white;
-      border: 2px solid currentColor;
-      color: map-get($mat-purple, 500);
+      border:           2px solid currentColor;
+      color:            map-get($mat-purple, 500);
     }
 
     &--plus-icon {
