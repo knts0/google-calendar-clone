@@ -5,13 +5,13 @@ import { DAYS_PER_WEEK, FIRST_DAY_OF_WEEK } from 'src/app/util/date'
 
 
 @Component({
-  selector: 'app-calendar',
-  templateUrl: './calendar.component.html',
-  styleUrls: ['./calendar.component.scss'],
+  selector: 'app-side-menu-calendar',
+  templateUrl: './side-menu-calendar.component.html',
+  styleUrls: ['./side-menu-calendar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
-export class CalendarComponent implements OnInit {
+export class SideMenuCalendarComponent implements OnInit {
 
   @Input()
   get activeDate(): dayjs.Dayjs {

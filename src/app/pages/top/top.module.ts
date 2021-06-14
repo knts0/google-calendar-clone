@@ -26,7 +26,7 @@ import { HeaderComponent } from './components/header/header.component'
 import { EventEditComponent } from './components/modal/event-edit/event-edit.component'
 import { EventCreateComponent } from './components/modal/event-create/event-create.component'
 import { SideMenuComponent } from './components/side-menu/side-menu.component'
-import { CalendarComponent } from './components/side-menu/calendar/calendar.component'
+import { SideMenuCalendarComponent } from './components/side-menu-calendar/side-menu-calendar.component'
 import { WeeklyCalendarComponent } from './components/weekly-calendar/weekly-calendar.component'
 import { EventModalBaseDirective } from './components/modal/common/event-modal-base.directive'
 import { ConfirmDeleteComponent } from './components/confirm-delete/confirm-delete.component';
@@ -47,7 +47,7 @@ import { WeeklyCalendarPresenter } from './components/weekly-calendar/weekly-cal
     EventEditComponent,
     EventCreateComponent,
     SideMenuComponent,
-    CalendarComponent,
+    SideMenuCalendarComponent,
     WeeklyCalendarComponent,
     EventModalBaseDirective,
     ConfirmDeleteComponent,
