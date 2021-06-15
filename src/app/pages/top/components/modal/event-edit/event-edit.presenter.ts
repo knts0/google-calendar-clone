@@ -1,19 +1,19 @@
-import { Injectable, OnDestroy } from '@angular/core'
-import * as dayjs from 'dayjs'
+import { Injectable, OnDestroy }  from '@angular/core'
+import * as dayjs                 from 'dayjs'
 import { FormControl, FormGroup } from '@ngneat/reactive-forms'
-import { Observable, Subject } from 'rxjs'
+import { Observable, Subject }    from 'rxjs'
 
-import { Event } from 'src/app/models/event'
-import { UpdatedEvent } from 'src/app/models/updated-event'
+import { Event }             from 'src/app/models/event'
+import { UpdatedEvent }      from 'src/app/models/updated-event'
 import { dateTimeValidator } from 'src/app/validators/date-time'
 
 export type FormData = {
-  title: string
+  title:     string
   startDate: string
   startTime: string
-  endDate: string
-  endTime: string
-  isAllDay: boolean
+  endDate:   string
+  endTime:   string
+  isAllDay:  boolean
 }
 
 @Injectable()
@@ -22,12 +22,12 @@ export class EventEditPresenter implements OnDestroy {
   form: FormGroup<FormData> =
     new FormGroup<FormData>(
       {
-        title: new FormControl(),
+        title:     new FormControl(),
         startDate: new FormControl(),
         startTime: new FormControl(),
-        endDate: new FormControl(),
-        endTime: new FormControl(),
-        isAllDay: new FormControl(),
+        endDate:   new FormControl(),
+        endTime:   new FormControl(),
+        isAllDay:  new FormControl(),
       }, { validators: dateTimeValidator }
   )
 
@@ -48,12 +48,12 @@ export class EventEditPresenter implements OnDestroy {
     this.eventId = event.id
 
     this.form.setValue({
-      title: event.title,
+      title:     event.title,
       startDate: event.startTime.format('YYYY-MM-DD'),
       startTime: event.startTime.format('HH:mm'),
-      endDate: event.endTime.format('YYYY-MM-DD'),
-      endTime: event.endTime.format('HH:mm'),
-      isAllDay: event.isAllDay,
+      endDate:   event.endTime.format('YYYY-MM-DD'),
+      endTime:   event.endTime.format('HH:mm'),
+      isAllDay:  event.isAllDay,
     })
   }
 

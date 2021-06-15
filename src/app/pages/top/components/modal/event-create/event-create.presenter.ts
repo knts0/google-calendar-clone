@@ -1,18 +1,18 @@
-import { Injectable, OnDestroy } from '@angular/core'
-import * as dayjs from 'dayjs'
+import { Injectable, OnDestroy }  from '@angular/core'
+import * as dayjs                 from 'dayjs'
 import { FormControl, FormGroup } from '@ngneat/reactive-forms'
-import { Observable, Subject } from 'rxjs'
+import { Observable, Subject }    from 'rxjs'
 
-import { NewEvent } from 'src/app/models/new-event'
+import { NewEvent }          from 'src/app/models/new-event'
 import { dateTimeValidator } from 'src/app/validators/date-time'
 
 export type FormData = {
-  title: string
+  title:     string
   startDate: string
   startTime: string
-  endDate: string
-  endTime: string
-  isAllDay: boolean
+  endDate:   string
+  endTime:   string
+  isAllDay:  boolean
 }
 
 @Injectable()
@@ -21,12 +21,12 @@ export class EventCreatePresenter implements OnDestroy {
   form: FormGroup<FormData> =
     new FormGroup<FormData>(
       {
-        title: new FormControl(),
+        title:     new FormControl(),
         startDate: new FormControl(),
         startTime: new FormControl(),
-        endDate: new FormControl(),
-        endTime: new FormControl(),
-        isAllDay: new FormControl(),
+        endDate:   new FormControl(),
+        endTime:   new FormControl(),
+        isAllDay:  new FormControl(),
       }, { validators: dateTimeValidator }
   )
 
