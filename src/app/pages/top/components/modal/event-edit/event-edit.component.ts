@@ -4,7 +4,7 @@ import { FormGroup } from '@ngneat/reactive-forms'
 import { map, takeUntil } from 'rxjs/operators'
 
 import { Event } from 'src/app/models/event'
-import { EventModalBaseDirective } from '../common/event-modal-base.directive'
+import { EventModalBaseDirective } from '../shared/event-modal-base.directive'
 import { CalendarFacade } from 'src/app/store/calendar/calendar.facade'
 import { UpdatedEvent } from 'src/app/models/updated-event'
 import { ConfirmDeleteComponent, ConfirmDeleteResult } from '../../confirm-delete/confirm-delete.component'
@@ -16,7 +16,7 @@ export type EventEditDialogData = {
 
 @Component({
   templateUrl: './event-edit.component.html',
-  styleUrls: ['../common/event-modal-base.scss'],
+  styleUrls: ['../shared/event-modal-base.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [EventEditPresenter],
 })

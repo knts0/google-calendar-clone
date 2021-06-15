@@ -5,7 +5,7 @@ import * as dayjs                                             from 'dayjs'
 
 import { NewEvent }                from 'src/app/models/new-event'
 import { CalendarFacade }          from 'src/app/store/calendar/calendar.facade'
-import { EventModalBaseDirective } from '../common/event-modal-base.directive'
+import { EventModalBaseDirective } from '../shared/event-modal-base.directive'
 import { FormData, EventCreatePresenter } from './event-create.presenter'
 
 export type EventCreateDialogData = {
@@ -16,7 +16,7 @@ export type EventCreateDialogData = {
 
 @Component({
   templateUrl: './event-create.component.html',
-  styleUrls: ['../common/event-modal-base.scss'],
+  styleUrls: ['../shared/event-modal-base.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [EventCreatePresenter],
 })
