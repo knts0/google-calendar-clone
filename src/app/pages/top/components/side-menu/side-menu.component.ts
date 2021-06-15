@@ -20,7 +20,7 @@ export class SideMenuComponent implements OnInit {
   @Input() activeDate: dayjs.Dayjs
 
   @Output() onActiveDateChanged = new EventEmitter<dayjs.Dayjs>()
-  @Output() onCreateEvent       = new EventEmitter<void>();
+  @Output() onCreateEvent       = new EventEmitter<void>()
 
   constructor(
   ) { }
