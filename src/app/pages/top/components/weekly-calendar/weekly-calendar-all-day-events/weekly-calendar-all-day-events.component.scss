@@ -1,0 +1,30 @@
+:host {
+  .all-day-events {
+    display: flex;
+
+    $all-day-event-height: 20px;
+
+    &__blank-cell {
+      width: 50px;
+    }
+
+    &__row {
+      position: relative;
+      height:   $all-day-event-height;
+
+      &:not(:last-child) {
+        margin-bottom: 2px;
+      }
+    }
+
+    &__event-item {
+      position:         absolute;
+      height:           $all-day-event-height;
+      padding:          0 4px;
+      box-sizing:       border-box;
+      background-color: map-get($mat-purple, 200);
+      border-radius:    4px;
+      cursor:           pointer;
+    }
+  }
+}

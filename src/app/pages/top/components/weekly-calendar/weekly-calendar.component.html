@@ -3,26 +3,10 @@
     [days] = "days"
   ></app-weekly-calendar-header>
 
-  <!-- all day events -->
-  <div class="all-day-events">
-    <div class="all-day-events__blank-cell">
-    </div>
-    <div class="all-day-events__table">
-      <div
-        *ngFor = "let row of allDayEventRows"
-        class  = "all-day-events__row"
-      >
-        <div
-          *ngFor  = "let eventItem of row.eventItems"
-          [style] = "eventItem.style"
-          class   = "all-day-events__event-item"
-          (click) = "onClickEvent(eventItem.event)"
-        >
-          {{ eventItem.event.title }}
-        </div>
-      </div>
-    </div>
-  </div>
+  <app-weekly-calendar-all-day-events
+    [allDayEventRows] = "allDayEventRows"
+  >
+  </app-weekly-calendar-all-day-events>
 
   <!-- body -->
   <div class="body">
