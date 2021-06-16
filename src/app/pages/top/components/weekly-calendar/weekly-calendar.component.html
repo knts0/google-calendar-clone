@@ -1,5 +1,5 @@
 <div class="weekly-calendar-table">
-  <div class="header">
+  <header class="header">
     <div class="header__blank-cell">
     </div>
     <div
@@ -14,7 +14,9 @@
         [class.today] = "item.day.isSame(today, 'day')"
       >{{ item.day | date: 'd' }}</div>
     </div>
-  </div>
+  </header>
+
+  <!-- all day events -->
   <div class="all-day-events">
     <div class="all-day-events__blank-cell">
     </div>
@@ -35,6 +37,7 @@
     </div>
   </div>
 
+  <!-- body -->
   <div class="body">
     <div class="body__hours">
       <div
