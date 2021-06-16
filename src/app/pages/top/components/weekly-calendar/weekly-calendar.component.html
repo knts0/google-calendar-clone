@@ -1,20 +1,7 @@
 <div class="weekly-calendar-table">
-  <header class="header">
-    <div class="header__blank-cell">
-    </div>
-    <div
-      class  = "header__day-cell"
-      *ngFor = "let item of days"
-    >
-      <div class="header__weekday">
-        {{ item.weekday }}
-      </div>
-      <div
-        class         = "header__day"
-        [class.today] = "item.day.isSame(today, 'day')"
-      >{{ item.day | date: 'd' }}</div>
-    </div>
-  </header>
+  <app-weekly-calendar-header
+    [days] = "days"
+  ></app-weekly-calendar-header>
 
   <!-- all day events -->
   <div class="all-day-events">

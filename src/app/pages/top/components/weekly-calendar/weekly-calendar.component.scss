@@ -18,35 +18,6 @@
     }
   }
 
-  .header {
-    display: flex;
-
-    &__blank-cell {
-      width: 50px;
-    }
-
-    &__day-cell {
-      width:       100px;
-      display:     flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    &__day {
-      $day-length: 30px;
-      width:         $day-length;
-      height:        $day-length;
-      border-radius: $day-length / 2;
-      line-height:   $day-length;
-      text-align:    center;
-
-      &.today {
-        background-color: map-get($mat-purple, 500);
-        color:            white;
-      }
-    }
-  }
-
   .all-day-events {
     display: flex;
 
