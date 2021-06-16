@@ -17,7 +17,6 @@
     <app-weekly-calendar
       *ngSwitchCase        = "'week'"
       [activeDate]         = "activeDate$ | async"
-      [today]              = "today"
       [events]             = "events$ | async"
       [updateEventSuccess] = "this.calendarFacade.updateEventSuccess$ | async"
       (eventUpdated)       = "onUpdateEvent($event)"

@@ -31,8 +31,6 @@ export class WeeklyCalendarComponent implements OnInit {
     this.presenter.changeActiveDate(date)
   }
 
-  @Input() today: dayjs.Dayjs
-
   @Input()
   set events(events: Event[]) {
     this.presenter.initDays(events)

@@ -31,8 +31,6 @@ export class TopContainerComponent implements OnInit, OnDestroy {
   activeDate$: Observable<dayjs.Dayjs> = this.calendarFacade.activeDate$
   events$: Observable<Event[]> = this.calendarFacade.events$
 
-  today: dayjs.Dayjs = dayjs().startOf('day')
-
   calendarViewMode: CalendarViewMode = 'week'
 
   unsubscribe$: Subject<any> = new Subject()
