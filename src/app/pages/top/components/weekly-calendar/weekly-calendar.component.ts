@@ -1,17 +1,34 @@
-import { Output } from '@angular/core'
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit } from '@angular/core'
-import { MatDialog }                from '@angular/material/dialog'
-import * as dayjs                   from 'dayjs'
-import * as duration                from 'dayjs/plugin/duration'
-import { Observable } from 'rxjs'
-import { filter, takeUntil } from 'rxjs/operators'
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output
+} from '@angular/core'
+import { MatDialog }    from '@angular/material/dialog'
+import * as dayjs       from 'dayjs'
+import * as duration    from 'dayjs/plugin/duration'
+import { Observable }   from 'rxjs'
+import { takeUntil }    from 'rxjs/operators'
 import { UpdatedEvent } from 'src/app/models/updated-event'
 
 import { Event }                from '../../../../models/event'
 import { EventCreateComponent } from '../modal/event-create/event-create.component'
 import { EventEditComponent }   from '../modal/event-edit/event-edit.component'
-import { AllDayEventRow, DayItem, EventDrag, EventItem, EventPreview, HEIGHT_PX_PER_HOUR, TemporalNewEvent, WeeklyCalendarPresenter } from './weekly-calendar.presenter'
-
+import {
+  CalcStyle,
+  HEIGHT_PX_PER_HOUR
+} from './shared/calc-event-style'
+import {
+  AllDayEventRow,
+  DayItem,
+  EventDrag,
+  EventItem,
+  EventPreview,
+  TemporalNewEvent,
+  WeeklyCalendarPresenter
+} from './weekly-calendar.presenter'
 
 
 @Component({
@@ -178,8 +195,8 @@ export class WeeklyCalendarComponent implements OnInit {
     this.openEventEditDialog(event)
   }
 
-  calcEventStyle(event: Event): { top: string, height: string, left: string} {
-    return this.presenter.calcEventStyle(event.startTime, event.endTime)
+  calcEventStyle(startTime: dayjs.Dayjs, endTime: dayjs.Dayjs): { top: string, height: string, left: string } {
+    return CalcStyle.calcEventStyle(startTime, endTime)
   }
 
   private openEventCreateDialog(startTime: dayjs.Dayjs, endTime: dayjs.Dayjs): void {

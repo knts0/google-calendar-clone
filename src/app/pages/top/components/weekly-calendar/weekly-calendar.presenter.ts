@@ -1,43 +1,48 @@
-import { EventEmitter, Injectable, OnDestroy } from '@angular/core'
-import { FormBuilder, Validators } from '@angular/forms'
-import * as dayjs from 'dayjs'
-import * as duration from 'dayjs/plugin/duration'
-import { merge, Observable, Subject } from 'rxjs'
-import { filter, map, share, takeUntil, tap, withLatestFrom } from 'rxjs/operators'
+import {
+  Injectable,
+  OnDestroy
+} from '@angular/core'
+import { FormBuilder } from '@angular/forms'
+import * as dayjs      from 'dayjs'
+import * as duration   from 'dayjs/plugin/duration'
+import {
+  merge,
+  Observable,
+  Subject
+} from 'rxjs'
+import {
+  filter,
+  map,
+  tap,
+  withLatestFrom
+} from 'rxjs/operators'
+
 import { Event } from 'src/app/models/event'
-import { UpdatedEvent } from 'src/app/models/updated-event'
-import { DAYS_PER_WEEK, FIRST_DAY_OF_WEEK, getFirstDayOfWeek, getOrderOfWeek } from 'src/app/util/date'
+import {
+  DAYS_PER_WEEK,
+  FIRST_DAY_OF_WEEK,
+  getFirstDayOfWeek
+} from 'src/app/util/date'
+import {
+  HEIGHT_PX_PER_HOUR,
+  WIDTH_PX_PER_DAY
+} from './shared/calc-event-style'
 
 export type EventPreview ={
-  originalEvent?: Event,
-  startTime: dayjs.Dayjs
-  endTime: dayjs.Dayjs
-  style: {
-    top:    string
-    height: string
-    left:   string
-  }
+  originalEvent?: Event
+  startTime:      dayjs.Dayjs
+  endTime:        dayjs.Dayjs
 }
 
 export type TemporalNewEvent = {
-  startTime: dayjs.Dayjs,
-  endTime: dayjs.Dayjs
-  style: {
-    top:    string
-    height: string
-    left:   string
-  },
+  startTime: dayjs.Dayjs
+  endTime:   dayjs.Dayjs
 }
 
-export type EventDrag ={
-  startTime: dayjs.Dayjs,
-  endTime: dayjs.Dayjs
-  originalEvent?: Event,
-  style: {
-    top:    string
-    height: string
-    left:   string
-  }
+export type EventDrag = {
+  startTime:      dayjs.Dayjs
+  endTime:        dayjs.Dayjs
+  originalEvent?: Event
 }
 
 export type DayItem = {
@@ -47,34 +52,24 @@ export type DayItem = {
 
 export type EventItem = {
   event: Event
-  style: {
-    top: string
-    height: string
-  }
 }
 
 export type AllDayEventItem = {
   event: Event
-  style: {
-    left: string
-    width: string
-  }
 }
 
 export type AllDayEventRow = {
   eventItems: AllDayEventItem[]
 }
 
-export const HEIGHT_PX_PER_HOUR = 60
-export const WIDTH_PX_PER_DAY = 100
 
 @Injectable()
 export class WeeklyCalendarPresenter implements OnDestroy {
 
   activeDate: dayjs.Dayjs
 
-  days: DayItem[] = []
-  eventItems: EventItem[]
+  days:            DayItem[] = []
+  eventItems:      EventItem[]
   allDayEventRows: AllDayEventRow[]
 
   // event preview
@@ -104,7 +99,6 @@ export class WeeklyCalendarPresenter implements OnDestroy {
           originalEvent: mouseDown.originalEvent,
           startTime: mouseDown.startTime,
           endTime: mouseDown.endTime,
-          style: this.calcEventStyle(mouseDown.startTime, mouseDown.endTime)
         }})
       ),
       this.mouseMove.pipe(
@@ -135,7 +129,6 @@ export class WeeklyCalendarPresenter implements OnDestroy {
           startTime: mouseDown.originalEvent.startTime,
           endTime: mouseDown.originalEvent.endTime,
           originalEvent: mouseDown.originalEvent,
-          style: this.calcEventStyle(mouseDown.originalEvent.startTime, mouseDown.originalEvent.endTime)
         }})
       ),
       this.mouseMoveDrag.pipe(
@@ -190,11 +183,10 @@ export class WeeklyCalendarPresenter implements OnDestroy {
     if (startTimeWhenMouseDownOffsetY >= newOffsetY) {
       // new start time of event (round down mouse move position)
       const startTime = startTimeWhenMouseDown.hour(Math.floor(newOffsetY / HEIGHT_PX_PER_HOUR))
-      const endTime = startTimeWhenMouseDown.add(1, 'hour')
+      const endTime   = startTimeWhenMouseDown.add(1, 'hour')
       return {
         startTime: startTime,
-        endTime: endTime,
-        style: this.calcEventStyle(startTime, endTime),
+        endTime:   endTime,
       }
 
     // mouse move (down): only change end time
@@ -204,8 +196,7 @@ export class WeeklyCalendarPresenter implements OnDestroy {
       const endTime = endTimeWhenMouseDown.hour(Math.ceil(newOffsetY / HEIGHT_PX_PER_HOUR))
       return {
         startTime: startTime,
-        endTime: endTime,
-        style: this.calcEventStyle(startTime, endTime),
+        endTime:   endTime,
       }
     }
   }
@@ -213,44 +204,13 @@ export class WeeklyCalendarPresenter implements OnDestroy {
   private eventDrag(startTimeWhenMouseDown: dayjs.Dayjs, endTimeWhenMouseDown: dayjs.Dayjs, newOffsetX: number, newOffsetY: number): EventDrag {
     dayjs.extend(duration)
     const firstDayOfWeek = getFirstDayOfWeek(startTimeWhenMouseDown)
-    const newDate = firstDayOfWeek.add(Math.floor(newOffsetX / WIDTH_PX_PER_DAY), 'day')
+    const newDate        = firstDayOfWeek.add(Math.floor(newOffsetX / WIDTH_PX_PER_DAY), 'day')
 
     const startTime = newDate.hour(Math.floor(newOffsetY / HEIGHT_PX_PER_HOUR))
-    const endTime = startTime.add(dayjs.duration(endTimeWhenMouseDown.diff(startTimeWhenMouseDown)))
+    const endTime   = startTime.add(dayjs.duration(endTimeWhenMouseDown.diff(startTimeWhenMouseDown)))
     return {
       startTime: startTime,
-      endTime: endTime,
-      style: this.calcEventStyle(startTime, endTime),
-    }
-  }
-
-  calcEventStyle(startTime: dayjs.Dayjs, endTime: dayjs.Dayjs): { top: string, height: string, left: string } {
-    dayjs.extend(duration)
-    const startOfDay = startTime.startOf('day')
-    // calc preview event position
-    const top    = dayjs.duration(startTime.diff(startOfDay)).as('hours') * HEIGHT_PX_PER_HOUR
-    const bottom = dayjs.duration(endTime.diff(startOfDay)).as('hours') * HEIGHT_PX_PER_HOUR
-
-    const orderOfWeek = getOrderOfWeek(startOfDay)
-    const left        = orderOfWeek * WIDTH_PX_PER_DAY
-
-    return {
-      top:    `${top}px`,
-      height: `${bottom - top}px`,
-      left:   `${left}px`,
-    }
-  }
-
-  private calcAllDayEventStyle(startDate: dayjs.Dayjs, endDate: dayjs.Dayjs): { left: string, width: string } {
-    dayjs.extend(duration)
-    const orderOfWeek = getOrderOfWeek(startDate)
-    const left        = orderOfWeek * WIDTH_PX_PER_DAY
-
-    const width       = WIDTH_PX_PER_DAY * (endDate.diff(startDate, 'day') + 1) - 8
-
-    return {
-      left:  `${left}px`,
-      width: `${width}px`
+      endTime:   endTime,
     }
   }
 
@@ -261,7 +221,6 @@ export class WeeklyCalendarPresenter implements OnDestroy {
     this.eventItems = events.filter(e => !e.isAllDay).map(e => {
       return {
         event: e,
-        style: this.calcEventStyle(e.startTime, e.endTime),
       }
     })
 
@@ -281,7 +240,6 @@ export class WeeklyCalendarPresenter implements OnDestroy {
           const event = allDayEvents[eventIndex]
           row.eventItems.push({
             event: event,
-            style: this.calcAllDayEventStyle(event.startTime.startOf('day'), event.endTime.startOf('day')),
           })
 
           date = event.endTime.startOf('day').add(1, 'day')
@@ -339,8 +297,7 @@ export class WeeklyCalendarPresenter implements OnDestroy {
   onSetNewEvent(startTime: dayjs.Dayjs, endTime: dayjs.Dayjs): void {
     this.newEvent.next({
       startTime: startTime,
-      endTime: endTime,
-      style: this.calcEventStyle(startTime, endTime),
+      endTime:   endTime,
     })
   }
 

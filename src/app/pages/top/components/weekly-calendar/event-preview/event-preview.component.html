@@ -7,17 +7,16 @@
 
   <!-- original event -->
   <div
-    *ngIf = "eventPreview.originalEvent != null"
-    class="event-preview__original-event"
-    [class.event-preview__original-event] = "eventPreview.originalEvent != null"
-    [style] = "_originalEventStyle(eventPreview.originalEvent)"
+    *ngIf   = "eventPreview.originalEvent != null"
+    class   = "event-preview__original-event"
+    [style] = "calcEventStyle(eventPreview.originalEvent.startTime, eventPreview.originalEvent.endTime)"
   >
   </div>
 
   <!-- Preview event -->
   <div
     class   = "event-preview__preview-event"
-    [style] = "eventPreview.style"
+    [style] = "calcEventStyle(eventPreview.startTime, eventPreview.endTime)"
   >
     {{ eventPreview.originalEvent?.title || '無題' }}
     <br>

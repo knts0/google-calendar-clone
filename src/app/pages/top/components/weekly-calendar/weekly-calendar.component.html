@@ -40,7 +40,7 @@
       <div
         *ngFor  = "let eventItem of eventItems"
         class   = "grid__event"
-        [style] = "eventItem.style"
+        [style] = "calcEventStyle(eventItem.event.startTime, eventItem.event.endTime)"
         (click) = "onClickEvent(eventItem.event)"
       >
         <app-event
@@ -54,7 +54,7 @@
       <ng-container *ngIf = "newEvent$ | async as newEvent">
         <div
           class   = "grid__event"
-          [style] = "newEvent.style"
+          [style] = "calcEventStyle(newEvent.starTime, newEvent.endTime)"
         >
           <div class="grid-view__event-text">
             <div class="grid-view__event-title">
@@ -100,7 +100,7 @@
         <div
           *ngIf   = "isShowEventDrag"
           class   = "grid__event-draggable"
-          [style] = "eventDrag.style"
+          [style] = "calcEventStyle(eventDrag.startTime, eventDrag.endTime)"
         >
           {{ eventDrag.originalEvent.title }}
           <br>

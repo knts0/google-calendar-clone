@@ -1,8 +1,14 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output
+} from '@angular/core'
+import * as dayjs from 'dayjs'
 
-import { Event } from 'src/app/models/event'
-import { getOrderOfWeek } from 'src/app/util/date'
-import { EventPreview, HEIGHT_PX_PER_HOUR, WIDTH_PX_PER_DAY } from '../weekly-calendar.presenter'
+import { CalcStyle }    from '../shared/calc-event-style'
+import { EventPreview } from '../weekly-calendar.presenter'
 
 
 @Component({
@@ -22,19 +28,8 @@ export class EventPreviewComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  _originalEventStyle(event: Event): { top: string, height: string, left: string } {
-    // calc preview event position
-    const top    = event.startTime.hour() * HEIGHT_PX_PER_HOUR
-    const bottom = event.endTime.hour() * HEIGHT_PX_PER_HOUR
-
-    const orderOfWeek = getOrderOfWeek(event.startTime)
-    const left        = orderOfWeek * WIDTH_PX_PER_DAY
-
-    return {
-      top:    `${top}px`,
-      height: `${bottom - top}px`,
-      left:   `${left}px`,
-    }
+  calcEventStyle(startTime: dayjs.Dayjs, endTime: dayjs.Dayjs): { top: string, height: string, left: string } {
+    return CalcStyle.calcEventStyle(startTime, endTime)
   }
 
   onMouseMove(event): void {

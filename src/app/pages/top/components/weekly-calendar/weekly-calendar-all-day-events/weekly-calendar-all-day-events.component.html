@@ -8,7 +8,7 @@
     >
       <div
         *ngFor  = "let eventItem of row.eventItems"
-        [style] = "eventItem.style"
+        [style] = "calcAllDayEventStyle(eventItem.event)"
         class   = "all-day-events__event-item"
         (click) = "onClickEvent(eventItem.event)"
       >

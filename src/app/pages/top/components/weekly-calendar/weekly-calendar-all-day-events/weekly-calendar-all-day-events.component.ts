@@ -5,7 +5,9 @@ import {
 } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
 
+import { Event }              from 'src/app/models/event'
 import { EventEditComponent } from '../../modal/event-edit/event-edit.component'
+import { CalcStyle }          from '../shared/calc-event-style'
 import { AllDayEventRow }     from '../weekly-calendar.presenter'
 
 @Component({
@@ -26,6 +28,10 @@ export class WeeklyCalendarAllDayEventsComponent implements OnInit {
 
   onClickEvent(event: Event) {
     this.openEventEditDialog(event)
+  }
+
+  calcAllDayEventStyle(event: Event): { left: string, width: string } {
+    return CalcStyle.calcAllDayEventStyle(event.startTime, event.endTime)
   }
 
   private openEventEditDialog(event: Event): void {
