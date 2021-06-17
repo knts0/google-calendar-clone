@@ -51,16 +51,8 @@ export type DayItem = {
   weekday:    string
 }
 
-export type EventItem = {
-  event: Event
-}
-
-export type AllDayEventItem = {
-  event: Event
-}
-
 export type AllDayEventRow = {
-  eventItems: AllDayEventItem[]
+  eventItems: Event[]
 }
 
 
@@ -70,7 +62,7 @@ export class WeeklyCalendarPresenter implements OnDestroy {
   activeDate: dayjs.Dayjs
 
   days:            DayItem[] = []
-  eventItems:      EventItem[]
+  eventItems:      Event[]
   allDayEventRows: AllDayEventRow[]
 
   // event preview
@@ -203,11 +195,7 @@ export class WeeklyCalendarPresenter implements OnDestroy {
   }
 
   initDays(events: Event[]): void {
-    this.eventItems = events.filter(e => !e.isAllDay).map(e => {
-      return {
-        event: e,
-      }
-    })
+    this.eventItems = events.filter(e => !e.isAllDay)
 
     const firstDayOfWeek = getFirstDayOfWeek(this.activeDate)
 
@@ -223,9 +211,7 @@ export class WeeklyCalendarPresenter implements OnDestroy {
         const eventIndex = allDayEvents.findIndex(e => e.startTime.isSame(date, 'day'))
         if (eventIndex != -1) {
           const event = allDayEvents[eventIndex]
-          row.eventItems.push({
-            event: event,
-          })
+          row.eventItems.push(event)
 
           date = event.endTime.startOf('day').add(1, 'day')
           allDayEvents.splice(eventIndex, 1)

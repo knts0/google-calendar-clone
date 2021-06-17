@@ -17,14 +17,12 @@ import { Event }                from '../../../../models/event'
 import { EventCreateComponent } from '../modal/event-create/event-create.component'
 import { EventEditComponent }   from '../modal/event-edit/event-edit.component'
 import {
-  CalcStyle,
   HEIGHT_PX_PER_HOUR
 } from './shared/calc-event-style'
 import {
   AllDayEventRow,
   DayItem,
   EventDrag,
-  EventItem,
   EventPreview,
   TemporalNewEvent,
   WeeklyCalendarPresenter
@@ -64,7 +62,7 @@ export class WeeklyCalendarComponent implements OnInit {
     return this.presenter.days
   }
 
-  get eventItems(): EventItem[] {
+  get eventItems(): Event[] {
     return this.presenter.eventItems
   }
 

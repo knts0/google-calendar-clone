@@ -40,11 +40,11 @@
       <div
         *ngFor  = "let eventItem of eventItems"
         class   = "grid__event"
-        [style] = "{ startTime: eventItem.event.startTime, endTime: eventItem.event.endTime } | calcEventStyle"
-        (click) = "onClickEvent(eventItem.event)"
+        [style] = "{ startTime: eventItem.startTime, endTime: eventItem.endTime } | calcEventStyle"
+        (click) = "onClickEvent(eventItem)"
       >
         <app-event
-          [event]                = "eventItem.event"
+          [event]                = "eventItem"
           (mouseDownOnResizable) = "onMouseDownOnResizable($event)"
           (mouseDownOnDraggable) = "onEventDragStart($event)"
         ></app-event>

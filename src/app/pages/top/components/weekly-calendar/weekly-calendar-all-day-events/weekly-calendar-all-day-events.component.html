@@ -8,11 +8,11 @@
     >
       <div
         *ngFor  = "let eventItem of row.eventItems"
-        [style] = "{ startTime: eventItem.event.startTime, endTime: eventItem.event.endTime } | calcAllDayEventStyle"
+        [style] = "{ startTime: eventItem.startTime, endTime: eventItem.endTime } | calcAllDayEventStyle"
         class   = "all-day-events__event-item"
-        (click) = "onClickEvent(eventItem.event)"
+        (click) = "onClickEvent(eventItem)"
       >
-        {{ eventItem.event.title }}
+        {{ eventItem.title }}
       </div>
     </div>
   </div>
