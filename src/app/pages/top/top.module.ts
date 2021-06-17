@@ -34,7 +34,8 @@ import { ConfirmDeleteComponent } from './components/confirm-delete/confirm-dele
 import { EventComponent } from './components/weekly-calendar/event/event.component';
 import { EventPreviewComponent } from './components/weekly-calendar/event-preview/event-preview.component'
 import { WeeklyCalendarPresenter } from './components/weekly-calendar/weekly-calendar.presenter';
-import { CalcEventStylePipe } from './components/weekly-calendar/shared/calc-event-style.pipe'
+import { CalcEventStylePipe } from './components/weekly-calendar/shared/calc-event-style.pipe';
+import { CalcAllDayEventStylePipe } from './components/weekly-calendar/shared/calc-all-day-event-style.pipe'
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { CalcEventStylePipe } from './components/weekly-calendar/shared/calc-eve
     EventComponent,
     EventPreviewComponent,
     CalcEventStylePipe,
+    CalcAllDayEventStylePipe,
   ],
   imports: [
     CommonModule,

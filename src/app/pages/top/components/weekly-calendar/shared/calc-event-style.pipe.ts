@@ -13,7 +13,7 @@ import {
 })
 export class CalcEventStylePipe implements PipeTransform {
 
-  transform(value: { startTime: dayjs.Dayjs, endTime: dayjs.Dayjs }): unknown {
+  transform(value: { startTime: dayjs.Dayjs, endTime: dayjs.Dayjs }): { top: string, height: string, left: string } {
     dayjs.extend(duration)
     const startOfDay = value.startTime.startOf('day')
     // calc preview event position

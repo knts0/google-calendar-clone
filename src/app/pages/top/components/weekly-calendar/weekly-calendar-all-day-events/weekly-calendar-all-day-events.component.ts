@@ -30,10 +30,6 @@ export class WeeklyCalendarAllDayEventsComponent implements OnInit {
     this.openEventEditDialog(event)
   }
 
-  calcAllDayEventStyle(event: Event): { left: string, width: string } {
-    return CalcStyle.calcAllDayEventStyle(event.startTime, event.endTime)
-  }
-
   private openEventEditDialog(event: Event): void {
     this.dialog.open(EventEditComponent, {
       data: {
