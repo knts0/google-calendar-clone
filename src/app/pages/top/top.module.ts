@@ -33,7 +33,8 @@ import { WeeklyCalendarComponent } from './components/weekly-calendar/weekly-cal
 import { ConfirmDeleteComponent } from './components/confirm-delete/confirm-delete.component';
 import { EventComponent } from './components/weekly-calendar/event/event.component';
 import { EventPreviewComponent } from './components/weekly-calendar/event-preview/event-preview.component'
-import { WeeklyCalendarPresenter } from './components/weekly-calendar/weekly-calendar.presenter'
+import { WeeklyCalendarPresenter } from './components/weekly-calendar/weekly-calendar.presenter';
+import { CalcEventStylePipe } from './components/weekly-calendar/shared/calc-event-style.pipe'
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { WeeklyCalendarPresenter } from './components/weekly-calendar/weekly-cal
     ConfirmDeleteComponent,
     EventComponent,
     EventPreviewComponent,
+    CalcEventStylePipe,
   ],
   imports: [
     CommonModule,
