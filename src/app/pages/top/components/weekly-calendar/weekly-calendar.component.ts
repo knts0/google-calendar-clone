@@ -70,6 +70,7 @@ export class WeeklyCalendarComponent implements OnInit {
     return this.presenter.allDayEventRows
   }
 
+  /** event preview  */
   get isShowEventPreview(): boolean {
     return this.presenter.isShowEventPreview
   }
@@ -77,17 +78,20 @@ export class WeeklyCalendarComponent implements OnInit {
   get eventPreview$(): Observable<EventPreview> {
     return this.presenter.eventPreview$
   }
+  /** */
 
-  get newEvent$(): Observable<TemporalNewEvent | null> {
-    return this.presenter.newEvent$
-  }
-
+  /** event drag */
   get isShowEventDrag(): boolean {
     return this.presenter.isShowEventDrag
   }
 
   get eventDrag$(): Observable<EventDrag> {
     return this.presenter.eventDrag$
+  }
+  /** */
+
+  get newEvent$(): Observable<TemporalNewEvent | null> {
+    return this.presenter.newEvent$
   }
 
   hours = Array.from({ length: 24 }, (v, i) => i )
@@ -109,11 +113,11 @@ export class WeeklyCalendarComponent implements OnInit {
         this.openEventCreateDialog(data.startTime, data.endTime)
       } else {
         const updatedEvent = {
-          id: data.originalEvent.id,
-          title: data.originalEvent.title,
+          id:        data.originalEvent.id,
+          title:     data.originalEvent.title,
           startTime: data.startTime,
-          endTime: data.endTime,
-          isAllDay: data.originalEvent.isAllDay,
+          endTime:   data.endTime,
+          isAllDay:  data.originalEvent.isAllDay,
         }
         this.eventUpdated.emit(updatedEvent)
       }
@@ -126,11 +130,11 @@ export class WeeklyCalendarComponent implements OnInit {
         this.openEventEditDialog(data.originalEvent)
       } else {
         const updatedEvent = {
-          id: data.originalEvent.id,
-          title: data.originalEvent.title,
+          id:        data.originalEvent.id,
+          title:     data.originalEvent.title,
           startTime: data.startTime,
-          endTime: data.endTime,
-          isAllDay: data.originalEvent.isAllDay,
+          endTime:   data.endTime,
+          isAllDay:  data.originalEvent.isAllDay,
         }
         this.eventUpdated.emit(updatedEvent)
       }
