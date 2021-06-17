@@ -9,14 +9,14 @@
   <div
     *ngIf   = "eventPreview.originalEvent != null"
     class   = "event-preview__original-event"
-    [style] = "calcEventStyle(eventPreview.originalEvent.startTime, eventPreview.originalEvent.endTime)"
+    [style] = "{ startTime: eventPreview.originalEvent.startTime, endTime: eventPreview.originalEvent.endTime } | calcEventStyle"
   >
   </div>
 
   <!-- Preview event -->
   <div
     class   = "event-preview__preview-event"
-    [style] = "calcEventStyle(eventPreview.startTime, eventPreview.endTime)"
+    [style] = "{ startTime: eventPreview.startTime, endTime: eventPreview.endTime } | calcEventStyle"
   >
     {{ eventPreview.originalEvent?.title || '無題' }}
     <br>

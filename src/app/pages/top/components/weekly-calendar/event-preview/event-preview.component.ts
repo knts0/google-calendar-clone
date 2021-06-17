@@ -28,10 +28,6 @@ export class EventPreviewComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  calcEventStyle(startTime: dayjs.Dayjs, endTime: dayjs.Dayjs): { top: string, height: string, left: string } {
-    return CalcStyle.calcEventStyle(startTime, endTime)
-  }
-
   onMouseMove(event): void {
     this.mouseMove.emit(event)
   }
