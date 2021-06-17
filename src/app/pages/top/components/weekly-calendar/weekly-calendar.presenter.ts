@@ -6,6 +6,7 @@ import { FormBuilder } from '@angular/forms'
 import * as dayjs      from 'dayjs'
 import * as duration   from 'dayjs/plugin/duration'
 import {
+  BehaviorSubject,
   merge,
   Observable,
   Subject
@@ -34,15 +35,15 @@ export type EventPreview ={
   endTime:        dayjs.Dayjs
 }
 
-export type TemporalNewEvent = {
-  startTime: dayjs.Dayjs
-  endTime:   dayjs.Dayjs
-}
-
 export type EventDrag = {
   startTime:      dayjs.Dayjs
   endTime:        dayjs.Dayjs
   originalEvent?: Event
+}
+
+export type TemporalNewEvent = {
+  startTime: dayjs.Dayjs
+  endTime:   dayjs.Dayjs
 }
 
 export type DayItem = {
@@ -73,61 +74,52 @@ export class WeeklyCalendarPresenter implements OnDestroy {
   allDayEventRows: AllDayEventRow[]
 
   // event preview
-  private eventPreviewStart = new Subject<{ startTime: dayjs.Dayjs, endTime: dayjs.Dayjs, originalEvent?: Event }>()
-  private mouseMove = new Subject<{ offsetY: number }>()
-  private mouseUp = new Subject<void>()
+  private eventPreviewStart       = new BehaviorSubject<{ startTime: dayjs.Dayjs, endTime: dayjs.Dayjs, originalEvent?: Event }>(null)
+  private mouseMoveOnEventPreview = new BehaviorSubject<{ offsetY: number }>(null)
   isShowEventPreview: boolean = false
   private _eventPreview$: Observable<EventPreview>
-  private _eventPreviewComplete$: Observable<{ startTime: dayjs.Dayjs, endTime: dayjs.Dayjs, originalEvent?: Event }>
+  private _eventPreviewComplete   = new Subject<EventPreview>()
 
   // new event
   private newEvent = new Subject<TemporalNewEvent | null>()
 
   // event drag
-  private eventDragStart = new Subject<{ originalEvent: Event }>()
-  private mouseMoveDrag = new Subject<{ offsetX: number, offsetY: number }>()
-  private mouseUpDrag = new Subject<void>()
+  private eventDragStart = new BehaviorSubject<{ originalEvent: Event }>(null)
+  private mouseMoveDrag  = new Subject<{ offsetX: number, offsetY: number }>()
   isShowEventDrag: boolean = false
   private _eventDrag$: Observable<EventDrag>
-  private _eventDragComplete$: Observable<{ startTime: dayjs.Dayjs, endTime: dayjs.Dayjs, originalEvent: Event }>
+  private _eventDragComplete = new Subject<EventDrag>()
 
   constructor(private readonly fb: FormBuilder) {
     this._eventPreview$ = merge(
       this.eventPreviewStart.pipe(
+        filter(v => v != null),
         tap(_ => this.isShowEventPreview = true),
         map(mouseDown => { return {
           originalEvent: mouseDown.originalEvent,
-          startTime: mouseDown.startTime,
-          endTime: mouseDown.endTime,
+          startTime:     mouseDown.startTime,
+          endTime:       mouseDown.endTime,
         }})
       ),
-      this.mouseMove.pipe(
+      this.mouseMoveOnEventPreview.pipe(
         filter(_ => this.isShowEventPreview),
-        withLatestFrom(this.eventPreviewStart),
-        map(([mouseMove, mouseDown]) => { return {
-          ...this.eventPreview(mouseDown.startTime, mouseDown.endTime, mouseMove.offsetY),
-          originalEvent: mouseDown.originalEvent,
-        }}),
+        map(mouseMove => {
+          const mouseDown = this.eventPreviewStart.value
+          return {
+            ...this.eventPreview(mouseDown.startTime, mouseDown.endTime, mouseMove.offsetY),
+            originalEvent: mouseDown.originalEvent,
+          }
+        }),
       )
-    )
-
-    this._eventPreviewComplete$ = this.mouseUp.pipe(
-      filter(_ => this.isShowEventPreview),
-      withLatestFrom(this.eventPreviewStart, this.eventPreview$),
-      tap(([_, eventMouseDown, eventPreview]) => {
-        this.isShowEventPreview = false
-      }),
-      map(([_, eventMouseDown, eventPreview]) => {
-        return { startTime: eventPreview.startTime, endTime: eventPreview.endTime, originalEvent: eventMouseDown.originalEvent }
-      }),
     )
 
     this._eventDrag$ = merge(
       this.eventDragStart.pipe(
+        filter(v => v != null),
         tap(_ => this.isShowEventDrag = true),
         map(mouseDown => { return {
-          startTime: mouseDown.originalEvent.startTime,
-          endTime: mouseDown.originalEvent.endTime,
+          startTime:     mouseDown.originalEvent.startTime,
+          endTime:       mouseDown.originalEvent.endTime,
           originalEvent: mouseDown.originalEvent,
         }})
       ),
@@ -140,40 +132,33 @@ export class WeeklyCalendarPresenter implements OnDestroy {
         }}),
       )
     )
-
-    this._eventDragComplete$ = this.mouseUpDrag.pipe(
-      filter(_ => this.isShowEventDrag),
-      withLatestFrom(this.eventDragStart, this.eventDrag$),
-      tap(([_, eventMouseDown, eventDrag]) => {
-        this.isShowEventDrag = false
-      }),
-      map(([_, eventMouseDown, eventDrag]) => {
-        return { startTime: eventDrag.startTime, endTime: eventDrag.endTime, originalEvent: eventMouseDown.originalEvent }
-      }),
-    )
   }
 
   ngOnDestroy(): void {
   }
 
+  /** event preview */
   get eventPreview$(): Observable<EventPreview> {
     return this._eventPreview$
   }
 
-  get eventPreviewComplete$(): Observable<{ startTime: dayjs.Dayjs, endTime: dayjs.Dayjs, originalEvent?: Event }> {
-    return this._eventPreviewComplete$
+  get eventPreviewComplete$(): Observable<EventPreview> {
+    return this._eventPreviewComplete.asObservable()
   }
+  /** */
 
-  get newEvent$(): Observable<TemporalNewEvent | null> {
-    return this.newEvent.asObservable()
-  }
-
+  /** event drag  */
   get eventDrag$(): Observable<EventDrag> {
     return this._eventDrag$
   }
 
-  get eventDragComplete$(): Observable<{ startTime: dayjs.Dayjs, endTime: dayjs.Dayjs, originalEvent: Event }> {
-    return this._eventDragComplete$
+  get eventDragComplete$(): Observable<EventDrag> {
+    return this._eventDragComplete.asObservable()
+  }
+  /** */
+
+  get newEvent$(): Observable<TemporalNewEvent | null> {
+    return this.newEvent.asObservable()
   }
 
   private eventPreview(startTimeWhenMouseDown: dayjs.Dayjs, endTimeWhenMouseDown: dayjs.Dayjs, newOffsetY: number): EventPreview {
@@ -264,35 +249,45 @@ export class WeeklyCalendarPresenter implements OnDestroy {
     }
   }
 
+  /** event preview  */
   onEventPreviewStart(startTime: dayjs.Dayjs, endTime: dayjs.Dayjs, originalEvent?: Event): void {
     this.eventPreviewStart.next({
-      startTime: startTime,
-      endTime: endTime,
+      startTime:     startTime,
+      endTime:       endTime,
       originalEvent: originalEvent,
     })
   }
 
-  onMouseMove(offsetY: number): void {
-    this.mouseMove.next({ offsetY: offsetY })
+  onMouseMoveOnEventPreview(offsetY: number): void {
+    this.mouseMoveOnEventPreview.next({ offsetY: offsetY })
   }
 
-  onMouseUp(): void {
-    this.mouseUp.next()
+  onEventPreviewEnd(eventPreview: EventPreview): void {
+    if (this.isShowEventPreview) {
+      this.isShowEventPreview = false
+      this._eventPreviewComplete.next(eventPreview)
+    }
   }
+  /** */
 
+  /** event drag  */
   onEventDragStart(originalEvent: Event): void {
     this.eventDragStart.next({
       originalEvent: originalEvent,
     })
   }
 
-  onMouseMoveDrag(offsetX: number, offsetY: number): void {
+  onMouseMoveEventDrag(offsetX: number, offsetY: number): void {
     this.mouseMoveDrag.next({ offsetX: offsetX, offsetY: offsetY })
   }
 
-  onMouseUpDrag(): void {
-    this.mouseUpDrag.next()
+  onEventDragEnd(eventDrag: EventDrag): void {
+    if (this.isShowEventDrag) {
+      this.isShowEventDrag = false
+      this._eventDragComplete.next(eventDrag)
+    }
   }
+  /** */
 
   onSetNewEvent(startTime: dayjs.Dayjs, endTime: dayjs.Dayjs): void {
     this.newEvent.next({

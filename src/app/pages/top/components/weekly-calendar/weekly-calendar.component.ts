@@ -151,18 +151,21 @@ export class WeeklyCalendarComponent implements OnInit {
     return hour * HEIGHT_PX_PER_HOUR
   }
 
-  onMouseDown(event, day: dayjs.Dayjs, hour: number): void {
+  /** event preview  */
+  onEventPreviewStart(day: dayjs.Dayjs, hour: number): void {
     this.presenter.onEventPreviewStart(day.hour(hour), day.hour(hour + 1))
   }
 
-  onMouseMove(event): void {
-    this.presenter.onMouseMove(event.offsetY)
+  onMouseMoveOnEventPreview(event): void {
+    this.presenter.onMouseMoveOnEventPreview(event.offsetY)
   }
 
-  onMouseUp(): void {
-    this.presenter.onMouseUp()
+  onEventPreviewEnd(eventPreview: EventPreview): void {
+    this.presenter.onEventPreviewEnd(eventPreview)
   }
+  /** */
 
+  /** event resize  */
   onMouseDownOnResizable(targetEvent: Event): void {
     this.presenter.onEventPreviewStart(
       targetEvent.startTime,
@@ -171,19 +174,21 @@ export class WeeklyCalendarComponent implements OnInit {
     )
   }
 
-  onMouseDownOnDraggable(targetEvent: Event): void {
+  /** event drag  */
+  onEventDragStart(targetEvent: Event): void {
     this.presenter.onEventDragStart(
       targetEvent,
     )
   }
 
   onMouseMoveDrag(event): void {
-    this.presenter.onMouseMoveDrag(event.offsetX, event.offsetY)
+    this.presenter.onMouseMoveEventDrag(event.offsetX, event.offsetY)
   }
 
-  onMouseUpDrag(): void {
-    this.presenter.onMouseUpDrag()
+  onEventDragEnd(eventDrag: EventDrag): void {
+    this.presenter.onEventDragEnd(eventDrag)
   }
+  /** */
 
   onClickEvent(event: Event): void {
     this.openEventEditDialog(event)

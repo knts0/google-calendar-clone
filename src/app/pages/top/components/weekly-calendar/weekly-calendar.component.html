@@ -31,7 +31,7 @@
           class          = "grid__time-frame"
           *ngFor         = "let hour of hours"
           [style.top.px] = "getTopOfTimelineFrame(hour)"
-          (mousedown)    = "onMouseDown($event, item.day, hour)"
+          (mousedown)    = "onEventPreviewStart(item.day, hour)"
         >
         </div>
       </div>
@@ -46,7 +46,7 @@
         <app-event
           [event]                = "eventItem.event"
           (mouseDownOnResizable) = "onMouseDownOnResizable($event)"
-          (mouseDownOnDraggable) = "onMouseDownOnDraggable($event)"
+          (mouseDownOnDraggable) = "onEventDragStart($event)"
         ></app-event>
       </div>
 
@@ -73,8 +73,8 @@
           *ngIf          = "isShowEventPreview"
           class          = "grid__event-preview"
           [eventPreview] = "eventPreview"
-          (mouseMove)    = "onMouseMove($event)"
-          (mouseUp)      = "onMouseUp()"
+          (mouseMove)    = "onMouseMoveOnEventPreview($event)"
+          (mouseUp)      = "onEventPreviewEnd(eventPreview)"
         >
         </app-event-preview>
       </ng-container>
@@ -85,7 +85,7 @@
           *ngIf       = "isShowEventDrag"
           class       = "grid__event-drag"
           (mousemove) = "onMouseMoveDrag($event)"
-          (mouseup)   = "onMouseUpDrag()"
+          (mouseup)   = "onEventDragEnd(eventDrag)"
         >
         </div>
 
