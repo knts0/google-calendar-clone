@@ -29,4 +29,26 @@ export namespace CalcStyle {
       left:   `${left}px`,
     }
   }
+  /**
+   *
+   * @param startTime
+   * @param endTime
+   * @returns { left: string, width: string }
+   */
+  export function calcAllDayEventStyle(startTime: dayjs.Dayjs, endTime: dayjs.Dayjs): { left: string, width: string } {
+    dayjs.extend(duration)
+
+    const startDate = startTime.startOf('date')
+    const endDate   = endTime.startOf('date')
+
+    const orderOfWeek = getOrderOfWeek(startDate)
+    const left        = orderOfWeek * WIDTH_PX_PER_DAY
+
+    const width       = WIDTH_PX_PER_DAY * (endDate.diff(startDate, 'day') + 1) - 8
+
+    return {
+      left:  `${left}px`,
+      width: `${width}px`
+    }
+  }
 }
