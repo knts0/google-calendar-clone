@@ -153,8 +153,6 @@ export class WeeklyCalendarComponent implements OnInit {
 
   onMouseDown(event, day: dayjs.Dayjs, hour: number): void {
     this.presenter.onEventPreviewStart(day.hour(hour), day.hour(hour + 1))
-
-    event.stopImmediatePropagation()
   }
 
   onMouseMove(event): void {
@@ -171,16 +169,12 @@ export class WeeklyCalendarComponent implements OnInit {
       targetEvent.endTime,
       targetEvent,
     )
-
-    event.stopImmediatePropagation()
   }
 
   onMouseDownOnDraggable(targetEvent: Event): void {
     this.presenter.onEventDragStart(
       targetEvent,
     )
-
-    event.stopImmediatePropagation()
   }
 
   onMouseMoveDrag(event): void {
