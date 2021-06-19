@@ -41,10 +41,10 @@ export type EventDrag = {
   originalEvent?: Event
 }
 
-export type TemporalNewEvent = {
-  startTime: dayjs.Dayjs
-  endTime:   dayjs.Dayjs
-}
+// export type TemporalNewEvent = {
+//   startTime: dayjs.Dayjs
+//   endTime:   dayjs.Dayjs
+// }
 
 export type DayItem = {
   day:        dayjs.Dayjs
@@ -73,7 +73,7 @@ export class WeeklyCalendarPresenter implements OnDestroy {
   private _eventPreviewComplete   = new Subject<EventPreview>()
 
   // new event
-  private newEvent = new Subject<TemporalNewEvent | null>()
+  // private newEvent = new Subject<TemporalNewEvent | null>()
 
   // event drag
   private eventDragStart = new BehaviorSubject<{ originalEvent: Event }>(null)
@@ -149,9 +149,9 @@ export class WeeklyCalendarPresenter implements OnDestroy {
   }
   /** */
 
-  get newEvent$(): Observable<TemporalNewEvent | null> {
-    return this.newEvent.asObservable()
-  }
+  // get newEvent$(): Observable<TemporalNewEvent | null> {
+  //   return this.newEvent.asObservable()
+  // }
 
   private eventPreview(startTimeWhenMouseDown: dayjs.Dayjs, endTimeWhenMouseDown: dayjs.Dayjs, newOffsetY: number): EventPreview {
     const startTimeWhenMouseDownOffsetY = startTimeWhenMouseDown.hour() * HEIGHT_PX_PER_HOUR
@@ -275,16 +275,16 @@ export class WeeklyCalendarPresenter implements OnDestroy {
   }
   /** */
 
-  onSetNewEvent(startTime: dayjs.Dayjs, endTime: dayjs.Dayjs): void {
-    this.newEvent.next({
-      startTime: startTime,
-      endTime:   endTime,
-    })
-  }
+  // onSetNewEvent(startTime: dayjs.Dayjs, endTime: dayjs.Dayjs): void {
+  //   this.newEvent.next({
+  //     startTime: startTime,
+  //     endTime:   endTime,
+  //   })
+  // }
 
-  onResetNewEvent(): void {
-    this.newEvent.next(null)
-  }
+  // onResetNewEvent(): void {
+  //   this.newEvent.next(null)
+  // }
 
   changeActiveDate(date: dayjs.Dayjs) {
     this.activeDate = date

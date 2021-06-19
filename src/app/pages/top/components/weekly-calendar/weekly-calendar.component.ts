@@ -24,7 +24,7 @@ import {
   DayItem,
   EventDrag,
   EventPreview,
-  TemporalNewEvent,
+  // TemporalNewEvent,
   WeeklyCalendarPresenter
 } from './weekly-calendar.presenter'
 
@@ -51,10 +51,11 @@ export class WeeklyCalendarComponent implements OnInit {
     this.presenter.initDays(events)
   }
 
-  @Input()
-  set updateEventSuccess(updateEventSuccess: UpdatedEvent) {
-    this.presenter.onResetNewEvent()
-  }
+  // @Input()
+  // set updateEventSuccess(updateEventSuccess: UpdatedEvent) {
+  //   console.log('as')
+  //   this.presenter.onResetNewEvent()
+  // }
 
   @Output() eventUpdated = new EventEmitter<UpdatedEvent>();
 
@@ -90,9 +91,9 @@ export class WeeklyCalendarComponent implements OnInit {
   }
   /** */
 
-  get newEvent$(): Observable<TemporalNewEvent | null> {
-    return this.presenter.newEvent$
-  }
+  // get newEvent$(): Observable<TemporalNewEvent | null> {
+  //   return this.presenter.newEvent$
+  // }
 
   hours = Array.from({ length: 24 }, (v, i) => i )
 
@@ -107,7 +108,7 @@ export class WeeklyCalendarComponent implements OnInit {
     this.presenter.eventPreviewComplete$.pipe(
       takeUntil(this.onDestroy$)
     ).subscribe(data => {
-      this.presenter.onSetNewEvent(data.startTime, data.endTime)
+      // this.presenter.onSetNewEvent(data.startTime, data.endTime)
 
       if (data.originalEvent == null) {
         this.openEventCreateDialog(data.startTime, data.endTime)
@@ -211,7 +212,7 @@ export class WeeklyCalendarComponent implements OnInit {
     }).afterClosed().pipe(
       takeUntil(this.onDestroy$)
     ).subscribe( _ => {
-      this.presenter.onResetNewEvent()
+      // this.presenter.onResetNewEvent()
     })
   }
 

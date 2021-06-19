@@ -51,21 +51,20 @@
       </div>
 
       <!-- new event -->
-      <ng-container *ngIf = "newEvent$ | async as newEvent">
+      <!-- <ng-container *ngIf="newEvent$ | async as newEvent">
         <div
           class   = "grid__event"
-          [style] = "{ startTime: newEvent.startTime, endTime: ne.endTime } | calcEventStyle"
         >
           <div class="grid-view__event-text">
             <div class="grid-view__event-title">
               無題
             </div>
             <div class="grid-view__event-time">
-              {{ newEvent.startTime.hour() }}:00〜{{ newEvent.endTime.hour() }}:00
+              {{ newEvent.startTime.format('HH:mm') }}〜{{ newEvent.endTime.hour() }}:00
             </div>
           </div>
         </div>
-      </ng-container>
+      </ng-container> -->
 
       <!-- event preview -->
       <ng-container *ngIf="eventPreview$ | async as eventPreview">
