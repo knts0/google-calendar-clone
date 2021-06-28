@@ -105,24 +105,6 @@ export class WeeklyCalendarComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.presenter.eventPreviewComplete$.pipe(
-      takeUntil(this.onDestroy$)
-    ).subscribe(data => {
-      // this.presenter.onSetNewEvent(data.startTime, data.endTime)
-
-      if (data.originalEvent == null) {
-        this.openEventCreateDialog(data.startTime, data.endTime)
-      } else {
-        const updatedEvent = {
-          id:        data.originalEvent.id,
-          title:     data.originalEvent.title,
-          startTime: data.startTime,
-          endTime:   data.endTime,
-          isAllDay:  data.originalEvent.isAllDay,
-        }
-        this.eventUpdated.emit(updatedEvent)
-      }
-    })
   }
 
   ngOnChanges(): void {
@@ -147,7 +129,20 @@ export class WeeklyCalendarComponent implements OnInit {
   }
 
   onEventPreviewEnd(eventPreview: EventPreview): void {
-    this.presenter.onEventPreviewEnd(eventPreview)
+    this.presenter.onEventPreviewEnd()
+
+    if (eventPreview.originalEvent == null) {
+      this.openEventCreateDialog(eventPreview.startTime, eventPreview.endTime)
+    } else {
+      const updatedEvent = {
+        id:        eventPreview.originalEvent.id,
+        title:     eventPreview.originalEvent.title,
+        startTime: eventPreview.startTime,
+        endTime:   eventPreview.endTime,
+        isAllDay:  eventPreview.originalEvent.isAllDay,
+      }
+      this.eventUpdated.emit(updatedEvent)
+    }
   }
   /** */
 

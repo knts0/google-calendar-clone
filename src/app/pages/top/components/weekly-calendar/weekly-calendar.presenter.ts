@@ -70,7 +70,6 @@ export class WeeklyCalendarPresenter implements OnDestroy {
   private mouseMoveOnEventPreview = new BehaviorSubject<{ offsetY: number }>(null)
   isShowEventPreview: boolean = false
   private _eventPreview$: Observable<EventPreview>
-  private _eventPreviewComplete   = new Subject<EventPreview>()
 
   // new event
   // private newEvent = new Subject<TemporalNewEvent | null>()
@@ -131,10 +130,6 @@ export class WeeklyCalendarPresenter implements OnDestroy {
   /** event preview */
   get eventPreview$(): Observable<EventPreview> {
     return this._eventPreview$
-  }
-
-  get eventPreviewComplete$(): Observable<EventPreview> {
-    return this._eventPreviewComplete.asObservable()
   }
   /** */
 
@@ -239,10 +234,9 @@ export class WeeklyCalendarPresenter implements OnDestroy {
     this.mouseMoveOnEventPreview.next({ offsetY: offsetY })
   }
 
-  onEventPreviewEnd(eventPreview: EventPreview): void {
+  onEventPreviewEnd(): void {
     if (this.isShowEventPreview) {
       this.isShowEventPreview = false
-      this._eventPreviewComplete.next(eventPreview)
     }
   }
   /** */
