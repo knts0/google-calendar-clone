@@ -252,7 +252,7 @@ export class WeeklyCalendarPresenter implements OnDestroy {
     this.mouseMoveDrag.next({ offsetX: offsetX, offsetY: offsetY })
   }
 
-  onEventDragEnd(eventDrag: EventDrag): void {
+  onEventDragEnd(): void {
     if (this.isShowEventDrag) {
       this.isShowEventDrag = false
     }

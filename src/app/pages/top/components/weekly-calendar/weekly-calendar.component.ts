@@ -167,7 +167,7 @@ export class WeeklyCalendarComponent implements OnInit {
   }
 
   onEventDragEnd(eventDrag: EventDrag): void {
-    this.presenter.onEventDragEnd(eventDrag)
+    this.presenter.onEventDragEnd()
 
     if (
       eventDrag.startTime.isSame(eventDrag.originalEvent.startTime) &&
