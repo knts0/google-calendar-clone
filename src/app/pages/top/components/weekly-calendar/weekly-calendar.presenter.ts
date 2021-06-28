@@ -80,7 +80,6 @@ export class WeeklyCalendarPresenter implements OnDestroy {
   private mouseMoveDrag  = new Subject<{ offsetX: number, offsetY: number }>()
   isShowEventDrag: boolean = false
   private _eventDrag$: Observable<EventDrag>
-  private _eventDragComplete = new Subject<EventDrag>()
 
   constructor(private readonly fb: FormBuilder) {
     this._eventPreview$ = merge(
@@ -142,10 +141,6 @@ export class WeeklyCalendarPresenter implements OnDestroy {
   /** event drag  */
   get eventDrag$(): Observable<EventDrag> {
     return this._eventDrag$
-  }
-
-  get eventDragComplete$(): Observable<EventDrag> {
-    return this._eventDragComplete.asObservable()
   }
   /** */
 
@@ -266,7 +261,6 @@ export class WeeklyCalendarPresenter implements OnDestroy {
   onEventDragEnd(eventDrag: EventDrag): void {
     if (this.isShowEventDrag) {
       this.isShowEventDrag = false
-      this._eventDragComplete.next(eventDrag)
     }
   }
   /** */

@@ -123,23 +123,6 @@ export class WeeklyCalendarComponent implements OnInit {
         this.eventUpdated.emit(updatedEvent)
       }
     })
-
-    this.presenter.eventDragComplete$.pipe(
-      takeUntil(this.onDestroy$),
-    ).subscribe(data => {
-      if (data.startTime.isSame(data.originalEvent.startTime) && data.endTime.isSame(data.originalEvent.endTime)) {
-        this.openEventEditDialog(data.originalEvent)
-      } else {
-        const updatedEvent = {
-          id:        data.originalEvent.id,
-          title:     data.originalEvent.title,
-          startTime: data.startTime,
-          endTime:   data.endTime,
-          isAllDay:  data.originalEvent.isAllDay,
-        }
-        this.eventUpdated.emit(updatedEvent)
-      }
-    })
   }
 
   ngOnChanges(): void {
@@ -190,6 +173,22 @@ export class WeeklyCalendarComponent implements OnInit {
 
   onEventDragEnd(eventDrag: EventDrag): void {
     this.presenter.onEventDragEnd(eventDrag)
+
+    if (
+      eventDrag.startTime.isSame(eventDrag.originalEvent.startTime) &&
+      eventDrag.endTime.isSame(eventDrag.originalEvent.endTime)
+    ) {
+      this.openEventEditDialog(eventDrag.originalEvent)
+    } else {
+      const updatedEvent = {
+        id:        eventDrag.originalEvent.id,
+        title:     eventDrag.originalEvent.title,
+        startTime: eventDrag.startTime,
+        endTime:   eventDrag.endTime,
+        isAllDay:  eventDrag.originalEvent.isAllDay,
+      }
+      this.eventUpdated.emit(updatedEvent)
+    }
   }
   /** */
 
