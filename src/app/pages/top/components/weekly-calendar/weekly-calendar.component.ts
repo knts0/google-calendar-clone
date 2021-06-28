@@ -8,6 +8,7 @@ import {
 } from '@angular/core'
 import { MatDialog }    from '@angular/material/dialog'
 import * as dayjs       from 'dayjs'
+import 'dayjs/locale/ja'
 import * as duration    from 'dayjs/plugin/duration'
 import { Observable }   from 'rxjs'
 import { takeUntil }    from 'rxjs/operators'
@@ -16,6 +17,11 @@ import { UpdatedEvent } from 'src/app/models/updated-event'
 import { Event }                from '../../../../models/event'
 import { EventCreateComponent } from '../modal/event-create/event-create.component'
 import { EventEditComponent }   from '../modal/event-edit/event-edit.component'
+import {
+  DAYS_PER_WEEK,
+  FIRST_DAY_OF_WEEK,
+  getFirstDayOfWeek
+} from 'src/app/util/date'
 import {
   HEIGHT_PX_PER_HOUR
 } from './shared/calc-event-style'
@@ -37,18 +43,26 @@ import {
 })
 export class WeeklyCalendarComponent implements OnInit {
 
-  @Input()
-  get activeDate(): dayjs.Dayjs {
-    return this.presenter.activeDate
-  }
+  _activeDate: dayjs.Dayjs
 
+  @Input()
+  get activeDate() {
+    return this._activeDate
+  }
   set activeDate(date: dayjs.Dayjs) {
-    this.presenter.changeActiveDate(date)
+    this._activeDate = date.clone()
+
+    const firstDayOfWeek = getFirstDayOfWeek(this._activeDate.clone().locale('ja'))
+    this.days = []
+
+    for (let dayOfWeek = 0; dayOfWeek < DAYS_PER_WEEK; dayOfWeek++) {
+      this.days.push(firstDayOfWeek.day(dayOfWeek + FIRST_DAY_OF_WEEK))
+    }
   }
 
   @Input()
   set events(events: Event[]) {
-    this.presenter.initDays(events)
+    this.initDays(events)
   }
 
   // @Input()
@@ -58,18 +72,6 @@ export class WeeklyCalendarComponent implements OnInit {
   // }
 
   @Output() eventUpdated = new EventEmitter<UpdatedEvent>();
-
-  get days(): DayItem[] {
-    return this.presenter.days
-  }
-
-  get eventItems(): Event[] {
-    return this.presenter.eventItems
-  }
-
-  get allDayEventRows(): AllDayEventRow[] {
-    return this.presenter.allDayEventRows
-  }
 
   /** event preview  */
   get isShowEventPreview(): boolean {
@@ -95,6 +97,10 @@ export class WeeklyCalendarComponent implements OnInit {
   //   return this.presenter.newEvent$
   // }
 
+  days:            dayjs.Dayjs[] = []
+  eventItems:      Event[] = []
+  allDayEventRows: AllDayEventRow[]
+
   hours = Array.from({ length: 24 }, (v, i) => i )
 
   private readonly onDestroy$ = new EventEmitter();
@@ -113,6 +119,35 @@ export class WeeklyCalendarComponent implements OnInit {
 
   ngOnDestroy() {
     this.onDestroy$.emit();
+  }
+
+  initDays(events: Event[]): void {
+    this.eventItems = events.filter(e => !e.isAllDay)
+
+    const firstDayOfWeek = getFirstDayOfWeek(this.activeDate)
+
+    dayjs.extend(duration)
+    const allDayEvents = events.filter(e => e.isAllDay)
+    allDayEvents.sort((a, b) => dayjs.duration(a.startTime.diff(b.startTime)).asMinutes())
+
+    this.allDayEventRows = []
+    while (allDayEvents.length > 0) {
+      let date = firstDayOfWeek.clone()
+      const row: AllDayEventRow = { eventItems: [] }
+      while (date.isBefore(firstDayOfWeek.add(1, 'week'))) {
+        const eventIndex = allDayEvents.findIndex(e => e.startTime.isSame(date, 'day'))
+        if (eventIndex != -1) {
+          const event = allDayEvents[eventIndex]
+          row.eventItems.push(event)
+
+          date = event.endTime.startOf('day').add(1, 'day')
+          allDayEvents.splice(eventIndex, 1)
+        } else {
+          date = date.add(1, 'day')
+        }
+      }
+      this.allDayEventRows.push(row)
+    }
   }
 
   getTopOfTimelineFrame(hour: number): number {

@@ -3,14 +3,14 @@
   </div>
   <div
     class  = "header__day-cell"
-    *ngFor = "let item of days"
+    *ngFor = "let day of days"
   >
     <div class="header__weekday">
-      {{ item.weekday }}
+      {{ day.format('ddd') }}
     </div>
     <div
       class         = "header__day"
-      [class.today] = "item.day.isSame(today, 'day')"
-    >{{ item.day | date: 'd' }}</div>
+      [class.today] = "day.isSame(today, 'day')"
+    >{{ day.format('D') }}</div>
   </div>
 </header>

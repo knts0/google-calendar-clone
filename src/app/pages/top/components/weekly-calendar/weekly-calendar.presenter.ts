@@ -19,11 +19,7 @@ import {
 } from 'rxjs/operators'
 
 import { Event } from 'src/app/models/event'
-import {
-  DAYS_PER_WEEK,
-  FIRST_DAY_OF_WEEK,
-  getFirstDayOfWeek
-} from 'src/app/util/date'
+import { getFirstDayOfWeek } from 'src/app/util/date'
 import {
   HEIGHT_PX_PER_HOUR,
   WIDTH_PX_PER_DAY
@@ -58,12 +54,6 @@ export type AllDayEventRow = {
 
 @Injectable()
 export class WeeklyCalendarPresenter implements OnDestroy {
-
-  activeDate: dayjs.Dayjs
-
-  days:            DayItem[] = []
-  eventItems:      Event[]
-  allDayEventRows: AllDayEventRow[]
 
   // event preview
   private eventPreviewStart       = new BehaviorSubject<{ startTime: dayjs.Dayjs, endTime: dayjs.Dayjs, originalEvent?: Event }>(null)
@@ -180,47 +170,6 @@ export class WeeklyCalendarPresenter implements OnDestroy {
   init(): void {
   }
 
-  initDays(events: Event[]): void {
-    this.eventItems = events.filter(e => !e.isAllDay)
-
-    const firstDayOfWeek = getFirstDayOfWeek(this.activeDate)
-
-    dayjs.extend(duration)
-    const allDayEvents = events.filter(e => e.isAllDay)
-    allDayEvents.sort((a, b) => dayjs.duration(a.startTime.diff(b.startTime)).asMinutes())
-
-    this.allDayEventRows = []
-    while (allDayEvents.length > 0) {
-      let date = firstDayOfWeek.clone()
-      const row: AllDayEventRow = { eventItems: [] }
-      while (date.isBefore(firstDayOfWeek.add(1, 'week'))) {
-        const eventIndex = allDayEvents.findIndex(e => e.startTime.isSame(date, 'day'))
-        if (eventIndex != -1) {
-          const event = allDayEvents[eventIndex]
-          row.eventItems.push(event)
-
-          date = event.endTime.startOf('day').add(1, 'day')
-          allDayEvents.splice(eventIndex, 1)
-        } else {
-          date = date.add(1, 'day')
-        }
-      }
-      this.allDayEventRows.push(row)
-    }
-
-    this.days = []
-
-    const weekdays = [ '月', '火', '水', '木', '金', '土', '日' ]
-
-    for (let dayOfWeek = 0; dayOfWeek < DAYS_PER_WEEK; dayOfWeek++) {
-      const day = firstDayOfWeek.day(dayOfWeek + FIRST_DAY_OF_WEEK)
-      this.days.push({
-        day:     day,
-        weekday: weekdays[dayOfWeek],
-      })
-    }
-  }
-
   /** event preview  */
   onEventPreviewStart(startTime: dayjs.Dayjs, endTime: dayjs.Dayjs, originalEvent?: Event): void {
     this.eventPreviewStart.next({
@@ -269,8 +218,4 @@ export class WeeklyCalendarPresenter implements OnDestroy {
   // onResetNewEvent(): void {
   //   this.newEvent.next(null)
   // }
-
-  changeActiveDate(date: dayjs.Dayjs) {
-    this.activeDate = date
-  }
 }

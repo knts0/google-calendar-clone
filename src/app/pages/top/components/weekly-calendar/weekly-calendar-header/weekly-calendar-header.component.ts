@@ -4,7 +4,6 @@ import {
   OnInit
 } from '@angular/core'
 import * as dayjs from 'dayjs'
-import { DayItem } from '../weekly-calendar.presenter'
 
 @Component({
   selector: 'app-weekly-calendar-header',
@@ -13,7 +12,7 @@ import { DayItem } from '../weekly-calendar.presenter'
 })
 export class WeeklyCalendarHeaderComponent implements OnInit {
 
-  @Input() days: DayItem[]
+  @Input() days: dayjs.Dayjs[]
 
   today: dayjs.Dayjs = dayjs().startOf('day')
 

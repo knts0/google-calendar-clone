@@ -23,7 +23,7 @@
 
     <div class="body__grid grid">
       <div
-        *ngFor = "let item of days"
+        *ngFor = "let day of days"
         class  = "grid__day"
       >
         <!-- timeline frame -->
@@ -31,7 +31,7 @@
           class          = "grid__time-frame"
           *ngFor         = "let hour of hours"
           [style.top.px] = "getTopOfTimelineFrame(hour)"
-          (mousedown)    = "onEventPreviewStart(item.day, hour)"
+          (mousedown)    = "onEventPreviewStart(day, hour)"
         >
         </div>
       </div>
