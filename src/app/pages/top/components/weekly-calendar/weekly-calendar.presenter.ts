@@ -159,21 +159,17 @@ export class WeeklyCalendarPresenter implements OnDestroy {
     // mouse move (up): only change start time
     if (startTimeWhenMouseDownOffsetY >= newOffsetY) {
       // new start time of event (round down mouse move position)
-      const startTime = startTimeWhenMouseDown.hour(Math.floor(newOffsetY / HEIGHT_PX_PER_HOUR))
-      const endTime   = startTimeWhenMouseDown.add(1, 'hour')
       return {
-        startTime: startTime,
-        endTime:   endTime,
+        startTime: startTimeWhenMouseDown.hour(Math.floor(newOffsetY / HEIGHT_PX_PER_HOUR)),
+        endTime:   startTimeWhenMouseDown.add(1, 'hour'),
       }
 
     // mouse move (down): only change end time
     } else {
-      const startTime = startTimeWhenMouseDown
       // new end time of event (round up mouse move position)
-      const endTime = endTimeWhenMouseDown.hour(Math.ceil(newOffsetY / HEIGHT_PX_PER_HOUR))
       return {
-        startTime: startTime,
-        endTime:   endTime,
+        startTime: startTimeWhenMouseDown,
+        endTime:   endTimeWhenMouseDown.hour(Math.ceil(newOffsetY / HEIGHT_PX_PER_HOUR)),
       }
     }
   }
