@@ -35,7 +35,8 @@ import { EventComponent } from './components/weekly-calendar/event/event.compone
 import { EventPreviewComponent } from './components/weekly-calendar/event-preview/event-preview.component'
 import { WeeklyCalendarPresenter } from './components/weekly-calendar/weekly-calendar.presenter';
 import { CalcEventStylePipe } from './components/weekly-calendar/shared/calc-event-style.pipe';
-import { CalcAllDayEventStylePipe } from './components/weekly-calendar/shared/calc-all-day-event-style.pipe'
+import { CalcAllDayEventStylePipe } from './components/weekly-calendar/shared/calc-all-day-event-style.pipe';
+import { MonthlyCalendarComponent } from './components/monthly-calendar/monthly-calendar.component'
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { CalcAllDayEventStylePipe } from './components/weekly-calendar/shared/ca
     EventPreviewComponent,
     CalcEventStylePipe,
     CalcAllDayEventStylePipe,
+    MonthlyCalendarComponent,
   ],
   imports: [
     CommonModule,
