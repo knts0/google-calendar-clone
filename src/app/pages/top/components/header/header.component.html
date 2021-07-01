@@ -32,8 +32,14 @@
     {{ activeDate | date: 'yyyy年M月d日' }}
   </div>
 
-  <!-- TODO: 表示切り替え -->
-  <div class="display-mode-switcher">
-
+  <div class="header__calendar-view-mode-select display-mode-switcher">
+    <select class="calendar-view-mode-select" [formControl]="calendarViewModeControl">
+      <option
+        *ngFor  = "let option of calendarViewModeOptions"
+        [value] = "option.value"
+      >
+        {{ option.label }}
+      </option>
+    </select>
   </div>
 </header>
