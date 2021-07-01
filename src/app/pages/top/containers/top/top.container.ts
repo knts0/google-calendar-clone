@@ -18,7 +18,7 @@ import { getFirstDayOfWeek }    from 'src/app/util/date'
 import { EventCreateComponent } from '../../components/modal/event-create/event-create.component'
 
 
-type CalendarViewMode = 'month' | 'week'
+export type CalendarViewMode = 'month' | 'week'
 
 @Component({
   selector: 'app-top-container',
