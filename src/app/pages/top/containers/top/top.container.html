@@ -21,5 +21,10 @@
       (eventUpdated)       = "onUpdateEvent($event)"
     >
     </app-weekly-calendar>
+
+    <app-monthly-calendar
+      *ngSwitchCase        = "'month'"
+    >
+    </app-monthly-calendar>
   </ng-container>
 </div>
