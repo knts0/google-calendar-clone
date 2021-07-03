@@ -20,9 +20,10 @@ export class HeaderComponent implements OnInit {
 
   @Input() activeDate: dayjs.Dayjs
 
-  @Output() onPrevClicked:  EventEmitter<void> = new EventEmitter()
-  @Output() onNextClicked:  EventEmitter<void> = new EventEmitter()
-  @Output() onTodayClicked: EventEmitter<void> = new EventEmitter()
+  @Output() onPrevClicked:           EventEmitter<void>             = new EventEmitter()
+  @Output() onNextClicked:           EventEmitter<void>             = new EventEmitter()
+  @Output() onTodayClicked:          EventEmitter<void>             = new EventEmitter()
+  @Output() calendarViewModeChanged: EventEmitter<CalendarViewMode> = new EventEmitter()
 
   calendarViewModeOptions: { value: CalendarViewMode, label: string }[] = [
     { value: 'month', label: '月' },
@@ -34,6 +35,9 @@ export class HeaderComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.calendarViewModeControl.valueChanges.subscribe(v =>
+      this.calendarViewModeChanged.emit(v)
+    )
   }
 
   onClickTodayButton(): void {

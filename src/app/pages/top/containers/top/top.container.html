@@ -1,8 +1,9 @@
 <app-header
-  [activeDate]     = "activeDate$ | async"
-  (onPrevClicked)  = "changeActiveDatePrev()"
-  (onNextClicked)  = "changeActiveDateNext()"
-  (onTodayClicked) = "changeActiveDateToToday()"
+  [activeDate]              = "activeDate$ | async"
+  (onPrevClicked)           = "changeActiveDatePrev()"
+  (onNextClicked)           = "changeActiveDateNext()"
+  (onTodayClicked)          = "changeActiveDateToToday()"
+  (calendarViewModeChanged) = "onChangeCalendarViewMode($event)"
 ></app-header>
 
 <div class="body">
