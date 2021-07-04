@@ -2,20 +2,7 @@ import { CommonModule }                     from '@angular/common'
 import { NgModule }                         from '@angular/core'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 
-// material
-import { MatBottomSheetModule }             from '@angular/material/bottom-sheet'
-import { MatButtonModule }                  from '@angular/material/button'
-import { MatCheckboxModule }                from '@angular/material/checkbox'
-import { MatDatepickerModule }              from '@angular/material/datepicker'
-import { MatDialogModule }                  from '@angular/material/dialog'
-import { MatFormFieldModule }               from '@angular/material/form-field'
-import { MatIconModule }                    from '@angular/material/icon'
-import { MatInputModule }                   from '@angular/material/input'
-import { MatSelectModule }                  from '@angular/material/select'
-import { MatSnackBarModule }                from '@angular/material/snack-bar'
-import { DragDropModule }                   from '@angular/cdk/drag-drop'
-import { OverlayModule }                    from '@angular/cdk/overlay'
-
+import { VenderModule } from 'src/app/vender/vender/vender.module'
 import { TopRoutingModule } from './top-routing.module'
 
 import { TopPageComponent } from './top.page'
@@ -33,7 +20,6 @@ import { WeeklyCalendarComponent } from './components/weekly-calendar/weekly-cal
 import { ConfirmDeleteComponent } from './components/confirm-delete/confirm-delete.component';
 import { EventComponent } from './components/weekly-calendar/event/event.component';
 import { EventPreviewComponent } from './components/weekly-calendar/event-preview/event-preview.component'
-import { WeeklyCalendarPresenter } from './components/weekly-calendar/weekly-calendar.presenter';
 import { CalcEventStylePipe } from './components/weekly-calendar/shared/calc-event-style.pipe';
 import { CalcAllDayEventStylePipe } from './components/weekly-calendar/shared/calc-all-day-event-style.pipe';
 import { MonthlyCalendarComponent } from './components/monthly-calendar/monthly-calendar.component'
@@ -67,19 +53,7 @@ import { MonthlyCalendarComponent } from './components/monthly-calendar/monthly-
     FormsModule,
     ReactiveFormsModule,
 
-    // material
-    MatBottomSheetModule,
-    MatButtonModule,
-    MatCheckboxModule,
-    MatDatepickerModule,
-    MatDialogModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
-    MatSelectModule,
-    MatSnackBarModule,
-    DragDropModule,
-    OverlayModule,
+    VenderModule,
 
     TopRoutingModule,
   ],
