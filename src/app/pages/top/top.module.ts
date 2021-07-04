@@ -83,8 +83,5 @@ import { MonthlyCalendarComponent } from './components/monthly-calendar/monthly-
 
     TopRoutingModule,
   ],
-  providers: [
-    WeeklyCalendarPresenter,
-  ],
 })
 export class TopModule { }

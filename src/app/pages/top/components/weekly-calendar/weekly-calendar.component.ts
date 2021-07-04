@@ -39,6 +39,9 @@ import {
   selector: 'app-weekly-calendar',
   templateUrl: './weekly-calendar.component.html',
   styleUrls: ['./weekly-calendar.component.scss'],
+  providers: [
+    WeeklyCalendarPresenter,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WeeklyCalendarComponent implements OnInit {
