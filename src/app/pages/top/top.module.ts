@@ -2,7 +2,7 @@ import { CommonModule }                     from '@angular/common'
 import { NgModule }                         from '@angular/core'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 
-import { VenderModule } from 'src/app/vender/vender/vender.module'
+import { VendorModule } from 'src/app/vendor/vendor/vendor.module'
 import { TopRoutingModule } from './top-routing.module'
 
 import { TopPageComponent } from './top.page'
@@ -53,7 +53,7 @@ import { MonthlyCalendarComponent } from './components/monthly-calendar/monthly-
     FormsModule,
     ReactiveFormsModule,
 
-    VenderModule,
+    VendorModule,
 
     TopRoutingModule,
   ],

@@ -36,4 +36,4 @@ const MATERIAL_MODULES = [
   imports: MATERIAL_MODULES,
   exports: MATERIAL_MODULES,
 })
-export class VenderModule { }
+export class VendorModule { }
