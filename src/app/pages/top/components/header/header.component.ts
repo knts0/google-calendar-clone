@@ -19,6 +19,7 @@ import { CalendarViewMode } from '../../containers/top/top.container'
 export class HeaderComponent implements OnInit {
 
   @Input() activeDate: dayjs.Dayjs
+  @Input() initialCalendarViewMode: CalendarViewMode
 
   @Output() onPrevClicked:           EventEmitter<void>             = new EventEmitter()
   @Output() onNextClicked:           EventEmitter<void>             = new EventEmitter()
@@ -29,12 +30,14 @@ export class HeaderComponent implements OnInit {
     { value: 'month', label: '月' },
     { value: 'week', label: '週' },
   ]
-  calendarViewModeControl = new FormControl('month')
+  calendarViewModeControl: FormControl
 
   constructor(
   ) { }
 
   ngOnInit(): void {
+    this.calendarViewModeControl = new FormControl(this.initialCalendarViewMode)
+
     this.calendarViewModeControl.valueChanges.subscribe(v =>
       this.calendarViewModeChanged.emit(v)
     )

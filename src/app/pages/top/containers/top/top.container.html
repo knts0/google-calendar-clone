@@ -1,5 +1,6 @@
 <app-header
   [activeDate]              = "activeDate$ | async"
+  [initialCalendarViewMode] = "calendarViewMode"
   (onPrevClicked)           = "changeActiveDatePrev()"
   (onNextClicked)           = "changeActiveDateNext()"
   (onTodayClicked)          = "changeActiveDateToToday()"
