@@ -17,10 +17,10 @@
   <!-- calendar view -->
   <ng-container [ngSwitch]="calendarViewMode">
     <app-weekly-calendar
-      *ngSwitchCase        = "'week'"
-      [activeDate]         = "activeDate$ | async"
-      [events]             = "events$ | async"
-      (eventUpdated)       = "onUpdateEvent($event)"
+      *ngSwitchCase  = "'week'"
+      [activeDate]   = "activeDate$ | async"
+      [events]       = "events$ | async"
+      (eventUpdated) = "onUpdateEvent($event)"
     >
     </app-weekly-calendar>
 
