@@ -22,7 +22,8 @@ import { EventComponent } from './components/weekly-calendar/event/event.compone
 import { EventPreviewComponent } from './components/weekly-calendar/event-preview/event-preview.component'
 import { CalcEventStylePipe } from './components/weekly-calendar/shared/calc-event-style.pipe';
 import { CalcAllDayEventStylePipe } from './components/weekly-calendar/shared/calc-all-day-event-style.pipe';
-import { MonthlyCalendarComponent } from './components/monthly-calendar/monthly-calendar.component'
+import { MonthlyCalendarComponent } from './components/monthly-calendar/monthly-calendar.component';
+import { TimePickerComponent } from './components/modal/shared/time-picker/time-picker.component'
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { MonthlyCalendarComponent } from './components/monthly-calendar/monthly-
     CalcEventStylePipe,
     CalcAllDayEventStylePipe,
     MonthlyCalendarComponent,
+    TimePickerComponent,
   ],
   imports: [
     CommonModule,

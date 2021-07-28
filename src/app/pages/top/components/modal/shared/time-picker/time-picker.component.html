@@ -1,0 +1,15 @@
+<div class="carousel-container">
+  <div
+    class="carousel-cells"
+    #cells
+    (transitioned)="handleTransitionendCellContainer($event)"
+  >
+    <div
+      class="carousel-cell"
+      *ngFor="let hour of hours"
+      [style.transform]="'translateY(' + hour * 50 +'px)'"
+    >
+      {{ hour }}
+    </div>
+  </div>
+</div>
