@@ -1,4 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+/**
+ * リサイズ考慮しない
+ * auto scrollなし
+ * light dom false
+ */
+
+import { ChangeDetectorRef, Component, ElementRef, EventEmitter, OnInit, Output } from '@angular/core'
+import { Carousel } from './carousel'
+import { Rows } from './cells'
+import { Container } from './container'
+import { Properties as CarouselProperties } from './interfaces'
+import { Slide } from './slide'
+import { Utils } from './utils'
+
+type NewType = EventEmitter<any>
 
 @Component({
   selector: 'app-time-picker',
@@ -7,15 +21,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TimePickerComponent implements OnInit {
 
-  hours = Array.from(new Array(24).keys())
+  ROW_LENGTH = 24
+  hours = Array.from(new Array(this.ROW_LENGTH).keys())
 
-  constructor() { }
+  @Output() events: EventEmitter<any> = new EventEmitter<any>()
 
-  ngOnInit(): void {
+  constructor(
+    private elementRef: ElementRef,
+  ) {
   }
 
-  handleTransitionendCellContainer(event): void {
-
+  ngOnInit(): void {
   }
 
 }
